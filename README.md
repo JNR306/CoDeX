@@ -38,6 +38,9 @@ To compile your .tex files that are using this package, you need to use the '-sh
   - varwidth, needspace
 - **TikZ libraries:**
   - patterns, calc
+> [!IMPORTANT]  
+> #### Why is '-shell-escape' required?
+> This package provides options to change accent colors that will be used by minted (or more specific pygments) for code highlighting. This means that the .sty file contains a small python script that dynamically generates the needed pygments style and stores it in the default location of all built-in pygment styles. The script is embedded and not a seperate file so that you just need the single .sty file for installation and not multiple.
 
 ## Documentation
 
