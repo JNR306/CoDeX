@@ -45,3 +45,7 @@ To compile your .tex files that are using this package, you need to use the '-sh
 ## Documentation
 
 > _currently not available_
+
+## License
+
+This package is licensed under the MIT License. See the LICENSE file for more details.
