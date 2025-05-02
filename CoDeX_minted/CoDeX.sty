@@ -1,0 +1,943 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{CoDeX}[2025/03/28 v1.0 A package with beautiful styles for STEM homework.]
+
+\RequirePackage{ifplatform}
+
+\ifwindows
+    \immediate\write18{del /f _minted\\codexgen.style.minted}
+\else
+    \immediate\write18{rm -f _minted/codexgen.style.minted}
+\fi
+
+\ifwindows
+    \immediate\write18{del /f _codex\\codex_style_generator.py}
+\else
+    \immediate\write18{rm -f _codex/codex_style_generator.py}
+\fi
+
+\RequirePackage[]{geometry}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{minted}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\RequirePackage[]{amssymb}
+\RequirePackage{cmbright}
+\RequirePackage{amsmath}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{fancyhdr}
+\RequirePackage{environ}
+\RequirePackage{fancyvrb}
+\RequirePackage{ae}
+\RequirePackage{xkeyval}
+\RequirePackage{lmodern}
+\RequirePackage{fontspec}
+\RequirePackage{atbegshi}
+\RequirePackage{eso-pic}
+\RequirePackage{graphicx}
+\RequirePackage{varwidth}
+\RequirePackage{needspace}
+\RequirePackage{filecontents}
+\RequirePackage{xparse}
+\RequirePackage{kvoptions}
+\RequirePackage{ifthen}
+
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+
+\definecolor{CoDeXDark}{HTML}{2A2734}
+\definecolor{CoDeXExtraDark}{HTML}{131313}
+\definecolor{CoDeXLight}{HTML}{e6e6e6}
+\definecolor{CoDeXExtraLight}{HTML}{f2f2f2}
+\definecolor{CoDeXAccentPrimary}{HTML}{FFC78F}
+\definecolor{CoDeXAccentPrimaryLight}{HTML}{FFD7AF}
+\definecolor{CoDeXAccentSecondary}{HTML}{ada5c8}
+\definecolor{CoDeXAccentSecondaryLight}{HTML}{eeebff}
+\definecolor{CoDeXTextOnLight}{HTML}{000000}
+\definecolor{CoDeXTextOnDark}{HTML}{ffffff}
+\definecolor{CoDeXTextOnPrimaryAccent}{HTML}{2A2734}
+\definecolor{CoDeXTextOnSecondaryAccent}{HTML}{ffffff}
+
+\def\CoDeXtitle{Homework sheet 1}
+\def\CoDeXgroup{Group 11}
+\def\CoDeXdate{1.1.2025}
+\def\CoDeXstudents{}
+
+\DeclareOptionX{dark}[2A2734]{\definecolor{CoDeXDark}{HTML}{#1}}
+\DeclareOptionX{extradark}[131313]{\definecolor{CoDeXExtraDark}{HTML}{#1}}
+\DeclareOptionX{light}[e6e6e6]{\definecolor{CoDeXLight}{HTML}{#1}}
+\DeclareOptionX{extralight}[f2f2f2]{\definecolor{CoDeXExtraLight}{HTML}{#1}}
+
+\DeclareOptionX{accentprimary}[FFC78F]{\definecolor{CoDeXAccentPrimary}{HTML}{#1}}
+\DeclareOptionX{accentprimarylight}[FFD7AF]{\definecolor{CoDeXAccentPrimaryLight}{HTML}{#1}}
+\DeclareOptionX{accentsecondary}[ada5c8]{\definecolor{CoDeXAccentSecondary}{HTML}{#1}}
+\DeclareOptionX{accentsecondarylight}[eeebff]{\definecolor{CoDeXAccentSecondaryLight}{HTML}{#1}}
+
+\DeclareOptionX{textonlight}[000000]{\definecolor{CoDeXTextOnLight}{HTML}{#1}}
+\DeclareOptionX{textondark}[ffffff]{\definecolor{CoDeXTextOnDark}{HTML}{#1}}
+\DeclareOptionX{textonprimaryaccent}[2A2734]{\definecolor{CoDeXTextOnPrimaryAccent}{HTML}{#1}}
+\DeclareOptionX{textonsecondaryaccent}[ffffff]{\definecolor{CoDeXTextOnSecondaryAccent}{HTML}{#1}}
+
+\DeclareOptionX{pagestyle}[none]{\def\CoDeXpagestyle{#1}}
+
+\DeclareOptionX{title}[\empty]{\def\CoDeXtitle{#1}}
+\DeclareOptionX{group}[\empty]{\def\CoDeXgroup{#1}}
+\DeclareOptionX{date}[\empty]{\def\CoDeXdate{#1}}
+\DeclareOptionX{students}[\empty]{\def\CoDeXstudents{#1}}
+
+\DeclareOptionX{nameheadersize}[regular]{\def\CoDeXnameheadersize{#1}}
+
+\ProcessOptionsX
+
+\def\CoDeXnone{none}
+\def\CoDeXfancylight{fancylight}
+\def\CoDeXfancydark{fancydark}
+
+\def\CoDeXregular{regular}
+\def\CoDeXwide{wide}
+\def\CoDeXnarrow{narrow}
+
+\ifx\CoDeXpagestyle\undefined
+    \def\CoDeXpagestyle{none}
+\fi
+
+\ifx\CoDeXnameheadersize\undefined
+    \def\CoDeXnameheadersize{regular}
+\fi
+
+\ifwindows
+    \immediate\write18{mkdir _codex}
+\else
+    \immediate\write18{mkdir -p _codex}
+\fi
+
+\begin{filecontents*}{_codex/codex_style_generator.py}
+import os
+import sys
+import pygments
+import re
+
+def get_pygments_style_folder():
+    """Get the directory of the currently used Pygments package."""
+    pygments_dir = os.path.dirname(pygments.__file__)
+    styles_dir = os.path.join(pygments_dir, 'styles')
+
+    if not os.path.exists(styles_dir):
+        raise FileNotFoundError("Pygments styles directory not found.")
+
+    return styles_dir
+
+def rgb_to_hex(rgb):
+    """Convert (r, g, b) tuple with float values (0-1) to hex string (#RRGGBB)."""
+    return "#{:02X}{:02X}{:02X}".format(
+        int(rgb[0] * 255),
+        int(rgb[1] * 255),
+        int(rgb[2] * 255)
+    )
+
+def create_codexgenerated_file(colors):
+    """Create a dynamically generated Pygments style file based on input colors."""
+    try:
+        styles_folder = get_pygments_style_folder()
+        codexgenerated_file_path = os.path.join(styles_folder, 'codexgen.py')
+
+        with open(codexgenerated_file_path, 'w') as file:
+            file.write(f"""
+from pygments.style import Style
+from pygments.token import Token, Name, Operator, Keyword, Generic, Comment, \
+    Number, String, Literal, Punctuation, Error
+
+__all__ = ['CodexgenStyle']
+
+class CodexgenStyle(Style):
+    name = 'codexgen'
+
+    styles = {{
+        Token: '{colors["CoDeXAccentSecondary"]}',
+        Error: '{colors["CoDeXAccentPrimary"]} bold',
+
+        Keyword: '{colors["CoDeXAccentPrimary"]}',
+        Keyword.Type: '{colors["CoDeXAccentPrimary"]} bold',
+        Keyword.Constant: '{colors["CoDeXAccentPrimary"]}',
+        Keyword.Declaration: '{colors["CoDeXAccentPrimary"]}',
+        Keyword.Namespace: '{colors["CoDeXAccentPrimary"]}',
+
+        Name: '{colors["CoDeXTextOnDark"]}',
+        Name.Tag: '{colors["CoDeXTextOnDark"]} bold',
+        Name.Entity: '{colors["CoDeXTextOnDark"]}',
+        Name.Constant: '{colors["CoDeXTextOnDark"]}',
+        Name.Class: '{colors["CoDeXTextOnDark"]}',
+        Name.Function: '{colors["CoDeXTextOnDark"]}',
+        Name.Builtin: '{colors["CoDeXTextOnDark"]}',
+        Name.Builtin.Pseudo: '{colors["CoDeXTextOnDark"]}',
+        Name.Attribute: '{colors["CoDeXTextOnDark"]}',
+        Name.Exception: '{colors["CoDeXTextOnDark"]} bold',
+
+        Literal: '{colors["CoDeXAccentSecondary"]}',
+
+        String: '{colors["CoDeXTextOnDark"]}',
+        String.Doc: '{colors["CoDeXAccentSecondary"]}',
+        String.Interpol: '{colors["CoDeXTextOnDark"]} bold',
+
+        Number: '{colors["CoDeXTextOnDark"]}',
+        Number.Float: '{colors["CoDeXTextOnDark"]}',
+
+        Operator: '{colors["CoDeXAccentSecondary"]}',
+
+        Punctuation: '{colors["CoDeXAccentSecondary"]}',
+
+        Comment: '{colors["CoDeXAccentSecondary"]} italic',
+        Comment.Preproc: '{colors["CoDeXAccentSecondary"]} bold',
+        Comment.PreprocFile: '{colors["CoDeXAccentSecondary"]}',
+        Comment.Special: '{colors["CoDeXAccentSecondary"]} bold',
+
+        Generic: '{colors["CoDeXAccentSecondary"]} bold',
+        Generic.Emph: '{colors["CoDeXTextOnLight"]} bold',
+        Generic.Output: '{colors["CoDeXAccentSecondary"]} bold',
+        Generic.Heading: '{colors["CoDeXAccentSecondary"]} bold',
+        Generic.Deleted: '{colors["CoDeXAccentSecondary"]}',
+        Generic.Inserted: '{colors["CoDeXAccentSecondary"]} bold',
+        Generic.Traceback: '{colors["CoDeXAccentSecondary"]} bold',
+        Generic.Subheading: '{colors["CoDeXAccentSecondary"]} bold',
+    }}
+""")
+        print(f"File 'codexgen.py' created at {codexgenerated_file_path}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def parse_color_values(file_path):
+    """Parse colors from LaTeX-generated file and convert them to hex."""
+    colors = {}
+    with open(file_path, "r") as file:
+        for line in file:
+            match = re.match(r"(\w+): \{rgb\}\{([\d.]+),([\d.]+),([\d.]+)\}", line.strip())
+            if match:
+                color_name = match.group(1)
+                rgb_values = (float(match.group(2)), float(match.group(3)), float(match.group(4)))
+                colors[color_name] = rgb_to_hex(rgb_values)  # Convert to hex
+    return colors
+
+def main():
+    # Get the directory where the current script is located.
+    dir_path = os.path.dirname(os.path.abspath(__file__))
+    # Construct the path to color_values.tmp in the same directory.
+    color_file = os.path.join(dir_path, "color_values.tmp")
+    colors = parse_color_values(color_file)
+    create_codexgenerated_file(colors)
+
+if __name__ == "__main__":
+    main()
+\end{filecontents*}
+
+\newwrite\colorfile
+\immediate\openout\colorfile=_codex/color_values.tmp
+
+\newcommand{\writeColor}[1]{%
+    \extractcolorspec{#1}\tempcolor
+    \immediate\write\colorfile{#1: \tempcolor}%
+}
+
+\AtBeginDocument{%
+    \writeColor{CoDeXDark}
+    \writeColor{CoDeXExtraDark}
+    \writeColor{CoDeXLight}
+    \writeColor{CoDeXExtraLight}
+    \writeColor{CoDeXAccentPrimary}
+    \writeColor{CoDeXAccentPrimaryLight}
+    \writeColor{CoDeXAccentSecondary}
+    \writeColor{CoDeXAccentSecondaryLight}
+    \writeColor{CoDeXTextOnLight}
+    \writeColor{CoDeXTextOnDark}
+    \writeColor{CoDeXTextOnPrimaryAccent}
+    \writeColor{CoDeXTextOnSecondaryAccent}%
+    \immediate\closeout\colorfile
+
+    %\immediate\write18{echo "LaTeX is executing shell commands" > _codex/debug.txt}
+    \ifwindows
+        \immediate\write18{python ./_codex/codex_style_generator.py}
+    \else
+        \immediate\write18{python3 ./_codex/codex_style_generator.py}
+    \fi
+}
+
+\newcommand{\studentcontent}[2]{%
+    \begin{tabular}{c}%
+        \ifx\CoDeXpagestyle\CoDeXfancydark%
+        \color{CoDeXTextOnDark}%
+        \else%
+        \color{CoDeXTextOnLight}%
+        \fi%
+        \textbf{\normalsize #1}\\
+        \vspace{0.5ex}%
+        \ifx\CoDeXpagestyle\CoDeXfancydark%
+        \color{CoDeXTextOnDark}%
+        \else%
+        \color{CoDeXTextOnLight}%
+        \fi%
+        \small Matrikel-Nr.: #2%
+    \end{tabular}%
+}%
+
+\ifx\CoDeXpagestyle\CoDeXnone
+%nothing
+\else
+
+    \ifx\CoDeXpagestyle\CoDeXfancydark
+    \addtolength{\headsep}{11mm}
+    \addtolength{\textheight}{-11mm}
+    \else
+    \addtolength{\headsep}{4mm}
+    \addtolength{\textheight}{-4mm}
+    \fi
+    
+
+    \pagestyle{fancy}
+    \fancyhf{}
+
+    \fancyfoot[C]{
+        \begin{tikzpicture}[baseline=(X.base)]
+            \ifx\CoDeXpagestyle\CoDeXfancydark
+            \node[fill=CoDeXDark, rounded corners=5.5pt, minimum size=0.7cm, inner sep=0pt, text=CoDeXTextOnDark] (X) {\thepage};
+            \else
+            \node[fill=white, rounded corners=5.5pt, minimum size=0.7cm, inner sep=0pt, text=CoDeXTextOnLight] (X) {\thepage};
+            \fi
+        \end{tikzpicture}
+    }
+        
+    \fancypagestyle{firstpage}{
+        \fancyhead[C]{
+            \begin{tcolorbox}[colback=green, opacityfill=0.0, width=\textwidth, 
+                              enlarge top by= 0in, enlarge left by= 0in, 
+                              enlarge right by= 0in, boxrule=0pt, sharp corners]
+            \ifx\CoDeXpagestyle\CoDeXfancydark
+            \color{CoDeXTextOnDark}
+            \else
+            \color{CoDeXTextOnLight}
+            \fi
+            \begin{center}
+                \textbf{\Huge\CoDeXtitle}\\
+                \vspace{4ex}%
+                \newcounter{studentcount}%
+                \setcounter{studentcount}{0}%
+
+                \newcounter{totalstudents}
+                \setcounter{totalstudents}{0}
+                \foreach \name/\id in \CoDeXstudents {
+                    \stepcounter{totalstudents}
+                }
+
+                \centerline{
+                    \hbox{
+                        \foreach \name/\id in \CoDeXstudents {%
+                            \stepcounter{studentcount}%
+                            \ifnum\value{studentcount}>1
+                                \hspace{0.1cm}%
+                            \fi
+                                \ifnum\value{studentcount}=1%
+                                    \ifx\CoDeXpagestyle\CoDeXfancydark
+                                    \tcbox[colback=CoDeXExtraDark, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners=east, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                        \studentcontent{\name}{\id}%
+                                    }%
+                                    \else
+                                    \tcbox[colback=CoDeXLight, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners=east, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                        \studentcontent{\name}{\id}%
+                                    }%
+                                    \fi
+                                \else%
+                                    \ifnum\value{studentcount}=\value{totalstudents}%
+                                        \ifx\CoDeXpagestyle\CoDeXfancydark
+                                        \tcbox[colback=CoDeXExtraDark, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners=west, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                            \studentcontent{\name}{\id}%
+                                        }%
+                                        \else
+                                        \tcbox[colback=CoDeXLight, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners=west, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                            \studentcontent{\name}{\id}%
+                                        }%
+                                        \fi
+                                    \else%
+                                        \ifx\CoDeXpagestyle\CoDeXfancydark
+                                        \tcbox[colback=CoDeXExtraDark, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                            \studentcontent{\name}{\id}%
+                                        }%
+                                        \else
+                                        \tcbox[colback=CoDeXLight, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                            \studentcontent{\name}{\id}%
+                                        }%
+                                        \fi
+                                    \fi%
+                                \fi%
+                                    
+                        }%
+                    }
+                }
+                \vspace{2,5ex}%
+                \ifx\CoDeXpagestyle\CoDeXfancydark
+                \def\CoDeXiconcolor{CoDeXTextOnDark}
+                \else
+                \def\CoDeXiconcolor{CoDeXTextOnLight}
+                \fi
+                \large\raisebox{-0.07em}{%
+                    \begin{tikzpicture}[scale=0.025]
+                        \path(0pt,0pt);
+                        \filldraw[\CoDeXiconcolor][nonzero rule]
+                        (148.3818pt, -237.2744pt) .. controls (154.1914pt, -263.1714pt) and (169.5732pt, -330.0332pt) .. (190.0117pt, -334.2729pt)
+                        -- (190.0117pt, -334.2729pt) .. controls (169.5732pt, -330.0332pt) and (49.52539pt, -329.7852pt) .. (69.96484pt, -334.0269pt)
+                        -- (69.96484pt, -334.0269pt) .. controls (49.52539pt, -329.7852pt) and (57.59375pt, -237.2744pt) .. (57.59375pt, -237.2744pt)
+                        -- (57.59375pt, -237.2744pt) .. controls (57.59375pt, -212.2017pt) and (77.92383pt, -191.8633pt) .. (102.9883pt, -191.8633pt)
+                        -- (102.9883pt, -191.8633pt) .. controls (128.0518pt, -191.8633pt) and (143.9707pt, -217.5132pt) .. (148.3818pt, -237.2744pt) -- cycle;
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (148.3818pt, -95.91113pt) .. controls (148.3818pt, -83.37598pt) and (143.9502pt, -72.67676pt) .. (135.0869pt, -63.81152pt)
+                        -- (135.0869pt, -63.81152pt) .. controls (126.2227pt, -54.94922pt) and (115.5225pt, -50.51758pt) .. (102.9883pt, -50.5166pt)
+                        -- (102.9883pt, -50.5166pt) .. controls (90.45312pt, -50.51758pt) and (79.75391pt, -54.94922pt) .. (70.88867pt, -63.81152pt)
+                        -- (70.88867pt, -63.81152pt) .. controls (62.02539pt, -72.67676pt) and (57.59375pt, -83.37598pt) .. (57.59375pt, -95.91113pt)
+                        -- (57.59375pt, -95.91113pt) .. controls (57.59375pt, -108.4453pt) and (62.02539pt, -119.1455pt) .. (70.88867pt, -128.0098pt)
+                        -- (70.88867pt, -128.0098pt) .. controls (79.75391pt, -136.874pt) and (90.45312pt, -141.3057pt) .. (102.9883pt, -141.3047pt)
+                        -- (102.9883pt, -141.3047pt) .. controls (115.5225pt, -141.3057pt) and (126.2227pt, -136.874pt) .. (135.0869pt, -128.0098pt)
+                        -- (135.0869pt, -128.0098pt) .. controls (143.9502pt, -119.1455pt) and (148.3818pt, -108.4453pt) .. (148.3818pt, -95.91113pt);
+                        \filldraw[\CoDeXiconcolor][nonzero rule]
+                        (370.9336pt, -264.0928pt) .. controls (377.4961pt, -288.0127pt) and (400.9463pt, -357.7158pt) .. (413.6396pt, -358.9917pt)
+                        -- (413.6396pt, -358.9917pt) .. controls (400.9463pt, -357.7158pt) and (269.7646pt, -357.3867pt) .. (282.458pt, -358.6221pt)
+                        -- (282.458pt, -358.6221pt) .. controls (269.7646pt, -357.3867pt) and (280.1455pt, -264.0928pt) .. (280.1455pt, -264.0928pt)
+                        -- (280.1455pt, -264.0928pt) .. controls (280.1455pt, -239.02pt) and (300.4756pt, -218.6816pt) .. (325.54pt, -218.6816pt)
+                        -- (325.54pt, -218.6816pt) .. controls (350.6035pt, -218.6816pt) and (365.6094pt, -244.5366pt) .. (370.9336pt, -264.0928pt) -- cycle;
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (370.9336pt, -122.7344pt) .. controls (370.9336pt, -110.1992pt) and (366.502pt, -99.5pt) .. (357.6387pt, -90.63477pt)
+                        -- (357.6387pt, -90.63477pt) .. controls (348.7744pt, -81.77246pt) and (338.0742pt, -77.34082pt) .. (325.54pt, -77.33984pt)
+                        -- (325.54pt, -77.33984pt) .. controls (313.0049pt, -77.34082pt) and (302.3057pt, -81.77246pt) .. (293.4404pt, -90.63477pt)
+                        -- (293.4404pt, -90.63477pt) .. controls (284.5771pt, -99.5pt) and (280.1455pt, -110.1992pt) .. (280.1455pt, -122.7344pt)
+                        -- (280.1455pt, -122.7344pt) .. controls (280.1455pt, -135.2686pt) and (284.5771pt, -145.9688pt) .. (293.4404pt, -154.833pt)
+                        -- (293.4404pt, -154.833pt) .. controls (302.3057pt, -163.6973pt) and (313.0049pt, -168.1289pt) .. (325.54pt, -168.1279pt)
+                        -- (325.54pt, -168.1279pt) .. controls (338.0742pt, -168.1289pt) and (348.7744pt, -163.6973pt) .. (357.6387pt, -154.833pt)
+                        -- (357.6387pt, -154.833pt) .. controls (366.502pt, -145.9688pt) and (370.9336pt, -135.2686pt) .. (370.9336pt, -122.7344pt);
+                        \filldraw[\CoDeXiconcolor][nonzero rule]
+                        (259.6748pt, -334.814pt) .. controls (266.9902pt, -359.187pt) and (292.1074pt, -429.5483pt) .. (303.4023pt, -428.8071pt)
+                        -- (303.4023pt, -428.8071pt) .. controls (292.1074pt, -429.5483pt) and (163.7227pt, -429.0952pt) .. (174.9639pt, -428.355pt)
+                        -- (174.9639pt, -428.355pt) .. controls (163.7227pt, -429.0952pt) and (168.8867pt, -334.814pt) .. (168.8867pt, -334.814pt)
+                        -- (168.8867pt, -334.814pt) .. controls (168.8867pt, -309.7412pt) and (189.2168pt, -289.4028pt) .. (214.2812pt, -289.4028pt)
+                        -- (214.2812pt, -289.4028pt) .. controls (239.3447pt, -289.4028pt) and (253.8652pt, -315.3398pt) .. (259.6748pt, -334.814pt) -- cycle;
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (259.6748pt, -193.4512pt) .. controls (259.6748pt, -180.916pt) and (255.2432pt, -170.2168pt) .. (246.3799pt, -161.3516pt)
+                        -- (246.3799pt, -161.3516pt) .. controls (237.5156pt, -152.4893pt) and (226.8154pt, -148.0576pt) .. (214.2812pt, -148.0566pt)
+                        -- (214.2812pt, -148.0566pt) .. controls (201.7461pt, -148.0576pt) and (191.0469pt, -152.4893pt) .. (182.1816pt, -161.3516pt)
+                        -- (182.1816pt, -161.3516pt) .. controls (173.3184pt, -170.2168pt) and (168.8867pt, -180.916pt) .. (168.8867pt, -193.4512pt)
+                        -- (168.8867pt, -193.4512pt) .. controls (168.8867pt, -205.9854pt) and (173.3184pt, -216.6855pt) .. (182.1816pt, -225.5498pt)
+                        -- (182.1816pt, -225.5498pt) .. controls (191.0469pt, -234.4141pt) and (201.7461pt, -238.8457pt) .. (214.2812pt, -238.8447pt)
+                        -- (214.2812pt, -238.8447pt) .. controls (226.8154pt, -238.8457pt) and (237.5156pt, -234.4141pt) .. (246.3799pt, -225.5498pt)
+                        -- (246.3799pt, -225.5498pt) .. controls (255.2432pt, -216.6855pt) and (259.6748pt, -205.9854pt) .. (259.6748pt, -193.4512pt);
+                    \end{tikzpicture}
+                }%
+                \hspace{0,07cm}%
+                \CoDeXgroup%
+                \hspace{0,5cm}%
+                \raisebox{-0.05em}{%
+                    \begin{tikzpicture}[scale=0.025]
+                        \path(0pt,0pt);
+                        \filldraw[\CoDeXiconcolor][nonzero rule]
+                        (401.3076pt, -153.7305pt) .. controls (401.3076pt, -121.6963pt) and (375.3047pt, -95.68457pt) .. (343.2529pt, -95.68457pt)
+                        -- (126.2881pt, -95.68457pt) .. controls (94.23535pt, -95.68457pt) and (68.23145pt, -121.6963pt) .. (68.23145pt, -153.7305pt)
+                        -- (68.23145pt, -325.9004pt) .. controls (68.23145pt, -357.9941pt) and (94.23535pt, -384.0059pt) .. (126.2881pt, -384.0059pt)
+                        -- (343.2529pt, -384.0059pt) .. controls (375.3047pt, -384.0059pt) and (401.3076pt, -357.9941pt) .. (401.3076pt, -325.9004pt)
+                        -- (401.3076pt, -153.7305pt) -- cycle
+                        (429.29pt, -153.7305pt) -- (429.29pt, -153.7305pt)
+                        -- (429.29pt, -325.9004pt) .. controls (429.29pt, -373.4043pt) and (390.7373pt, -411.9854pt) .. (343.2529pt, -411.9854pt)
+                        -- (126.2881pt, -411.9854pt) .. controls (78.80176pt, -411.9854pt) and (40.24902pt, -373.4043pt) .. (40.24902pt, -325.9004pt)
+                        -- (40.24902pt, -153.7305pt) .. controls (40.24902pt, -106.2275pt) and (78.80176pt, -67.7041pt) .. (126.2881pt, -67.7041pt)
+                        -- (343.2529pt, -67.7041pt) .. controls (390.7373pt, -67.7041pt) and (429.29pt, -106.2275pt) .. (429.29pt, -153.7305pt) -- cycle;
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (165.3389pt, -211.1797pt) .. controls (165.3389pt, -206.9492pt) and (163.8438pt, -203.3389pt) .. (160.8516pt, -200.3467pt)
+                        -- (160.8516pt, -200.3467pt) .. controls (157.8604pt, -197.3564pt) and (154.249pt, -195.8604pt) .. (150.0186pt, -195.8604pt)
+                        -- (150.0186pt, -195.8604pt) .. controls (145.7891pt, -195.8604pt) and (142.1787pt, -197.3564pt) .. (139.1865pt, -200.3467pt)
+                        -- (139.1865pt, -200.3467pt) .. controls (136.1953pt, -203.3389pt) and (134.6992pt, -206.9492pt) .. (134.6992pt, -211.1797pt)
+                        -- (134.6992pt, -211.1797pt) .. controls (134.6992pt, -215.4092pt) and (136.1953pt, -219.0205pt) .. (139.1865pt, -222.0127pt)
+                        -- (139.1865pt, -222.0127pt) .. controls (142.1787pt, -225.0039pt) and (145.7891pt, -226.499pt) .. (150.0186pt, -226.499pt)
+                        -- (150.0186pt, -226.499pt) .. controls (154.249pt, -226.499pt) and (157.8604pt, -225.0039pt) .. (160.8516pt, -222.0127pt)
+                        -- (160.8516pt, -222.0127pt) .. controls (163.8438pt, -219.0205pt) and (165.3389pt, -215.4092pt) .. (165.3389pt, -211.1797pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (165.3389pt, -267.7373pt) .. controls (165.3389pt, -263.5068pt) and (163.8438pt, -259.8965pt) .. (160.8516pt, -256.9043pt)
+                        -- (160.8516pt, -256.9043pt) .. controls (157.8604pt, -253.9141pt) and (154.249pt, -252.418pt) .. (150.0186pt, -252.418pt)
+                        -- (150.0186pt, -252.418pt) .. controls (145.7891pt, -252.418pt) and (142.1787pt, -253.9141pt) .. (139.1865pt, -256.9043pt)
+                        -- (139.1865pt, -256.9043pt) .. controls (136.1953pt, -259.8965pt) and (134.6992pt, -263.5068pt) .. (134.6992pt, -267.7373pt)
+                        -- (134.6992pt, -267.7373pt) .. controls (134.6992pt, -271.9668pt) and (136.1953pt, -275.5781pt) .. (139.1865pt, -278.5703pt)
+                        -- (139.1865pt, -278.5703pt) .. controls (142.1787pt, -281.5615pt) and (145.7891pt, -283.0566pt) .. (150.0186pt, -283.0566pt)
+                        -- (150.0186pt, -283.0566pt) .. controls (154.249pt, -283.0566pt) and (157.8604pt, -281.5615pt) .. (160.8516pt, -278.5703pt)
+                        -- (160.8516pt, -278.5703pt) .. controls (163.8438pt, -275.5781pt) and (165.3389pt, -271.9668pt) .. (165.3389pt, -267.7373pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (165.3389pt, -324.252pt) .. controls (165.3389pt, -320.0215pt) and (163.8438pt, -316.4111pt) .. (160.8516pt, -313.4189pt)
+                        -- (160.8516pt, -313.4189pt) .. controls (157.8604pt, -310.4287pt) and (154.249pt, -308.9326pt) .. (150.0186pt, -308.9326pt)
+                        -- (150.0186pt, -308.9326pt) .. controls (145.7891pt, -308.9326pt) and (142.1787pt, -310.4287pt) .. (139.1865pt, -313.4189pt)
+                        -- (139.1865pt, -313.4189pt) .. controls (136.1953pt, -316.4111pt) and (134.6992pt, -320.0215pt) .. (134.6992pt, -324.252pt)
+                        -- (134.6992pt, -324.252pt) .. controls (134.6992pt, -328.4814pt) and (136.1953pt, -332.0928pt) .. (139.1865pt, -335.085pt)
+                        -- (139.1865pt, -335.085pt) .. controls (142.1787pt, -338.0762pt) and (145.7891pt, -339.5713pt) .. (150.0186pt, -339.5713pt)
+                        -- (150.0186pt, -339.5713pt) .. controls (154.249pt, -339.5713pt) and (157.8604pt, -338.0762pt) .. (160.8516pt, -335.085pt)
+                        -- (160.8516pt, -335.085pt) .. controls (163.8438pt, -332.0928pt) and (165.3389pt, -328.4814pt) .. (165.3389pt, -324.252pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (221.8525pt, -211.1797pt) .. controls (221.8525pt, -206.9492pt) and (220.3574pt, -203.3389pt) .. (217.3652pt, -200.3467pt)
+                        -- (217.3652pt, -200.3467pt) .. controls (214.374pt, -197.3564pt) and (210.7627pt, -195.8604pt) .. (206.5322pt, -195.8604pt)
+                        -- (206.5322pt, -195.8604pt) .. controls (202.3027pt, -195.8604pt) and (198.6924pt, -197.3564pt) .. (195.7002pt, -200.3467pt)
+                        -- (195.7002pt, -200.3467pt) .. controls (192.709pt, -203.3389pt) and (191.2129pt, -206.9492pt) .. (191.2129pt, -211.1797pt)
+                        -- (191.2129pt, -211.1797pt) .. controls (191.2129pt, -215.4092pt) and (192.709pt, -219.0205pt) .. (195.7002pt, -222.0127pt)
+                        -- (195.7002pt, -222.0127pt) .. controls (198.6924pt, -225.0039pt) and (202.3027pt, -226.499pt) .. (206.5322pt, -226.499pt)
+                        -- (206.5322pt, -226.499pt) .. controls (210.7627pt, -226.499pt) and (214.374pt, -225.0039pt) .. (217.3652pt, -222.0127pt)
+                        -- (217.3652pt, -222.0127pt) .. controls (220.3574pt, -219.0205pt) and (221.8525pt, -215.4092pt) .. (221.8525pt, -211.1797pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (221.8525pt, -267.7373pt) .. controls (221.8525pt, -263.5068pt) and (220.3574pt, -259.8965pt) .. (217.3652pt, -256.9043pt)
+                        -- (217.3652pt, -256.9043pt) .. controls (214.374pt, -253.9141pt) and (210.7627pt, -252.418pt) .. (206.5322pt, -252.418pt)
+                        -- (206.5322pt, -252.418pt) .. controls (202.3027pt, -252.418pt) and (198.6924pt, -253.9141pt) .. (195.7002pt, -256.9043pt)
+                        -- (195.7002pt, -256.9043pt) .. controls (192.709pt, -259.8965pt) and (191.2129pt, -263.5068pt) .. (191.2129pt, -267.7373pt)
+                        -- (191.2129pt, -267.7373pt) .. controls (191.2129pt, -271.9668pt) and (192.709pt, -275.5781pt) .. (195.7002pt, -278.5703pt)
+                        -- (195.7002pt, -278.5703pt) .. controls (198.6924pt, -281.5615pt) and (202.3027pt, -283.0566pt) .. (206.5322pt, -283.0566pt)
+                        -- (206.5322pt, -283.0566pt) .. controls (210.7627pt, -283.0566pt) and (214.374pt, -281.5615pt) .. (217.3652pt, -278.5703pt)
+                        -- (217.3652pt, -278.5703pt) .. controls (220.3574pt, -275.5781pt) and (221.8525pt, -271.9668pt) .. (221.8525pt, -267.7373pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (221.8525pt, -324.252pt) .. controls (221.8525pt, -320.0215pt) and (220.3574pt, -316.4111pt) .. (217.3652pt, -313.4189pt)
+                        -- (217.3652pt, -313.4189pt) .. controls (214.374pt, -310.4287pt) and (210.7627pt, -308.9326pt) .. (206.5322pt, -308.9326pt)
+                        -- (206.5322pt, -308.9326pt) .. controls (202.3027pt, -308.9326pt) and (198.6924pt, -310.4287pt) .. (195.7002pt, -313.4189pt)
+                        -- (195.7002pt, -313.4189pt) .. controls (192.709pt, -316.4111pt) and (191.2129pt, -320.0215pt) .. (191.2129pt, -324.252pt)
+                        -- (191.2129pt, -324.252pt) .. controls (191.2129pt, -328.4814pt) and (192.709pt, -332.0928pt) .. (195.7002pt, -335.085pt)
+                        -- (195.7002pt, -335.085pt) .. controls (198.6924pt, -338.0762pt) and (202.3027pt, -339.5713pt) .. (206.5322pt, -339.5713pt)
+                        -- (206.5322pt, -339.5713pt) .. controls (210.7627pt, -339.5713pt) and (214.374pt, -338.0762pt) .. (217.3652pt, -335.085pt)
+                        -- (217.3652pt, -335.085pt) .. controls (220.3574pt, -332.0928pt) and (221.8525pt, -328.4814pt) .. (221.8525pt, -324.252pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (278.3682pt, -211.1797pt) .. controls (278.3682pt, -206.9492pt) and (276.873pt, -203.3389pt) .. (273.8809pt, -200.3467pt)
+                        -- (273.8809pt, -200.3467pt) .. controls (270.8896pt, -197.3564pt) and (267.2783pt, -195.8604pt) .. (263.0479pt, -195.8604pt)
+                        -- (263.0479pt, -195.8604pt) .. controls (258.8184pt, -195.8604pt) and (255.208pt, -197.3564pt) .. (252.2158pt, -200.3467pt)
+                        -- (252.2158pt, -200.3467pt) .. controls (249.2246pt, -203.3389pt) and (247.7285pt, -206.9492pt) .. (247.7285pt, -211.1797pt)
+                        -- (247.7285pt, -211.1797pt) .. controls (247.7285pt, -215.4092pt) and (249.2246pt, -219.0205pt) .. (252.2158pt, -222.0127pt)
+                        -- (252.2158pt, -222.0127pt) .. controls (255.208pt, -225.0039pt) and (258.8184pt, -226.499pt) .. (263.0479pt, -226.499pt)
+                        -- (263.0479pt, -226.499pt) .. controls (267.2783pt, -226.499pt) and (270.8896pt, -225.0039pt) .. (273.8809pt, -222.0127pt)
+                        -- (273.8809pt, -222.0127pt) .. controls (276.873pt, -219.0205pt) and (278.3682pt, -215.4092pt) .. (278.3682pt, -211.1797pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (278.3682pt, -267.7373pt) .. controls (278.3682pt, -263.5068pt) and (276.873pt, -259.8965pt) .. (273.8809pt, -256.9043pt)
+                        -- (273.8809pt, -256.9043pt) .. controls (270.8896pt, -253.9141pt) and (267.2783pt, -252.418pt) .. (263.0479pt, -252.418pt)
+                        -- (263.0479pt, -252.418pt) .. controls (258.8184pt, -252.418pt) and (255.208pt, -253.9141pt) .. (252.2158pt, -256.9043pt)
+                        -- (252.2158pt, -256.9043pt) .. controls (249.2246pt, -259.8965pt) and (247.7285pt, -263.5068pt) .. (247.7285pt, -267.7373pt)
+                        -- (247.7285pt, -267.7373pt) .. controls (247.7285pt, -271.9668pt) and (249.2246pt, -275.5781pt) .. (252.2158pt, -278.5703pt)
+                        -- (252.2158pt, -278.5703pt) .. controls (255.208pt, -281.5615pt) and (258.8184pt, -283.0566pt) .. (263.0479pt, -283.0566pt)
+                        -- (263.0479pt, -283.0566pt) .. controls (267.2783pt, -283.0566pt) and (270.8896pt, -281.5615pt) .. (273.8809pt, -278.5703pt)
+                        -- (273.8809pt, -278.5703pt) .. controls (276.873pt, -275.5781pt) and (278.3682pt, -271.9668pt) .. (278.3682pt, -267.7373pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (334.9248pt, -211.1797pt) .. controls (334.9248pt, -206.9492pt) and (333.4297pt, -203.3389pt) .. (330.4375pt, -200.3467pt)
+                        -- (330.4375pt, -200.3467pt) .. controls (327.4463pt, -197.3564pt) and (323.835pt, -195.8604pt) .. (319.6045pt, -195.8604pt)
+                        -- (319.6045pt, -195.8604pt) .. controls (315.375pt, -195.8604pt) and (311.7646pt, -197.3564pt) .. (308.7725pt, -200.3467pt)
+                        -- (308.7725pt, -200.3467pt) .. controls (305.7812pt, -203.3389pt) and (304.2852pt, -206.9492pt) .. (304.2852pt, -211.1797pt)
+                        -- (304.2852pt, -211.1797pt) .. controls (304.2852pt, -215.4092pt) and (305.7812pt, -219.0205pt) .. (308.7725pt, -222.0127pt)
+                        -- (308.7725pt, -222.0127pt) .. controls (311.7646pt, -225.0039pt) and (315.375pt, -226.499pt) .. (319.6045pt, -226.499pt)
+                        -- (319.6045pt, -226.499pt) .. controls (323.835pt, -226.499pt) and (327.4463pt, -225.0039pt) .. (330.4375pt, -222.0127pt)
+                        -- (330.4375pt, -222.0127pt) .. controls (333.4297pt, -219.0205pt) and (334.9248pt, -215.4092pt) .. (334.9248pt, -211.1797pt);
+                        \filldraw[\CoDeXiconcolor][even odd rule]
+                        (334.9248pt, -267.7373pt) .. controls (334.9248pt, -263.5068pt) and (333.4297pt, -259.8965pt) .. (330.4375pt, -256.9043pt)
+                        -- (330.4375pt, -256.9043pt) .. controls (327.4463pt, -253.9141pt) and (323.835pt, -252.418pt) .. (319.6045pt, -252.418pt)
+                        -- (319.6045pt, -252.418pt) .. controls (315.375pt, -252.418pt) and (311.7646pt, -253.9141pt) .. (308.7725pt, -256.9043pt)
+                        -- (308.7725pt, -256.9043pt) .. controls (305.7812pt, -259.8965pt) and (304.2852pt, -263.5068pt) .. (304.2852pt, -267.7373pt)
+                        -- (304.2852pt, -267.7373pt) .. controls (304.2852pt, -271.9668pt) and (305.7812pt, -275.5781pt) .. (308.7725pt, -278.5703pt)
+                        -- (308.7725pt, -278.5703pt) .. controls (311.7646pt, -281.5615pt) and (315.375pt, -283.0566pt) .. (319.6045pt, -283.0566pt)
+                        -- (319.6045pt, -283.0566pt) .. controls (323.835pt, -283.0566pt) and (327.4463pt, -281.5615pt) .. (330.4375pt, -278.5703pt)
+                        -- (330.4375pt, -278.5703pt) .. controls (333.4297pt, -275.5781pt) and (334.9248pt, -271.9668pt) .. (334.9248pt, -267.7373pt);
+                        \filldraw[\CoDeXiconcolor][nonzero rule]
+                        (64.06641pt, -93.13184pt) -- (64.06641pt, -93.13184pt)
+                        -- (405.54pt, -93.13184pt)
+                        -- (405.54pt, -160pt)
+                        -- (64.06641pt, -160pt) -- cycle;
+                        \filldraw[\CoDeXiconcolor][nonzero rule]
+                        (64.06641pt, -93.13184pt) -- (64.06641pt, -93.13184pt)
+                        -- (405.54pt, -93.13184pt)
+                        -- (405.54pt, -160pt)
+                        -- (64.06641pt, -160pt) -- cycle;
+                    \end{tikzpicture}
+                }%
+                \hspace{0,09cm}%
+                \CoDeXdate%
+            \end{center}
+            \end{tcolorbox}
+        }
+    }
+
+    \fancypagestyle{otherpage}{
+        \fancyhead[C]{
+            %\newcounter{studentcount}%
+            \setcounter{studentcount}{0}%
+
+            \vspace{4mm}
+            \ifx\CoDeXpagestyle\CoDeXfancydark
+            \color{CoDeXTextOnDark}
+            \else
+            \color{CoDeXTextOnLight}
+            \fi
+            \makebox[\textwidth]{%
+                \foreach \name/\id in \CoDeXstudents {%
+                    \stepcounter{studentcount}%
+                    \ifnum\value{studentcount}>1%
+                    \hspace{2mm plus 1fill}%
+                    \fi%
+                    \ifx\CoDeXnameheadersize\CoDeXregular
+                    \textbf{\normalsize \name}\small~\id
+                    \else
+                        \ifx\CoDeXnameheadersize\CoDeXwide
+                        \textbf{\normalsize \name}\small,~Matrikel-Nr.: \id
+                        \else
+                            \ifx\CoDeXnameheadersize\CoDeXnarrow
+                            \textbf{\normalsize \name}
+                            \fi
+                        \fi
+                    \fi
+                }%
+            }%
+        }
+    }
+
+    \pagestyle{otherpage}
+
+    \renewcommand{\headrulewidth}{0pt}
+
+    \ifx\CoDeXpagestyle\CoDeXfancydark
+
+    \newcounter{pagecounter}
+    \setcounter{pagecounter}{0}
+
+    \newlength{\ActualTopMargin}
+    \setlength{\ActualTopMargin}{\dimexpr 1in + \voffset + \topmargin\relax}
+
+    \AtBeginShipout{
+        \stepcounter{pagecounter}
+
+        \ifnum\value{pagecounter}=1
+            \AddToShipoutPicture*{
+                \AtPageUpperLeft{
+                    \put(0mm,-\dimexpr\ActualTopMargin+55mm\relax){%
+                        \color{CoDeXDark}\rule{\paperwidth}{\dimexpr\ActualTopMargin+55mm\relax}%
+                    }%
+                }
+            }
+        \fi
+        \ifnum\value{pagecounter}>1
+            \AddToShipoutPicture*{
+                \AtPageUpperLeft{
+                    \put(0mm,-\dimexpr\ActualTopMargin+14mm\relax){%
+                        \color{CoDeXDark}\rule{\paperwidth}{\dimexpr\ActualTopMargin+14mm\relax}%
+                    }%
+                }
+            }
+        \fi
+    }
+
+    \fi
+
+    \AddToHook{begindocument}{
+        \vspace*{3,3cm}
+        \thispagestyle{firstpage}
+    }
+\fi
+
+
+\newenvironment{codebox}[2]{%
+  \VerbatimEnvironment
+  \def\codeboxfilename{_codex/codebox.tmp}%
+  \def\codeboxlanguage{#2}%
+
+  \needspace{2.4cm}%
+
+  \begin{center}%
+
+    \begin{tcolorbox}[boxrule=0pt, colback=CoDeXDark, coltext=CoDeXTextOnDark, arc=5.5pt, 
+                      fontupper=\ttfamily, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                      overlay={%
+        \node (overlaytext) [anchor=east, CoDeXAccentSecondary, fill opacity=0.0, font=\ttfamily\footnotesize] at
+            ($(frame.east)+(-0.4cm,-0.0cm)$) {#2};
+
+        \fill[rounded corners=3.5pt, CoDeXExtraDark, fill opacity=1] 
+            ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+            rectangle
+            ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+
+        \node[anchor=east, CoDeXAccentSecondary, font=\ttfamily\footnotesize] at 
+            ($(frame.east)+(-0.4cm,-0.0cm)$) {#2};
+      }]%
+      #1%
+    \end{tcolorbox}%
+
+    \begin{tcolorbox}[boxrule=0pt, colback=CoDeXAccentPrimary, arc=0pt, height=0.15cm, 
+                      width=\textwidth-3mm, before skip=0mm, after skip=0mm]%
+    \end{tcolorbox}%
+
+    \begin{VerbatimOut}{\codeboxfilename}%
+}{%
+    \end{VerbatimOut}%
+
+    \begin{tcolorbox}[breakable, boxrule=0pt, colback=CoDeXDark, coltext=CoDeXTextOnDark, arc=5.5pt, before skip=0mm]%
+      \inputminted[bgcolor=none, fontsize=\footnotesize, style=codexgen]{\codeboxlanguage}{\codeboxfilename}%
+    \end{tcolorbox}%
+
+  \end{center}%
+}
+
+
+\makeatletter
+\define@key{designbox}{title}{\def\opttitle{#1}}
+\define@key{designbox}{overlaytitle}{\def\optoverlaytitle{#1}}
+\define@key{designbox}{overlaypos}{\def\optoverlaypos{#1}}
+\define@key{designbox}{showtitle}{\def\optshowtitle{#1}}
+\define@key{designbox}{showoverlaytitle}{\def\optshowoverlaytitle{#1}}
+\define@key{designbox}{titlebgcolor}{\def\opttitlebgcolor{#1}}
+\define@key{designbox}{titletextcolor}{\def\opttitletextcolor{#1}}
+\define@key{designbox}{overlaytitlebgcolor}{\def\optoverlaytitlebgcolor{#1}}
+\define@key{designbox}{overlaytitletextcolor}{\def\optoverlaytitletextcolor{#1}}
+\define@key{designbox}{titleborder}{\def\opttitleborder{#1}}
+\define@key{designbox}{titlebordercolor}{\def\opttitlebordercolor{#1}}
+\define@key{designbox}{titlebordergapcolor}{\def\opttitlebordergapcolor{#1}}
+\define@key{designbox}{showbody}{\def\optshowbody{#1}}
+\define@key{designbox}{bodybgcolor}{\def\optbodybgcolor{#1}}
+\define@key{designbox}{bodytextcolor}{\def\optbodytextcolor{#1}}
+\define@key{designbox}{bodyborder}{\def\optbodyborder{#1}}
+\define@key{designbox}{bodybordercolor}{\def\optbodybordercolor{#1}}
+\define@key{designbox}{bodybordergapcolor}{\def\optbodybordergapcolor{#1}}
+\define@key{designbox}{boxgapcolor}{\def\optboxgapcolor{#1}}
+\define@key{designbox}{boxgapsize}{\def\optboxgapsize{#1}}
+\define@key{designbox}{showgrid}{\def\optshowgrid{#1}}
+\define@key{designbox}{gridcolor}{\def\optgridcolor{#1}}
+\define@key{designbox}{showleftline}{\def\optshowleftline{#1}}
+\define@key{designbox}{leftlinecolor}{\def\optleftlinecolor{#1}}
+
+\def\opttitle{Default Title}%
+\def\optoverlaytitle{Overlay Title}%
+\def\optoverlaypos{middle}%
+\def\optshowtitle{true}%
+\def\optshowoverlaytitle{false}%
+\def\opttitlebgcolor{CoDeXAccentPrimary}%
+\def\opttitletextcolor{CoDeXTextOnPrimaryAccent}%
+\def\optoverlaytitlebgcolor{CoDeXAccentPrimaryLight}%
+\def\optoverlaytitletextcolor{CoDeXTextOnPrimaryAccent}%
+\def\opttitleborder{none}%
+\def\opttitlebordercolor{CoDeXDark}%
+\def\opttitlebordergapcolor{transparent}%
+\def\optshowbody{true}%
+\def\optbodybgcolor{CoDeXExtraLight}%
+\def\optbodytextcolor{CoDeXTextOnLight}%
+\def\optbodyborder{none}%
+\def\optbodybordercolor{CoDeXDark}%
+\def\optbodybordergapcolor{transparent}%
+\def\optboxgapcolor{white}%
+\def\optboxgapsize{0.15cm}%
+\def\optshowgrid{false}%
+\def\optgridcolor{CoDeXLight}%
+\def\optshowleftline{false}%
+\def\optleftlinecolor{CoDeXAccentPrimary}%
+
+\makeatother
+
+\pgfdeclarepatternformonly{biggrid}
+  {\pgfqpoint{0pt}{0pt}}
+  {\pgfqpoint{10pt}{10pt}}
+  {\pgfqpoint{10pt}{10pt}}
+  {%
+    \pgfsetlinewidth{2pt}
+    \pgfpathmoveto{\pgfqpoint{-2pt}{0pt}}
+    \pgfpathlineto{\pgfqpoint{12pt}{0pt}}
+    \pgfpathmoveto{\pgfqpoint{0pt}{-2pt}}
+    \pgfpathlineto{\pgfqpoint{0pt}{12pt}}
+    \pgfusepath{stroke}
+  }
+
+\NewEnviron{designbox}[1][]{%
+    \setkeys{designbox}{#1}
+
+    \def\overlaytitlecontent{
+        \ifthenelse{\equal{\optshowoverlaytitle}{true}}{%
+            \ifthenelse{\equal{\optoverlaypos}{middle}}{%
+                {%
+                    \node (overlaytext) [\optoverlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                    ($(frame.north east)!.5!(frame.north west)+(0cm,-0.35cm)$) {\optoverlaytitle};
+
+                    \ifthenelse{\equal{\opttitleborder}{none}}{%
+                        \fill[rounded corners=3.5pt, \optoverlaytitlebgcolor, fill opacity=1]
+                        ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+                    }{
+                        \fill[rounded corners=3.5pt, \optoverlaytitlebgcolor, fill opacity=1]
+                        ($(overlaytext.east) + (0.3cm, -0.22cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.22cm)$);
+                    }
+
+                    \node[\optoverlaytitletextcolor, font=\bfseries\footnotesize] at
+                    ($(frame.north east)!.5!(frame.north west)+(0cm,-0.37 cm)$) {\optoverlaytitle};
+                }
+            }{
+                {%
+                    \ifthenelse{\equal{\opttitleborder}{none}}{%
+                        \node (overlaytext) [anchor=east, \optoverlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                        ($(frame.east)+(-0.40cm,-0.0cm)$) {\optoverlaytitle};
+                    }{
+                        \node (overlaytext) [anchor=east, \optoverlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                        ($(frame.east)+(-0.43cm,-0.0cm)$) {\optoverlaytitle};
+                    }
+
+                    \ifthenelse{\equal{\opttitleborder}{none}}{%
+                        \fill[rounded corners=3.5pt, \optoverlaytitlebgcolor, fill opacity=1] 
+                        ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+                    }{
+                        \fill[rounded corners=3.5pt, \optoverlaytitlebgcolor, fill opacity=1] 
+                        ($(overlaytext.east) + (0.3cm, -0.22cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.22cm)$);
+                    }
+
+                    \ifthenelse{\equal{\opttitleborder}{none}}{%
+                        \node[anchor=east, \optoverlaytitletextcolor, font=\bfseries\footnotesize] at 
+                        ($(frame.east)+(-0.40cm,-0.0cm)$) {\optoverlaytitle};
+                    }{
+                        \node[anchor=east, \optoverlaytitletextcolor, font=\bfseries\footnotesize] at 
+                        ($(frame.east)+(-0.43cm,-0.0cm)$) {\optoverlaytitle};
+                    }
+                }
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\overlaygridcontent{
+        \ifthenelse{\equal{\optshowgrid}{true}}{%
+            {%
+            \begin{scope}
+                \clip [rounded corners=5.5pt] (interior.south west) rectangle (interior.north east);
+                \fill[pattern=biggrid, pattern color=\optgridcolor] 
+                (interior.south west) rectangle (interior.north east);
+            \end{scope}
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\overlayleftline{
+        \ifthenelse{\equal{\optshowleftline}{true}}{%
+            {%
+                \fill[\optleftlinecolor]
+                ($(frame.south west) + (0.0cm,0.0cm)$)
+                rectangle
+                ($(frame.north west) + (0.12cm,0.7cm) + (0.0cm,\optboxgapsize)$);
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\overlaybodycontent{
+        \ifthenelse{\equal{\optshowleftline}{true}}{%
+            \overlayleftline
+        }{
+            \ifthenelse{\equal{\optshowgrid}{true}}{%
+                \overlaygridcontent
+            }{}
+        }
+    }
+    
+    \ifthenelse{\equal{\optshowtitle}{true}}{%
+        \ifthenelse{\equal{\optshowbody}{true}}{%
+            \needspace{2.4cm}%
+        }{}
+    }{}
+
+    \begin{center}%
+
+    \ifthenelse{\equal{\optshowtitle}{true}}{%
+        \ifthenelse{\equal{\opttitleborder}{none}}{%
+            \ifthenelse{\equal{\optshowleftline}{true}}{%
+                \begin{tcolorbox}[boxrule=0pt, colback=\opttitlebgcolor, coltext=\opttitletextcolor, arc=5.5pt, 
+                    fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                    overlay=\overlaytitlecontent, sharp corners=west]%
+            }{
+                \begin{tcolorbox}[boxrule=0pt, colback=\opttitlebgcolor, coltext=\opttitletextcolor, arc=5.5pt, 
+                    fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                    overlay=\overlaytitlecontent]%
+            }
+        }{%
+            \ifthenelse{\equal{\opttitleborder}{dashed}}{%
+                \ifthenelse{\equal{\optshowleftline}{true}}{%
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opttitlebgcolor, coltext=\opttitletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opttitlebordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opttitlebordercolor},
+                        overlay=\overlaytitlecontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opttitlebgcolor, coltext=\opttitletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opttitlebordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opttitlebordercolor},
+                        overlay=\overlaytitlecontent]%
+                }
+            }{%
+                \ifthenelse{\equal{\optshowleftline}{true}}{%
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opttitlebgcolor, coltext=\opttitletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opttitlebordercolor},
+                        overlay=\overlaytitlecontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opttitlebgcolor, coltext=\opttitletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opttitlebordercolor},
+                        overlay=\overlaytitlecontent]%
+                }
+            }
+        }
+            \opttitle%
+        \end{tcolorbox}%
+
+        \ifthenelse{\equal{\optshowbody}{true}}{%
+            \begin{tcolorbox}[boxrule=0pt, colback=\optboxgapcolor, arc=0pt, height=\optboxgapsize,
+                              width=\textwidth-3mm, before skip=0mm, after skip=0mm]%
+            \end{tcolorbox}%
+        }{}
+    }{}
+
+    \ifthenelse{\equal{\optshowbody}{true}}{%
+
+        \ifthenelse{\equal{\optbodyborder}{none}}{%
+            \ifthenelse{\equal{\optshowleftline}{true}}{%
+                \begin{tcolorbox}[breakable, colback=\optbodybgcolor, coltext=\optbodytextcolor, arc=5.5pt,
+                    before skip=0mm, enhanced, boxrule=0pt,
+                    overlay=\overlaybodycontent, sharp corners=west]%
+            }{
+                \begin{tcolorbox}[breakable, colback=\optbodybgcolor, coltext=\optbodytextcolor, arc=5.5pt,
+                    before skip=0mm, enhanced, boxrule=0pt,
+                    overlay=\overlaybodycontent]%
+            }
+        }{%
+            \ifthenelse{\equal{\optbodyborder}{dashed}}{%
+                \ifthenelse{\equal{\optshowleftline}{true}}{%
+                    \begin{tcolorbox}[breakable, colback=\optbodybgcolor, coltext=\optbodytextcolor, arc=5.5pt, 
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \optbodybordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \optbodybordercolor},
+                        overlay=\overlaybodycontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[breakable, colback=\optbodybgcolor, coltext=\optbodytextcolor, arc=5.5pt, 
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \optbodybordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \optbodybordercolor},
+                        overlay=\overlaybodycontent]%
+                }
+            }{%
+                \ifthenelse{\equal{\optshowleftline}{true}}{%
+                    \begin{tcolorbox}[breakable, colback=\optbodybgcolor, coltext=\optbodytextcolor, arc=5.5pt,
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \optbodybordercolor},
+                        overlay=\overlaybodycontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[breakable, colback=\optbodybgcolor, coltext=\optbodytextcolor, arc=5.5pt,
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \optbodybordercolor},
+                        overlay=\overlaybodycontent]%
+                }
+            }
+        }
+            \BODY
+        \end{tcolorbox}
+    }{}
+
+    \end{center}
+}
+
+\endinput

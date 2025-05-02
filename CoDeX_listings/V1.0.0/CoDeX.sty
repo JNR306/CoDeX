@@ -1,0 +1,961 @@
+%% CoDeX.sty -- Version 1.0
+%% Copyright (c) 2025 JNR306
+%% Licensed under the MIT License
+%% https://github.com/JNR306/CoDeX
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{CoDeX}[2025/05/01 v1.0 A package with beautiful styles for STEM homework.]
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\RequirePackage{cmbright}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{fancyhdr}
+\RequirePackage{environ}
+\RequirePackage{fancyvrb}
+\RequirePackage{ae}
+\RequirePackage{xkeyval}
+\RequirePackage{lmodern}
+\RequirePackage{atbegshi}
+\RequirePackage{eso-pic}
+\RequirePackage{graphicx}
+\RequirePackage{varwidth}
+\RequirePackage{needspace}
+\RequirePackage{xparse}
+\RequirePackage{kvoptions}
+\RequirePackage{ifthen}
+\RequirePackage[italic]{mathastext}
+\RequirePackage{listings}
+
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+
+\makeatletter
+
+\definecolor{CoDeXDark}{HTML}{2A2734}
+\definecolor{CoDeXExtraDark}{HTML}{131313}
+\definecolor{CoDeXLight}{HTML}{e6e6e6}
+\definecolor{CoDeXExtraLight}{HTML}{f2f2f2}
+
+\definecolor{CoDeXAccentPrimary}{HTML}{FFC78F}
+\definecolor{CoDeXAccentPrimaryLight}{HTML}{FFD7AF}
+\definecolor{CoDeXAccentPrimaryDark}{HTML}{a76625}
+\definecolor{CoDeXAccentSecondary}{HTML}{ada5c8}
+\definecolor{CoDeXAccentSecondaryLight}{HTML}{eeebff}
+\definecolor{CoDeXAccentSecondaryDark}{HTML}{665b89}
+\definecolor{CoDeXAccentTertiary}{HTML}{59ABFF}
+\definecolor{CoDeXAccentTertiaryLight}{HTML}{B5E7FF}
+\definecolor{CoDeXAccentTertiaryDark}{HTML}{3577D7}
+
+\definecolor{CoDeXTextOnLight}{HTML}{000000}
+\definecolor{CoDeXTextOnDark}{HTML}{ffffff}
+
+\definecolor{CoDeXTextOnPrimaryAccent}{HTML}{2A2734}
+\definecolor{CoDeXTextOnPrimaryAccentLight}{HTML}{2A2734}
+\definecolor{CoDeXTextOnPrimaryAccentDark}{HTML}{ffffff}
+
+\definecolor{CoDeXTextOnSecondaryAccent}{HTML}{ffffff}
+\definecolor{CoDeXTextOnSecondaryAccentLight}{HTML}{2A2734}
+\definecolor{CoDeXTextOnSecondaryAccentDark}{HTML}{ffffff}
+
+\definecolor{CoDeXTextOnTertiaryAccent}{HTML}{ffffff}
+\definecolor{CoDeXTextOnTertiaryAccentLight}{HTML}{2A2734}
+\definecolor{CoDeXTextOnTertiaryAccentDark}{HTML}{ffffff}
+
+\def\cdx@title{Homework sheet 1}
+\def\cdx@group{Group 1}
+\def\cdx@date{\the\day.\,\the\month.\,\the\year}
+\def\cdx@students{Adrian Blake/553731, Charles Randall/740995, Zoe Rutherford/331445}
+
+\DeclareOptionX{dark}[2A2734]{\definecolor{CoDeXDark}{HTML}{#1}}
+\DeclareOptionX{extradark}[131313]{\definecolor{CoDeXExtraDark}{HTML}{#1}}
+\DeclareOptionX{light}[e6e6e6]{\definecolor{CoDeXLight}{HTML}{#1}}
+\DeclareOptionX{extralight}[f2f2f2]{\definecolor{CoDeXExtraLight}{HTML}{#1}}
+
+\DeclareOptionX{accentprimary}[FFC78F]{\definecolor{CoDeXAccentPrimary}{HTML}{#1}}
+\DeclareOptionX{accentprimarylight}[FFD7AF]{\definecolor{CoDeXAccentPrimaryLight}{HTML}{#1}}
+\DeclareOptionX{accentprimarydark}[a76625]{\definecolor{CoDeXAccentPrimaryDark}{HTML}{#1}}
+\DeclareOptionX{accentsecondary}[ada5c8]{\definecolor{CoDeXAccentSecondary}{HTML}{#1}}
+\DeclareOptionX{accentsecondarylight}[eeebff]{\definecolor{CoDeXAccentSecondaryLight}{HTML}{#1}}
+\DeclareOptionX{accentsecondarydark}[665b89]{\definecolor{CoDeXAccentSecondaryDark}{HTML}{#1}}
+\DeclareOptionX{accenttertiary}[59ABFF]{\definecolor{CoDeXAccentTertiary}{HTML}{#1}}
+\DeclareOptionX{accenttertiarylight}[B5E7FF]{\definecolor{CoDeXAccentTertiaryLight}{HTML}{#1}}
+\DeclareOptionX{accenttertiarydark}[3577D7]{\definecolor{CoDeXAccentTertiaryDark}{HTML}{#1}}
+
+\DeclareOptionX{textonlight}[000000]{\definecolor{CoDeXTextOnLight}{HTML}{#1}}
+\DeclareOptionX{textondark}[ffffff]{\definecolor{CoDeXTextOnDark}{HTML}{#1}}
+
+\DeclareOptionX{textonprimaryaccent}[2A2734]{\definecolor{CoDeXTextOnPrimaryAccent}{HTML}{#1}}
+\DeclareOptionX{textonprimaryaccentlight}[2A2734]{\definecolor{CoDeXTextOnPrimaryAccentLight}{HTML}{#1}}
+\DeclareOptionX{textonprimaryaccentdark}[ffffff]{\definecolor{CoDeXTextOnPrimaryAccentDark}{HTML}{#1}}
+
+\DeclareOptionX{textonsecondaryaccent}[ffffff]{\definecolor{CoDeXTextOnSecondaryAccent}{HTML}{#1}}
+\DeclareOptionX{textonsecondaryaccentlight}[2A2734]{\definecolor{CoDeXTextOnSecondaryAccentLight}{HTML}{#1}}
+\DeclareOptionX{textonsecondaryaccentdark}[ffffff]{\definecolor{CoDeXTextOnSecondaryAccentDark}{HTML}{#1}}
+
+\DeclareOptionX{textontertiaryaccent}[ffffff]{\definecolor{CoDeXTextOnTertiaryAccent}{HTML}{#1}}
+\DeclareOptionX{textontertiaryaccentlight}[2A2734]{\definecolor{CoDeXTextOnTertiaryAccentLight}{HTML}{#1}}
+\DeclareOptionX{textontertiaryaccentdark}[ffffff]{\definecolor{CoDeXTextOnTertiaryAccentDark}{HTML}{#1}}
+
+\DeclareOptionX{pagestyle}[none]{\def\cdx@pagestyle{#1}}
+
+\DeclareOptionX{title}[\empty]{\def\cdx@title{#1}}
+\DeclareOptionX{group}[\empty]{\def\cdx@group{#1}}
+\DeclareOptionX{date}[\empty]{\def\cdx@date{#1}}
+\DeclareOptionX{students}[\empty]{\def\cdx@students{#1}}
+
+\DeclareOptionX{nameheadersize}[regular]{\def\cdx@nameheadersize{#1}}
+
+\ProcessOptionsX
+
+\def\cdx@none{none}
+\def\cdx@fancylight{fancylight}
+\def\cdx@fancydark{fancydark}
+
+\def\cdx@regular{regular}
+\def\cdx@increased{increased}
+\def\cdx@wide{wide}
+\def\cdx@narrow{narrow}
+
+\ifx\cdx@pagestyle\undefined
+    \def\cdx@pagestyle{none}
+\fi
+
+\ifx\cdx@nameheadersize\undefined
+    \def\cdx@nameheadersize{regular}
+\fi
+
+\newcommand{\cdx@studentID}{%
+  \ifcsdef{mainlanguage}{%
+    \ifdefstring{\mainlanguage}{german}{Matrikel-Nr.}{Student ID}%
+  }{%
+    \ifcsdef{languagename}{%
+      \ifdefstring{\languagename}{ngerman}{Matrikel-Nr.}{%
+        \ifdefstring{\languagename}{german}{Matrikel-Nr.}{Student ID}%
+      }%
+    }{%
+      Student ID%
+    }%
+  }%
+}
+
+\lstdefinelanguage{LaTeX}{
+  morekeywords={
+    documentclass,usepackage,begin,end,title,author,
+    maketitle,section,subsection,emph,textbf,textit
+  },
+  sensitive=true,
+  morecomment=[l]{\%},
+  morestring=[b]"
+}
+
+\lstdefinestyle{cdx@codestyledark}{
+    basicstyle=\footnotesize\ttfamily\color{CoDeXAccentSecondary}\linespread{1.15}\selectfont,
+    keywordstyle=\color{CoDeXAccentPrimary},
+    commentstyle=\color{CoDeXAccentSecondary}\itshape,
+    identifierstyle=\color{CoDeXTextOnDark},
+    stringstyle=\color{CoDeXTextOnDark},
+    showstringspaces=false,
+    breaklines=true,
+    tabsize=2,
+    aboveskip=0pt,
+    belowskip=0pt,
+    columns=flexible,
+    literate=
+    {0}{{{\color{CoDeXTextOnDark}0}}}1
+    {1}{{{\color{CoDeXTextOnDark}1}}}1
+    {2}{{{\color{CoDeXTextOnDark}2}}}1
+    {3}{{{\color{CoDeXTextOnDark}3}}}1
+    {4}{{{\color{CoDeXTextOnDark}4}}}1
+    {5}{{{\color{CoDeXTextOnDark}5}}}1
+    {6}{{{\color{CoDeXTextOnDark}6}}}1
+    {7}{{{\color{CoDeXTextOnDark}7}}}1
+    {8}{{{\color{CoDeXTextOnDark}8}}}1
+    {9}{{{\color{CoDeXTextOnDark}9}}}1
+}
+
+\lstdefinestyle{cdx@codestylelight}{
+    basicstyle=\footnotesize\ttfamily\color{CoDeXAccentSecondaryDark}\linespread{1.15}\selectfont,
+    keywordstyle=\color{CoDeXAccentPrimaryDark},
+    commentstyle=\color{CoDeXAccentSecondaryDark}\itshape,
+    identifierstyle=\color{CoDeXTextOnLight},
+    stringstyle=\color{CoDeXTextOnLight},
+    showstringspaces=false,
+    breaklines=true,
+    tabsize=2,
+    aboveskip=0pt,
+    belowskip=0pt,
+    columns=flexible,
+    literate=
+    {0}{{{\color{CoDeXTextOnLight}0}}}1
+    {1}{{{\color{CoDeXTextOnLight}1}}}1
+    {2}{{{\color{CoDeXTextOnLight}2}}}1
+    {3}{{{\color{CoDeXTextOnLight}3}}}1
+    {4}{{{\color{CoDeXTextOnLight}4}}}1
+    {5}{{{\color{CoDeXTextOnLight}5}}}1
+    {6}{{{\color{CoDeXTextOnLight}6}}}1
+    {7}{{{\color{CoDeXTextOnLight}7}}}1
+    {8}{{{\color{CoDeXTextOnLight}8}}}1
+    {9}{{{\color{CoDeXTextOnLight}9}}}1
+}
+
+\lstset{style=cdx@codestylelight}
+
+\newcommand{\cdx@studentcontent}[2]{%
+    \begin{tabular}{c}%
+        \ifx\cdx@pagestyle\cdx@fancydark%
+        \color{CoDeXTextOnDark}%
+        \else%
+        \color{CoDeXTextOnLight}%
+        \fi%
+        \textbf{\normalsize #1}\\
+        \vspace{0.5ex}%
+        \ifx\cdx@pagestyle\cdx@fancydark%
+        \color{CoDeXTextOnDark}%
+        \else%
+        \color{CoDeXTextOnLight}%
+        \fi%
+        \small \cdx@studentID: #2%
+    \end{tabular}%
+}%
+
+\setlength{\headheight}{154.75879pt}
+\addtolength{\headsep}{-142.75879pt}
+
+\ifx\cdx@pagestyle\cdx@none
+%nothing
+\else
+
+    \ifx\cdx@pagestyle\cdx@fancydark
+    \addtolength{\headsep}{11mm}
+    \addtolength{\textheight}{-11mm}
+    \else
+    \addtolength{\headsep}{4mm}
+    \addtolength{\textheight}{-4mm}
+    \fi
+
+    \pagestyle{fancy}
+    \fancyhf{}
+    
+    \fancyfoot[C]{
+        \begin{tikzpicture}[baseline=(X.base)]
+            \ifx\cdx@pagestyle\cdx@fancydark
+            \node[fill=CoDeXDark, rounded corners=5.5pt, minimum size=0.7cm, inner sep=0pt, text=CoDeXTextOnDark] (X) {\thepage};
+            \else
+            \node[fill=white, rounded corners=5.5pt, minimum size=0.7cm, inner sep=0pt, text=CoDeXTextOnLight] (X) {\thepage};
+            \fi
+        \end{tikzpicture}
+    }
+    
+    \fancypagestyle{cdx@firstpage}{
+        \fancyhead[C]{
+            \begin{tcolorbox}[colback=green, opacityfill=0.0, width=\textwidth, 
+                              enlarge top by= 0in, enlarge left by= 0in, 
+                              enlarge right by= 0in, boxrule=0pt, sharp corners]
+            \ifx\cdx@pagestyle\cdx@fancydark
+            \color{CoDeXTextOnDark}
+            \else
+            \color{CoDeXTextOnLight}
+            \fi
+            \begin{center}
+                \textbf{\Huge\cdx@title}\\
+                \vspace{4ex}%
+                \newcounter{cdx@studentcount}%
+                \setcounter{cdx@studentcount}{0}%
+
+                \newcounter{totalstudents}
+                \setcounter{totalstudents}{0}
+                \foreach \cdx@name/\cdx@id in \cdx@students {
+                    \stepcounter{totalstudents}
+                }
+
+                \centerline{
+                    \hbox{
+                        \foreach \cdx@name/\cdx@id in \cdx@students {%
+                            \stepcounter{cdx@studentcount}%
+                            \ifnum\value{cdx@studentcount}>1
+                                \hspace{0.1cm}%
+                            \fi
+                                \ifnum\value{cdx@studentcount}=1%
+                                    \ifx\cdx@pagestyle\cdx@fancydark
+                                    \tcbox[colback=CoDeXExtraDark, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners=east, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                        \cdx@studentcontent{\cdx@name}{\cdx@id}%
+                                    }%
+                                    \else
+                                    \tcbox[colback=CoDeXLight, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners=east, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                        \cdx@studentcontent{\cdx@name}{\cdx@id}%
+                                    }%
+                                    \fi
+                                \else%
+                                    \ifnum\value{cdx@studentcount}=\value{totalstudents}%
+                                        \ifx\cdx@pagestyle\cdx@fancydark
+                                        \tcbox[colback=CoDeXExtraDark, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners=west, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                            \cdx@studentcontent{\cdx@name}{\cdx@id}%
+                                        }%
+                                        \else
+                                        \tcbox[colback=CoDeXLight, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners=west, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                            \cdx@studentcontent{\cdx@name}{\cdx@id}%
+                                        }%
+                                        \fi
+                                    \else%
+                                        \ifx\cdx@pagestyle\cdx@fancydark
+                                        \tcbox[colback=CoDeXExtraDark, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                            \cdx@studentcontent{\cdx@name}{\cdx@id}%
+                                        }%
+                                        \else
+                                        \tcbox[colback=CoDeXLight, height=1.3cm, boxrule=0pt, arc=5.5pt, sharp corners, left=1mm, right=1mm, top=2mm, bottom=2mm, halign=center]{%
+                                            \cdx@studentcontent{\cdx@name}{\cdx@id}%
+                                        }%
+                                        \fi
+                                    \fi%
+                                \fi%
+                                    
+                        }%
+                    }
+                }
+                \vspace{2,5ex}%
+                \ifx\cdx@pagestyle\cdx@fancydark
+                \def\cdx@iconcolor{CoDeXTextOnDark}
+                \else
+                \def\cdx@iconcolor{CoDeXTextOnLight}
+                \fi
+                \large\raisebox{-0.07em}{%
+                    \begin{tikzpicture}[scale=0.025]
+                        \path(0pt,0pt);
+                        \filldraw[\cdx@iconcolor][nonzero rule]
+                        (148.3818pt, -237.2744pt) .. controls (154.1914pt, -263.1714pt) and (169.5732pt, -330.0332pt) .. (190.0117pt, -334.2729pt)
+                        -- (190.0117pt, -334.2729pt) .. controls (169.5732pt, -330.0332pt) and (49.52539pt, -329.7852pt) .. (69.96484pt, -334.0269pt)
+                        -- (69.96484pt, -334.0269pt) .. controls (49.52539pt, -329.7852pt) and (57.59375pt, -237.2744pt) .. (57.59375pt, -237.2744pt)
+                        -- (57.59375pt, -237.2744pt) .. controls (57.59375pt, -212.2017pt) and (77.92383pt, -191.8633pt) .. (102.9883pt, -191.8633pt)
+                        -- (102.9883pt, -191.8633pt) .. controls (128.0518pt, -191.8633pt) and (143.9707pt, -217.5132pt) .. (148.3818pt, -237.2744pt) -- cycle;
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (148.3818pt, -95.91113pt) .. controls (148.3818pt, -83.37598pt) and (143.9502pt, -72.67676pt) .. (135.0869pt, -63.81152pt)
+                        -- (135.0869pt, -63.81152pt) .. controls (126.2227pt, -54.94922pt) and (115.5225pt, -50.51758pt) .. (102.9883pt, -50.5166pt)
+                        -- (102.9883pt, -50.5166pt) .. controls (90.45312pt, -50.51758pt) and (79.75391pt, -54.94922pt) .. (70.88867pt, -63.81152pt)
+                        -- (70.88867pt, -63.81152pt) .. controls (62.02539pt, -72.67676pt) and (57.59375pt, -83.37598pt) .. (57.59375pt, -95.91113pt)
+                        -- (57.59375pt, -95.91113pt) .. controls (57.59375pt, -108.4453pt) and (62.02539pt, -119.1455pt) .. (70.88867pt, -128.0098pt)
+                        -- (70.88867pt, -128.0098pt) .. controls (79.75391pt, -136.874pt) and (90.45312pt, -141.3057pt) .. (102.9883pt, -141.3047pt)
+                        -- (102.9883pt, -141.3047pt) .. controls (115.5225pt, -141.3057pt) and (126.2227pt, -136.874pt) .. (135.0869pt, -128.0098pt)
+                        -- (135.0869pt, -128.0098pt) .. controls (143.9502pt, -119.1455pt) and (148.3818pt, -108.4453pt) .. (148.3818pt, -95.91113pt);
+                        \filldraw[\cdx@iconcolor][nonzero rule]
+                        (370.9336pt, -264.0928pt) .. controls (377.4961pt, -288.0127pt) and (400.9463pt, -357.7158pt) .. (413.6396pt, -358.9917pt)
+                        -- (413.6396pt, -358.9917pt) .. controls (400.9463pt, -357.7158pt) and (269.7646pt, -357.3867pt) .. (282.458pt, -358.6221pt)
+                        -- (282.458pt, -358.6221pt) .. controls (269.7646pt, -357.3867pt) and (280.1455pt, -264.0928pt) .. (280.1455pt, -264.0928pt)
+                        -- (280.1455pt, -264.0928pt) .. controls (280.1455pt, -239.02pt) and (300.4756pt, -218.6816pt) .. (325.54pt, -218.6816pt)
+                        -- (325.54pt, -218.6816pt) .. controls (350.6035pt, -218.6816pt) and (365.6094pt, -244.5366pt) .. (370.9336pt, -264.0928pt) -- cycle;
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (370.9336pt, -122.7344pt) .. controls (370.9336pt, -110.1992pt) and (366.502pt, -99.5pt) .. (357.6387pt, -90.63477pt)
+                        -- (357.6387pt, -90.63477pt) .. controls (348.7744pt, -81.77246pt) and (338.0742pt, -77.34082pt) .. (325.54pt, -77.33984pt)
+                        -- (325.54pt, -77.33984pt) .. controls (313.0049pt, -77.34082pt) and (302.3057pt, -81.77246pt) .. (293.4404pt, -90.63477pt)
+                        -- (293.4404pt, -90.63477pt) .. controls (284.5771pt, -99.5pt) and (280.1455pt, -110.1992pt) .. (280.1455pt, -122.7344pt)
+                        -- (280.1455pt, -122.7344pt) .. controls (280.1455pt, -135.2686pt) and (284.5771pt, -145.9688pt) .. (293.4404pt, -154.833pt)
+                        -- (293.4404pt, -154.833pt) .. controls (302.3057pt, -163.6973pt) and (313.0049pt, -168.1289pt) .. (325.54pt, -168.1279pt)
+                        -- (325.54pt, -168.1279pt) .. controls (338.0742pt, -168.1289pt) and (348.7744pt, -163.6973pt) .. (357.6387pt, -154.833pt)
+                        -- (357.6387pt, -154.833pt) .. controls (366.502pt, -145.9688pt) and (370.9336pt, -135.2686pt) .. (370.9336pt, -122.7344pt);
+                        \filldraw[\cdx@iconcolor][nonzero rule]
+                        (259.6748pt, -334.814pt) .. controls (266.9902pt, -359.187pt) and (292.1074pt, -429.5483pt) .. (303.4023pt, -428.8071pt)
+                        -- (303.4023pt, -428.8071pt) .. controls (292.1074pt, -429.5483pt) and (163.7227pt, -429.0952pt) .. (174.9639pt, -428.355pt)
+                        -- (174.9639pt, -428.355pt) .. controls (163.7227pt, -429.0952pt) and (168.8867pt, -334.814pt) .. (168.8867pt, -334.814pt)
+                        -- (168.8867pt, -334.814pt) .. controls (168.8867pt, -309.7412pt) and (189.2168pt, -289.4028pt) .. (214.2812pt, -289.4028pt)
+                        -- (214.2812pt, -289.4028pt) .. controls (239.3447pt, -289.4028pt) and (253.8652pt, -315.3398pt) .. (259.6748pt, -334.814pt) -- cycle;
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (259.6748pt, -193.4512pt) .. controls (259.6748pt, -180.916pt) and (255.2432pt, -170.2168pt) .. (246.3799pt, -161.3516pt)
+                        -- (246.3799pt, -161.3516pt) .. controls (237.5156pt, -152.4893pt) and (226.8154pt, -148.0576pt) .. (214.2812pt, -148.0566pt)
+                        -- (214.2812pt, -148.0566pt) .. controls (201.7461pt, -148.0576pt) and (191.0469pt, -152.4893pt) .. (182.1816pt, -161.3516pt)
+                        -- (182.1816pt, -161.3516pt) .. controls (173.3184pt, -170.2168pt) and (168.8867pt, -180.916pt) .. (168.8867pt, -193.4512pt)
+                        -- (168.8867pt, -193.4512pt) .. controls (168.8867pt, -205.9854pt) and (173.3184pt, -216.6855pt) .. (182.1816pt, -225.5498pt)
+                        -- (182.1816pt, -225.5498pt) .. controls (191.0469pt, -234.4141pt) and (201.7461pt, -238.8457pt) .. (214.2812pt, -238.8447pt)
+                        -- (214.2812pt, -238.8447pt) .. controls (226.8154pt, -238.8457pt) and (237.5156pt, -234.4141pt) .. (246.3799pt, -225.5498pt)
+                        -- (246.3799pt, -225.5498pt) .. controls (255.2432pt, -216.6855pt) and (259.6748pt, -205.9854pt) .. (259.6748pt, -193.4512pt);
+                    \end{tikzpicture}
+                }%
+                \hspace{0,07cm}%
+                \cdx@group%
+                \hspace{0,5cm}%
+                \raisebox{-0.05em}{%
+                    \begin{tikzpicture}[scale=0.025]
+                        \path(0pt,0pt);
+                        \filldraw[\cdx@iconcolor][nonzero rule]
+                        (401.3076pt, -153.7305pt) .. controls (401.3076pt, -121.6963pt) and (375.3047pt, -95.68457pt) .. (343.2529pt, -95.68457pt)
+                        -- (126.2881pt, -95.68457pt) .. controls (94.23535pt, -95.68457pt) and (68.23145pt, -121.6963pt) .. (68.23145pt, -153.7305pt)
+                        -- (68.23145pt, -325.9004pt) .. controls (68.23145pt, -357.9941pt) and (94.23535pt, -384.0059pt) .. (126.2881pt, -384.0059pt)
+                        -- (343.2529pt, -384.0059pt) .. controls (375.3047pt, -384.0059pt) and (401.3076pt, -357.9941pt) .. (401.3076pt, -325.9004pt)
+                        -- (401.3076pt, -153.7305pt) -- cycle
+                        (429.29pt, -153.7305pt) -- (429.29pt, -153.7305pt)
+                        -- (429.29pt, -325.9004pt) .. controls (429.29pt, -373.4043pt) and (390.7373pt, -411.9854pt) .. (343.2529pt, -411.9854pt)
+                        -- (126.2881pt, -411.9854pt) .. controls (78.80176pt, -411.9854pt) and (40.24902pt, -373.4043pt) .. (40.24902pt, -325.9004pt)
+                        -- (40.24902pt, -153.7305pt) .. controls (40.24902pt, -106.2275pt) and (78.80176pt, -67.7041pt) .. (126.2881pt, -67.7041pt)
+                        -- (343.2529pt, -67.7041pt) .. controls (390.7373pt, -67.7041pt) and (429.29pt, -106.2275pt) .. (429.29pt, -153.7305pt) -- cycle;
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (165.3389pt, -211.1797pt) .. controls (165.3389pt, -206.9492pt) and (163.8438pt, -203.3389pt) .. (160.8516pt, -200.3467pt)
+                        -- (160.8516pt, -200.3467pt) .. controls (157.8604pt, -197.3564pt) and (154.249pt, -195.8604pt) .. (150.0186pt, -195.8604pt)
+                        -- (150.0186pt, -195.8604pt) .. controls (145.7891pt, -195.8604pt) and (142.1787pt, -197.3564pt) .. (139.1865pt, -200.3467pt)
+                        -- (139.1865pt, -200.3467pt) .. controls (136.1953pt, -203.3389pt) and (134.6992pt, -206.9492pt) .. (134.6992pt, -211.1797pt)
+                        -- (134.6992pt, -211.1797pt) .. controls (134.6992pt, -215.4092pt) and (136.1953pt, -219.0205pt) .. (139.1865pt, -222.0127pt)
+                        -- (139.1865pt, -222.0127pt) .. controls (142.1787pt, -225.0039pt) and (145.7891pt, -226.499pt) .. (150.0186pt, -226.499pt)
+                        -- (150.0186pt, -226.499pt) .. controls (154.249pt, -226.499pt) and (157.8604pt, -225.0039pt) .. (160.8516pt, -222.0127pt)
+                        -- (160.8516pt, -222.0127pt) .. controls (163.8438pt, -219.0205pt) and (165.3389pt, -215.4092pt) .. (165.3389pt, -211.1797pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (165.3389pt, -267.7373pt) .. controls (165.3389pt, -263.5068pt) and (163.8438pt, -259.8965pt) .. (160.8516pt, -256.9043pt)
+                        -- (160.8516pt, -256.9043pt) .. controls (157.8604pt, -253.9141pt) and (154.249pt, -252.418pt) .. (150.0186pt, -252.418pt)
+                        -- (150.0186pt, -252.418pt) .. controls (145.7891pt, -252.418pt) and (142.1787pt, -253.9141pt) .. (139.1865pt, -256.9043pt)
+                        -- (139.1865pt, -256.9043pt) .. controls (136.1953pt, -259.8965pt) and (134.6992pt, -263.5068pt) .. (134.6992pt, -267.7373pt)
+                        -- (134.6992pt, -267.7373pt) .. controls (134.6992pt, -271.9668pt) and (136.1953pt, -275.5781pt) .. (139.1865pt, -278.5703pt)
+                        -- (139.1865pt, -278.5703pt) .. controls (142.1787pt, -281.5615pt) and (145.7891pt, -283.0566pt) .. (150.0186pt, -283.0566pt)
+                        -- (150.0186pt, -283.0566pt) .. controls (154.249pt, -283.0566pt) and (157.8604pt, -281.5615pt) .. (160.8516pt, -278.5703pt)
+                        -- (160.8516pt, -278.5703pt) .. controls (163.8438pt, -275.5781pt) and (165.3389pt, -271.9668pt) .. (165.3389pt, -267.7373pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (165.3389pt, -324.252pt) .. controls (165.3389pt, -320.0215pt) and (163.8438pt, -316.4111pt) .. (160.8516pt, -313.4189pt)
+                        -- (160.8516pt, -313.4189pt) .. controls (157.8604pt, -310.4287pt) and (154.249pt, -308.9326pt) .. (150.0186pt, -308.9326pt)
+                        -- (150.0186pt, -308.9326pt) .. controls (145.7891pt, -308.9326pt) and (142.1787pt, -310.4287pt) .. (139.1865pt, -313.4189pt)
+                        -- (139.1865pt, -313.4189pt) .. controls (136.1953pt, -316.4111pt) and (134.6992pt, -320.0215pt) .. (134.6992pt, -324.252pt)
+                        -- (134.6992pt, -324.252pt) .. controls (134.6992pt, -328.4814pt) and (136.1953pt, -332.0928pt) .. (139.1865pt, -335.085pt)
+                        -- (139.1865pt, -335.085pt) .. controls (142.1787pt, -338.0762pt) and (145.7891pt, -339.5713pt) .. (150.0186pt, -339.5713pt)
+                        -- (150.0186pt, -339.5713pt) .. controls (154.249pt, -339.5713pt) and (157.8604pt, -338.0762pt) .. (160.8516pt, -335.085pt)
+                        -- (160.8516pt, -335.085pt) .. controls (163.8438pt, -332.0928pt) and (165.3389pt, -328.4814pt) .. (165.3389pt, -324.252pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (221.8525pt, -211.1797pt) .. controls (221.8525pt, -206.9492pt) and (220.3574pt, -203.3389pt) .. (217.3652pt, -200.3467pt)
+                        -- (217.3652pt, -200.3467pt) .. controls (214.374pt, -197.3564pt) and (210.7627pt, -195.8604pt) .. (206.5322pt, -195.8604pt)
+                        -- (206.5322pt, -195.8604pt) .. controls (202.3027pt, -195.8604pt) and (198.6924pt, -197.3564pt) .. (195.7002pt, -200.3467pt)
+                        -- (195.7002pt, -200.3467pt) .. controls (192.709pt, -203.3389pt) and (191.2129pt, -206.9492pt) .. (191.2129pt, -211.1797pt)
+                        -- (191.2129pt, -211.1797pt) .. controls (191.2129pt, -215.4092pt) and (192.709pt, -219.0205pt) .. (195.7002pt, -222.0127pt)
+                        -- (195.7002pt, -222.0127pt) .. controls (198.6924pt, -225.0039pt) and (202.3027pt, -226.499pt) .. (206.5322pt, -226.499pt)
+                        -- (206.5322pt, -226.499pt) .. controls (210.7627pt, -226.499pt) and (214.374pt, -225.0039pt) .. (217.3652pt, -222.0127pt)
+                        -- (217.3652pt, -222.0127pt) .. controls (220.3574pt, -219.0205pt) and (221.8525pt, -215.4092pt) .. (221.8525pt, -211.1797pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (221.8525pt, -267.7373pt) .. controls (221.8525pt, -263.5068pt) and (220.3574pt, -259.8965pt) .. (217.3652pt, -256.9043pt)
+                        -- (217.3652pt, -256.9043pt) .. controls (214.374pt, -253.9141pt) and (210.7627pt, -252.418pt) .. (206.5322pt, -252.418pt)
+                        -- (206.5322pt, -252.418pt) .. controls (202.3027pt, -252.418pt) and (198.6924pt, -253.9141pt) .. (195.7002pt, -256.9043pt)
+                        -- (195.7002pt, -256.9043pt) .. controls (192.709pt, -259.8965pt) and (191.2129pt, -263.5068pt) .. (191.2129pt, -267.7373pt)
+                        -- (191.2129pt, -267.7373pt) .. controls (191.2129pt, -271.9668pt) and (192.709pt, -275.5781pt) .. (195.7002pt, -278.5703pt)
+                        -- (195.7002pt, -278.5703pt) .. controls (198.6924pt, -281.5615pt) and (202.3027pt, -283.0566pt) .. (206.5322pt, -283.0566pt)
+                        -- (206.5322pt, -283.0566pt) .. controls (210.7627pt, -283.0566pt) and (214.374pt, -281.5615pt) .. (217.3652pt, -278.5703pt)
+                        -- (217.3652pt, -278.5703pt) .. controls (220.3574pt, -275.5781pt) and (221.8525pt, -271.9668pt) .. (221.8525pt, -267.7373pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (221.8525pt, -324.252pt) .. controls (221.8525pt, -320.0215pt) and (220.3574pt, -316.4111pt) .. (217.3652pt, -313.4189pt)
+                        -- (217.3652pt, -313.4189pt) .. controls (214.374pt, -310.4287pt) and (210.7627pt, -308.9326pt) .. (206.5322pt, -308.9326pt)
+                        -- (206.5322pt, -308.9326pt) .. controls (202.3027pt, -308.9326pt) and (198.6924pt, -310.4287pt) .. (195.7002pt, -313.4189pt)
+                        -- (195.7002pt, -313.4189pt) .. controls (192.709pt, -316.4111pt) and (191.2129pt, -320.0215pt) .. (191.2129pt, -324.252pt)
+                        -- (191.2129pt, -324.252pt) .. controls (191.2129pt, -328.4814pt) and (192.709pt, -332.0928pt) .. (195.7002pt, -335.085pt)
+                        -- (195.7002pt, -335.085pt) .. controls (198.6924pt, -338.0762pt) and (202.3027pt, -339.5713pt) .. (206.5322pt, -339.5713pt)
+                        -- (206.5322pt, -339.5713pt) .. controls (210.7627pt, -339.5713pt) and (214.374pt, -338.0762pt) .. (217.3652pt, -335.085pt)
+                        -- (217.3652pt, -335.085pt) .. controls (220.3574pt, -332.0928pt) and (221.8525pt, -328.4814pt) .. (221.8525pt, -324.252pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (278.3682pt, -211.1797pt) .. controls (278.3682pt, -206.9492pt) and (276.873pt, -203.3389pt) .. (273.8809pt, -200.3467pt)
+                        -- (273.8809pt, -200.3467pt) .. controls (270.8896pt, -197.3564pt) and (267.2783pt, -195.8604pt) .. (263.0479pt, -195.8604pt)
+                        -- (263.0479pt, -195.8604pt) .. controls (258.8184pt, -195.8604pt) and (255.208pt, -197.3564pt) .. (252.2158pt, -200.3467pt)
+                        -- (252.2158pt, -200.3467pt) .. controls (249.2246pt, -203.3389pt) and (247.7285pt, -206.9492pt) .. (247.7285pt, -211.1797pt)
+                        -- (247.7285pt, -211.1797pt) .. controls (247.7285pt, -215.4092pt) and (249.2246pt, -219.0205pt) .. (252.2158pt, -222.0127pt)
+                        -- (252.2158pt, -222.0127pt) .. controls (255.208pt, -225.0039pt) and (258.8184pt, -226.499pt) .. (263.0479pt, -226.499pt)
+                        -- (263.0479pt, -226.499pt) .. controls (267.2783pt, -226.499pt) and (270.8896pt, -225.0039pt) .. (273.8809pt, -222.0127pt)
+                        -- (273.8809pt, -222.0127pt) .. controls (276.873pt, -219.0205pt) and (278.3682pt, -215.4092pt) .. (278.3682pt, -211.1797pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (278.3682pt, -267.7373pt) .. controls (278.3682pt, -263.5068pt) and (276.873pt, -259.8965pt) .. (273.8809pt, -256.9043pt)
+                        -- (273.8809pt, -256.9043pt) .. controls (270.8896pt, -253.9141pt) and (267.2783pt, -252.418pt) .. (263.0479pt, -252.418pt)
+                        -- (263.0479pt, -252.418pt) .. controls (258.8184pt, -252.418pt) and (255.208pt, -253.9141pt) .. (252.2158pt, -256.9043pt)
+                        -- (252.2158pt, -256.9043pt) .. controls (249.2246pt, -259.8965pt) and (247.7285pt, -263.5068pt) .. (247.7285pt, -267.7373pt)
+                        -- (247.7285pt, -267.7373pt) .. controls (247.7285pt, -271.9668pt) and (249.2246pt, -275.5781pt) .. (252.2158pt, -278.5703pt)
+                        -- (252.2158pt, -278.5703pt) .. controls (255.208pt, -281.5615pt) and (258.8184pt, -283.0566pt) .. (263.0479pt, -283.0566pt)
+                        -- (263.0479pt, -283.0566pt) .. controls (267.2783pt, -283.0566pt) and (270.8896pt, -281.5615pt) .. (273.8809pt, -278.5703pt)
+                        -- (273.8809pt, -278.5703pt) .. controls (276.873pt, -275.5781pt) and (278.3682pt, -271.9668pt) .. (278.3682pt, -267.7373pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (334.9248pt, -211.1797pt) .. controls (334.9248pt, -206.9492pt) and (333.4297pt, -203.3389pt) .. (330.4375pt, -200.3467pt)
+                        -- (330.4375pt, -200.3467pt) .. controls (327.4463pt, -197.3564pt) and (323.835pt, -195.8604pt) .. (319.6045pt, -195.8604pt)
+                        -- (319.6045pt, -195.8604pt) .. controls (315.375pt, -195.8604pt) and (311.7646pt, -197.3564pt) .. (308.7725pt, -200.3467pt)
+                        -- (308.7725pt, -200.3467pt) .. controls (305.7812pt, -203.3389pt) and (304.2852pt, -206.9492pt) .. (304.2852pt, -211.1797pt)
+                        -- (304.2852pt, -211.1797pt) .. controls (304.2852pt, -215.4092pt) and (305.7812pt, -219.0205pt) .. (308.7725pt, -222.0127pt)
+                        -- (308.7725pt, -222.0127pt) .. controls (311.7646pt, -225.0039pt) and (315.375pt, -226.499pt) .. (319.6045pt, -226.499pt)
+                        -- (319.6045pt, -226.499pt) .. controls (323.835pt, -226.499pt) and (327.4463pt, -225.0039pt) .. (330.4375pt, -222.0127pt)
+                        -- (330.4375pt, -222.0127pt) .. controls (333.4297pt, -219.0205pt) and (334.9248pt, -215.4092pt) .. (334.9248pt, -211.1797pt);
+                        \filldraw[\cdx@iconcolor][even odd rule]
+                        (334.9248pt, -267.7373pt) .. controls (334.9248pt, -263.5068pt) and (333.4297pt, -259.8965pt) .. (330.4375pt, -256.9043pt)
+                        -- (330.4375pt, -256.9043pt) .. controls (327.4463pt, -253.9141pt) and (323.835pt, -252.418pt) .. (319.6045pt, -252.418pt)
+                        -- (319.6045pt, -252.418pt) .. controls (315.375pt, -252.418pt) and (311.7646pt, -253.9141pt) .. (308.7725pt, -256.9043pt)
+                        -- (308.7725pt, -256.9043pt) .. controls (305.7812pt, -259.8965pt) and (304.2852pt, -263.5068pt) .. (304.2852pt, -267.7373pt)
+                        -- (304.2852pt, -267.7373pt) .. controls (304.2852pt, -271.9668pt) and (305.7812pt, -275.5781pt) .. (308.7725pt, -278.5703pt)
+                        -- (308.7725pt, -278.5703pt) .. controls (311.7646pt, -281.5615pt) and (315.375pt, -283.0566pt) .. (319.6045pt, -283.0566pt)
+                        -- (319.6045pt, -283.0566pt) .. controls (323.835pt, -283.0566pt) and (327.4463pt, -281.5615pt) .. (330.4375pt, -278.5703pt)
+                        -- (330.4375pt, -278.5703pt) .. controls (333.4297pt, -275.5781pt) and (334.9248pt, -271.9668pt) .. (334.9248pt, -267.7373pt);
+                        \filldraw[\cdx@iconcolor][nonzero rule]
+                        (64.06641pt, -93.13184pt) -- (64.06641pt, -93.13184pt)
+                        -- (405.54pt, -93.13184pt)
+                        -- (405.54pt, -160pt)
+                        -- (64.06641pt, -160pt) -- cycle;
+                        \filldraw[\cdx@iconcolor][nonzero rule]
+                        (64.06641pt, -93.13184pt) -- (64.06641pt, -93.13184pt)
+                        -- (405.54pt, -93.13184pt)
+                        -- (405.54pt, -160pt)
+                        -- (64.06641pt, -160pt) -- cycle;
+                    \end{tikzpicture}
+                }%
+                \hspace{0,09cm}%
+                \cdx@date%
+            \end{center}
+            \end{tcolorbox}
+        }
+    }
+
+    \fancypagestyle{cdx@otherpage}{
+        \fancyhead[C]{
+            %\newcounter{cdx@studentcount}%
+            \setcounter{cdx@studentcount}{0}%
+            
+            \vspace{4mm}
+            \ifx\cdx@pagestyle\cdx@fancydark
+            \color{CoDeXTextOnDark}
+            \else
+            \color{CoDeXTextOnLight}
+            \fi
+            \makebox[\textwidth]{%
+                \foreach \cdx@name/\cdx@id in \cdx@students {%
+                    \stepcounter{cdx@studentcount}%
+                    \ifnum\value{cdx@studentcount}>1%
+                    \hspace{2mm plus 1fill}%
+                    \fi%
+                    \ifx\cdx@nameheadersize\cdx@regular
+                    \textbf{\normalsize \cdx@name}\small~\cdx@id
+                    \else
+                        \ifx\cdx@nameheadersize\cdx@wide
+                        \textbf{\normalsize \cdx@name}\small,~\cdx@studentID: \cdx@id
+                        \else
+                            \ifx\cdx@nameheadersize\cdx@narrow
+                            \textbf{\normalsize \cdx@name}
+                            \else
+                                \ifx\cdx@nameheadersize\cdx@increased
+                                \textbf{\normalsize \cdx@name}\small\hspace{1.5mm}Mtrkl-Nr.\hspace{0.5mm}\cdx@id
+                                \fi
+                            \fi
+                        \fi
+                    \fi
+                }%
+            }%
+            
+            \vspace{114.62767pt}
+        }
+    }
+
+    \pagestyle{cdx@otherpage}
+
+    \renewcommand{\headrulewidth}{0pt}
+
+    \ifx\cdx@pagestyle\cdx@fancydark
+
+    \newcounter{cdx@pagecounter}
+    \setcounter{cdx@pagecounter}{0}
+
+    \newlength{\cdx@actualtopmargin}
+    \setlength{\cdx@actualtopmargin}{\dimexpr 1in + \voffset + \topmargin\relax}
+
+    \AtBeginShipout{
+        \stepcounter{cdx@pagecounter}
+
+        \ifnum\value{cdx@pagecounter}=1
+            \AddToShipoutPicture*{
+                \AtPageUpperLeft{
+                    \put(0mm,-\dimexpr\cdx@actualtopmargin+55mm\relax){%
+                        \color{CoDeXDark}\rule{\paperwidth}{\dimexpr\cdx@actualtopmargin+55mm\relax}%
+                    }%
+                }
+            }
+        \fi
+        \ifnum\value{cdx@pagecounter}>1
+            \AddToShipoutPicture*{
+                \AtPageUpperLeft{
+                    \put(0mm,-\dimexpr\cdx@actualtopmargin+14mm\relax){%
+                        \color{CoDeXDark}\rule{\paperwidth}{\dimexpr\cdx@actualtopmargin+14mm\relax}%
+                    }%
+                }
+            }
+        \fi
+    }
+
+    \fi
+
+    \AddToHook{begindocument}{
+        \vspace*{3,3cm}
+        \thispagestyle{cdx@firstpage}
+    }
+\fi
+
+\define@key{cdx@codebox}{showfile}{\def\opt@cdx@showfile{#1}}
+\define@key{cdx@codebox}{showlanguage}{\def\opt@cdx@showlanguage{#1}}
+\define@key{cdx@codebox}{filebgcolor}{\def\opt@cdx@filebgcolor{#1}}
+\define@key{cdx@codebox}{filetextcolor}{\def\opt@cdx@filetextcolor{#1}}
+\define@key{cdx@codebox}{languagebgcolor}{\def\opt@cdx@languagebgcolor{#1}}
+\define@key{cdx@codebox}{languagetextcolor}{\def\opt@cdx@languagetextcolor{#1}}
+\define@key{cdx@codebox}{codebgcolor}{\def\opt@cdx@codebgcolor{#1}}
+\define@key{cdx@codebox}{codeboxgapcolor}{\def\opt@cdx@codeboxgapcolor{#1}}
+\define@key{cdx@codebox}{codeboxgapsize}{\def\opt@cdx@codeboxgapsize{#1}}
+\define@key{cdx@codebox}{codestyle}{\def\opt@cdx@codestyle{#1}}
+\define@key{cdx@codebox}{breakable}{\def\opt@cdx@breakable{#1}}
+
+\def\opt@cdx@showfile{true}%
+\def\opt@cdx@showlanguage{true}%
+\def\opt@cdx@filebgcolor{CoDeXDark}%
+\def\opt@cdx@filetextcolor{CoDeXTextOnDark}%
+\def\opt@cdx@languagebgcolor{CoDeXExtraDark}%
+\def\opt@cdx@languagetextcolor{CoDeXAccentSecondary}%
+\def\opt@cdx@codebgcolor{CoDeXDark}%
+\def\opt@cdx@codeboxgapcolor{CoDeXAccentPrimary}%
+\def\opt@cdx@codeboxgapsize{0.15cm}%
+\def\opt@cdx@codestyle{dark}%
+\def\opt@cdx@breakable{true}%
+
+\newenvironment{cdxcodebox}[3][]{%
+  \setkeys{cdx@codebox}{#1}%
+
+  \VerbatimEnvironment
+  \def\cdx@codeboxfilename{\jobname.cdxcodeboxtmp}%
+  \def\cdx@codeboxtitle{#2}%
+  \def\cdx@codeboxlanguage{#3}%
+
+  \begingroup
+  \edef\x{\endgroup
+    \lowercase{\def\noexpand\cdx@codeboxlanguagelowercase{\cdx@codeboxlanguage}}%
+  }%
+  \x
+  
+  \ifthenelse{\equal{\opt@cdx@codestyle}{dark}}{%
+    \def\cdx@codeboxtextcolor{CoDeXTextOnDark}%
+  }{%
+    \def\cdx@codeboxtextcolor{CoDeXTextOnLight}%
+  }%
+  
+  \ifthenelse{\equal{\opt@cdx@showfile}{true}}{%
+    \needspace{2.4cm}%
+  }{%
+      \nointerlineskip
+  }%
+
+  \begin{center}%
+
+    \ifthenelse{\equal{\opt@cdx@showfile}{true}}{%
+        \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@filebgcolor, coltext=\opt@cdx@filetextcolor, arc=5.5pt, 
+                          fontupper=\ttfamily, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                          overlay={%
+            \ifthenelse{\equal{\opt@cdx@showlanguage}{true}}{%
+                \node (overlaytext) [anchor=east, \opt@cdx@languagetextcolor, fill opacity=0.0, font=\ttfamily\footnotesize] at
+                    ($(frame.east)+(-0.4cm,-0.0cm)$) {\cdx@codeboxlanguage};
+        
+                \fill[rounded corners=3.5pt, \opt@cdx@languagebgcolor, fill opacity=1] 
+                    ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                    rectangle
+                    ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+        
+                \node[anchor=east, \opt@cdx@languagetextcolor, font=\ttfamily\footnotesize] at 
+                    ($(frame.east)+(-0.4cm,-0.0cm)$) {\cdx@codeboxlanguage};
+            }{}%
+          }]%
+          \cdx@codeboxtitle%
+        \end{tcolorbox}%
+    
+        \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@codeboxgapcolor, arc=0pt, height=\opt@cdx@codeboxgapsize, 
+                          width=\textwidth-3mm, before skip=0mm, after skip=0mm]%
+        \end{tcolorbox}%
+    }{}%
+
+    \begin{VerbatimOut}{\cdx@codeboxfilename}%
+}{%
+    \end{VerbatimOut}%
+    
+    \begin{tcolorbox}[breakable=\opt@cdx@breakable, boxrule=0pt, colback=\opt@cdx@codebgcolor, coltext=\cdx@codeboxtextcolor, colframe=\cdx@codeboxtextcolor, arc=5.5pt, before skip=0mm, enhanced, 
+                          overlay={%
+            \ifthenelse{\equal{\opt@cdx@showfile}{false}}{%
+                \ifthenelse{\equal{\opt@cdx@showlanguage}{true}}{%
+                    \node (overlaytext) [anchor=north east, \opt@cdx@languagetextcolor, fill opacity=0.0, font=\ttfamily\footnotesize] at
+                        ($(frame.north east)+(-0.4cm,-0.1cm)$) {\cdx@codeboxlanguage};
+            
+                    \fill[rounded corners=3.5pt, \opt@cdx@languagebgcolor, fill opacity=1] 
+                        ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+            
+                    \node[anchor=north east, \opt@cdx@languagetextcolor, font=\ttfamily\footnotesize] at 
+                        ($(frame.north east)+(-0.4cm,-0.1cm)$) {\cdx@codeboxlanguage};
+                }{}%
+            }{}%
+          }]%
+          \ifthenelse{\equal{\opt@cdx@codestyle}{dark}}{
+              \lstinputlisting[style=cdx@codestyledark, language=\cdx@codeboxlanguagelowercase, escapechar=§]{\cdx@codeboxfilename}
+          }{
+              \lstinputlisting[style=cdx@codestylelight, language=\cdx@codeboxlanguagelowercase, escapechar=§]{\cdx@codeboxfilename}
+          }
+          
+    \end{tcolorbox}%
+
+  \end{center}%
+}
+
+
+\define@key{cdx@designbox}{title}{\def\opt@cdx@title{#1}}
+\define@key{cdx@designbox}{overlaytitle}{\def\opt@cdx@overlaytitle{#1}}
+\define@key{cdx@designbox}{overlaypos}{\def\opt@cdx@overlaypos{#1}}
+\define@key{cdx@designbox}{showtitle}{\def\opt@cdx@showtitle{#1}}
+\define@key{cdx@designbox}{showoverlaytitle}{\def\opt@cdx@showoverlaytitle{#1}}
+\define@key{cdx@designbox}{titlebgcolor}{\def\opt@cdx@titlebgcolor{#1}}
+\define@key{cdx@designbox}{titletextcolor}{\def\opt@cdx@titletextcolor{#1}}
+\define@key{cdx@designbox}{overlaytitlebgcolor}{\def\opt@cdx@overlaytitlebgcolor{#1}}
+\define@key{cdx@designbox}{overlaytitletextcolor}{\def\opt@cdx@overlaytitletextcolor{#1}}
+\define@key{cdx@designbox}{titleborder}{\def\opt@cdx@titleborder{#1}}
+\define@key{cdx@designbox}{titlebordercolor}{\def\opt@cdx@titlebordercolor{#1}}
+\define@key{cdx@designbox}{titlebordergapcolor}{\def\opt@cdx@titlebordergapcolor{#1}}
+\define@key{cdx@designbox}{showbody}{\def\opt@cdx@showbody{#1}}
+\define@key{cdx@designbox}{bodybgcolor}{\def\opt@cdx@bodybgcolor{#1}}
+\define@key{cdx@designbox}{bodytextcolor}{\def\opt@cdx@bodytextcolor{#1}}
+\define@key{cdx@designbox}{bodyborder}{\def\opt@cdx@bodyborder{#1}}
+\define@key{cdx@designbox}{bodybordercolor}{\def\opt@cdx@bodybordercolor{#1}}
+\define@key{cdx@designbox}{bodybordergapcolor}{\def\opt@cdx@bodybordergapcolor{#1}}
+\define@key{cdx@designbox}{textboxgapcolor}{\def\opt@cdx@designboxgapcolor{#1}}
+\define@key{cdx@designbox}{textboxgapsize}{\def\opt@cdx@designboxgapsize{#1}}
+\define@key{cdx@designbox}{showgrid}{\def\opt@cdx@showgrid{#1}}
+\define@key{cdx@designbox}{gridcolor}{\def\opt@cdx@gridcolor{#1}}
+\define@key{cdx@designbox}{showleftline}{\def\opt@cdx@showleftline{#1}}
+\define@key{cdx@designbox}{leftlinecolor}{\def\opt@cdx@leftlinecolor{#1}}
+
+\def\opt@cdx@title{Default Title}%
+\def\opt@cdx@overlaytitle{Overlay Title}%
+\def\opt@cdx@overlaypos{middle}%
+\def\opt@cdx@showtitle{true}%
+\def\opt@cdx@showoverlaytitle{false}%
+\def\opt@cdx@titlebgcolor{CoDeXAccentPrimary}%
+\def\opt@cdx@titletextcolor{CoDeXTextOnPrimaryAccent}%
+\def\opt@cdx@overlaytitlebgcolor{CoDeXAccentPrimaryLight}%
+\def\opt@cdx@overlaytitletextcolor{CoDeXTextOnPrimaryAccent}%
+\def\opt@cdx@titleborder{none}%
+\def\opt@cdx@titlebordercolor{CoDeXDark}%
+\def\opt@cdx@titlebordergapcolor{transparent}%
+\def\opt@cdx@showbody{true}%
+\def\opt@cdx@bodybgcolor{CoDeXExtraLight}%
+\def\opt@cdx@bodytextcolor{CoDeXTextOnLight}%
+\def\opt@cdx@bodyborder{none}%
+\def\opt@cdx@bodybordercolor{CoDeXDark}%
+\def\opt@cdx@bodybordergapcolor{transparent}%
+\def\opt@cdx@designboxgapcolor{white}%
+\def\opt@cdx@designboxgapsize{0.15cm}%
+\def\opt@cdx@showgrid{false}%
+\def\opt@cdx@gridcolor{CoDeXLight}%
+\def\opt@cdx@showleftline{false}%
+\def\opt@cdx@leftlinecolor{CoDeXAccentPrimary}%
+
+
+\pgfdeclarepatternformonly{cdx@biggrid}
+  {\pgfqpoint{0pt}{0pt}}
+  {\pgfqpoint{10pt}{10pt}}
+  {\pgfqpoint{10pt}{10pt}}
+  {%
+    \pgfsetlinewidth{2pt}
+    \pgfpathmoveto{\pgfqpoint{-2pt}{0pt}}
+    \pgfpathlineto{\pgfqpoint{12pt}{0pt}}
+    \pgfpathmoveto{\pgfqpoint{0pt}{-2pt}}
+    \pgfpathlineto{\pgfqpoint{0pt}{12pt}}
+    \pgfusepath{stroke}
+  }
+
+\NewEnviron{cdxtextbox}[1][]{%
+    \setkeys{cdx@designbox}{#1}
+
+    \def\cdx@overlaytitlecontent{
+        \ifthenelse{\equal{\opt@cdx@showoverlaytitle}{true}}{%
+            \ifthenelse{\equal{\opt@cdx@overlaypos}{middle}}{%
+                {%
+                    \node (overlaytext) [\opt@cdx@overlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                    ($(frame.north east)!.5!(frame.north west)+(0cm,-0.35cm)$) {\opt@cdx@overlaytitle};
+
+                    \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+                        \fill[rounded corners=3.5pt, \opt@cdx@overlaytitlebgcolor, fill opacity=1]
+                        ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+                    }{
+                        \fill[rounded corners=3.5pt, \opt@cdx@overlaytitlebgcolor, fill opacity=1]
+                        ($(overlaytext.east) + (0.3cm, -0.22cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.22cm)$);
+                    }
+
+                    \node[\opt@cdx@overlaytitletextcolor, font=\bfseries\footnotesize] at
+                    ($(frame.north east)!.5!(frame.north west)+(0cm,-0.37 cm)$) {\opt@cdx@overlaytitle};
+                }
+            }{
+                {%
+                    \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+                        \node (overlaytext) [anchor=east, \opt@cdx@overlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                        ($(frame.east)+(-0.40cm,-0.0cm)$) {\opt@cdx@overlaytitle};
+                    }{
+                        \node (overlaytext) [anchor=east, \opt@cdx@overlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                        ($(frame.east)+(-0.43cm,-0.0cm)$) {\opt@cdx@overlaytitle};
+                    }
+
+                    \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+                        \fill[rounded corners=3.5pt, \opt@cdx@overlaytitlebgcolor, fill opacity=1] 
+                        ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+                    }{
+                        \fill[rounded corners=3.5pt, \opt@cdx@overlaytitlebgcolor, fill opacity=1] 
+                        ($(overlaytext.east) + (0.3cm, -0.22cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.22cm)$);
+                    }
+
+                    \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+                        \node[anchor=east, \opt@cdx@overlaytitletextcolor, font=\bfseries\footnotesize] at 
+                        ($(frame.east)+(-0.40cm,-0.0cm)$) {\opt@cdx@overlaytitle};
+                    }{
+                        \node[anchor=east, \opt@cdx@overlaytitletextcolor, font=\bfseries\footnotesize] at 
+                        ($(frame.east)+(-0.43cm,-0.0cm)$) {\opt@cdx@overlaytitle};
+                    }
+                }
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\cdx@overlaygridcontent{
+        \ifthenelse{\equal{\opt@cdx@showgrid}{true}}{%
+            {%
+            \begin{scope}
+                \clip [rounded corners=5.5pt] (interior.south west) rectangle (interior.north east);
+                \fill[pattern=cdx@biggrid, pattern color=\opt@cdx@gridcolor] 
+                (interior.south west) rectangle (interior.north east);
+            \end{scope}
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\cdx@overlayleftline{
+        \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+            {%
+                \fill[\opt@cdx@leftlinecolor]
+                ($(frame.south west) + (0.0cm,0.0cm)$)
+                rectangle
+                ($(frame.north west) + (0.12cm,0.7cm) + (0.0cm,\opt@cdx@designboxgapsize)$);
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\cdx@overlaybodycontent{
+        \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+            \cdx@overlayleftline
+        }{
+            \ifthenelse{\equal{\opt@cdx@showgrid}{true}}{%
+                \cdx@overlaygridcontent
+            }{}
+        }
+    }
+    
+    \ifthenelse{\equal{\opt@cdx@showtitle}{true}}{%
+        \ifthenelse{\equal{\opt@cdx@showbody}{true}}{%
+            \needspace{2.4cm}%
+        }{}
+    }{}
+
+    \begin{center}%
+
+    \ifthenelse{\equal{\opt@cdx@showtitle}{true}}{%
+        \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+            \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                    fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                    overlay=\cdx@overlaytitlecontent, sharp corners=west]%
+            }{
+                \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                    fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                    overlay=\cdx@overlaytitlecontent]%
+            }
+        }{%
+            \ifthenelse{\equal{\opt@cdx@titleborder}{dashed}}{%
+                \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@titlebordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opt@cdx@titlebordercolor},
+                        overlay=\cdx@overlaytitlecontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@titlebordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opt@cdx@titlebordercolor},
+                        overlay=\cdx@overlaytitlecontent]%
+                }
+            }{%
+                \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@titlebordercolor},
+                        overlay=\cdx@overlaytitlecontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@titlebordercolor},
+                        overlay=\cdx@overlaytitlecontent]%
+                }
+            }
+        }
+            \opt@cdx@title%
+        \end{tcolorbox}%
+
+        \ifthenelse{\equal{\opt@cdx@showbody}{true}}{%
+            \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@designboxgapcolor, arc=0pt, height=\opt@cdx@designboxgapsize,
+                              width=\textwidth-3mm, before skip=0mm, after skip=0mm]%
+            \end{tcolorbox}%
+        }{}
+    }{}
+
+    \ifthenelse{\equal{\opt@cdx@showbody}{true}}{%
+
+        \ifthenelse{\equal{\opt@cdx@bodyborder}{none}}{%
+            \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt,
+                    before skip=0mm, enhanced, boxrule=0pt,
+                    overlay=\cdx@overlaybodycontent, sharp corners=west]%
+            }{
+                \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt,
+                    before skip=0mm, enhanced, boxrule=0pt,
+                    overlay=\cdx@overlaybodycontent]%
+            }
+        }{%
+            \ifthenelse{\equal{\opt@cdx@bodyborder}{dashed}}{%
+                \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                    \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt, 
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@bodybordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opt@cdx@bodybordercolor},
+                        overlay=\cdx@overlaybodycontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt, 
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@bodybordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opt@cdx@bodybordercolor},
+                        overlay=\cdx@overlaybodycontent]%
+                }
+            }{%
+                \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                    \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt,
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@bodybordercolor},
+                        overlay=\cdx@overlaybodycontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt,
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@bodybordercolor},
+                        overlay=\cdx@overlaybodycontent]%
+                }
+            }
+        }
+            \BODY
+        \end{tcolorbox}
+    }{}
+
+    \end{center}
+}
+
+\makeatother
+
+\endinput
