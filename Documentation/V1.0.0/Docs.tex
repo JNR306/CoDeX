@@ -1,0 +1,3019 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[pagestyle=fancydark, date={1.5.2025}]{CoDeX-Docs}
+\usepackage{fontspec}
+\usepackage{adjustbox}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{amssymb}
+
+%\setmonofont[
+%  Path = ./fonts/,
+%  UprightFont = *-Regular,
+%  ItalicFont = *-Italic,
+%  BoldFont = *-Bold,
+%  Scale=0.83
+%]{JetBrainsMono}
+
+\newtcbox{\highlighted}[2]{
+    enhanced,
+    on line, 
+    boxrule=0pt, 
+    boxsep=0pt, 
+    coltext=#1,
+    colback=#2,
+    arc=3.5pt,
+    top=2pt, 
+    left=4pt,
+    bottom=2pt, 
+    right=4pt,
+    fontupper={\ttfamily\rule[-0.1em]{0pt}{0.75em}}
+}
+
+\newcommand{\roundedpdfpage}[3]{%
+  \begin{tikzpicture}
+    \clip[inner sep=0pt, rounded corners=10pt] (0,0) rectangle (\linewidth, \linewidth);
+    \node[inner sep=0pt, outer sep=0pt, anchor=south west] at (0,0) {
+      \includegraphics[page=#1, width=#2]{#3.pdf}
+    };
+    \draw[inner sep=3pt, rounded corners=10pt, line width=5pt, CoDeXExtraLight] (0,0) rectangle (\linewidth, \linewidth);
+  \end{tikzpicture}%
+}
+
+\newcommand{\roundedpdfhalfpage}[3]{%
+  \begin{tikzpicture}
+    \clip[inner sep=0pt, rounded corners=10pt] (0,0) rectangle (\linewidth, 0.5\linewidth);
+    \node[inner sep=0pt, outer sep=0pt, anchor=south west] at (0,-0.49\linewidth) {
+      \includegraphics[page=#1, width=#2]{#3.pdf}
+    };
+    \draw[inner sep=3pt, rounded corners=10pt, line width=5pt, CoDeXExtraLight] (0,0) rectangle (\linewidth, 0.5\linewidth);
+  \end{tikzpicture}%
+}
+
+\begin{document}
+
+\section*{Colors}
+
+The following colors are all predefined by the CoDeX package. But they can all be globally redefinded for an entire document. See package options.
+
+\subsection*{Neutral colors:}
+
+These colors should mostly be used as background colors.
+
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXExtraDark, bodytextcolor=CoDeXTextOnDark]
+    \subsubsection*{\texttt{CoDeXExtraDark}\hfill \textnormal{\small\highlighted{CoDeXExtraDark}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{\#131313}}}}}}
+\end{cdxtextbox}
+\vspace{-4.5mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXDark, bodytextcolor=CoDeXTextOnDark]
+    \subsubsection*{\texttt{CoDeXDark}\hfill \textnormal{\small\highlighted{CoDeXDark}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{\#2A2734}}}}}}
+\end{cdxtextbox}
+\vspace{-6mm}
+\begin{center}
+\tikz{\draw[dotted, line width=2.2pt, CoDeXLight] (0,0) -- (15.5,0);}%
+\end{center}
+\vspace{-4mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXLight, bodytextcolor=CoDeXTextOnLight]
+    \subsubsection*{\texttt{CoDeXLight}\hfill \textnormal{\small\highlighted{CoDeXLight}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{\#E6E6E6}}}}}}
+\end{cdxtextbox}
+\vspace{-4.5mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXExtraLight, bodytextcolor=CoDeXTextOnLight]
+    \subsubsection*{\texttt{CoDeXExtraLight}\hfill \textnormal{\small\highlighted{CoDeXExtraLight}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{\#F2F2F2}}}}}}
+\end{cdxtextbox}
+
+\subsection*{Accent colors:}
+
+These colors should only be used as colorful accents and highlights. Use them sparingly.
+
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimaryLight, bodytextcolor=CoDeXTextOnPrimaryAccentLight]
+    \subsubsection*{\texttt{CoDeXAccentPrimaryLight}\hfill \textnormal{\small\highlighted{CoDeXAccentPrimaryLight}{CoDeXTextOnPrimaryAccentLight}{\textnormal{\small\texttt{\textit{\#FFD7AF}}}}}}
+\end{cdxtextbox}
+\vspace{-4.5mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimary, bodytextcolor=CoDeXTextOnPrimaryAccent]
+    \subsubsection*{\texttt{CoDeXAccentPrimary}\hfill \textnormal{\small\highlighted{CoDeXAccentPrimary}{CoDeXTextOnPrimaryAccent}{\textnormal{\small\texttt{\textit{\#FFC78F}}}}}}
+\end{cdxtextbox}
+\vspace{-4.5mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimaryDark, bodytextcolor=CoDeXTextOnPrimaryAccentDark]
+    \subsubsection*{\texttt{CoDeXAccentPrimaryDark}\hfill \textnormal{\small\highlighted{CoDeXAccentPrimaryDark}{CoDeXTextOnPrimaryAccentDark}{\textnormal{\small\texttt{\textit{\#A76625}}}}}}
+\end{cdxtextbox}
+\vspace{-6mm}
+\begin{center}
+\tikz{\draw[dotted, line width=2.2pt, CoDeXLight] (0,0) -- (15.5,0);}%
+\end{center}
+\vspace{-4mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondaryLight, bodytextcolor=CoDeXTextOnSecondaryAccentLight]
+    \subsubsection*{\texttt{CoDeXAccentSecondaryLight}\hfill \textnormal{\small\highlighted{CoDeXAccentSecondaryLight}{CoDeXTextOnSecondaryAccentLight}{\textnormal{\small\texttt{\textit{\#EEEBFF}}}}}}
+\end{cdxtextbox}
+\vspace{-4.5mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondary, bodytextcolor=CoDeXTextOnSecondaryAccent]
+    \subsubsection*{\texttt{CoDeXAccentSecondary}\hfill \textnormal{\small\highlighted{CoDeXAccentSecondary}{CoDeXTextOnSecondaryAccent}{\textnormal{\small\texttt{\textit{\#ADA5C8}}}}}}
+\end{cdxtextbox}
+\vspace{-4.5mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondaryDark, bodytextcolor=CoDeXTextOnSecondaryAccentDark]
+    \subsubsection*{\texttt{CoDeXAccentSecondaryDark}\hfill \textnormal{\small\highlighted{CoDeXAccentSecondaryDark}{CoDeXTextOnSecondaryAccentDark}{\textnormal{\small\texttt{\textit{\#665B89}}}}}}
+\end{cdxtextbox}
+\vspace{-6mm}
+\begin{center}
+\tikz{\draw[dotted, line width=2.2pt, CoDeXLight] (0,0) -- (15.5,0);}%
+\end{center}
+\vspace{-4mm}
+\newpage
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiaryLight, bodytextcolor=CoDeXTextOnTertiaryAccentLight]
+    \subsubsection*{\texttt{CoDeXAccentTertiaryLight}\hfill \textnormal{\small\highlighted{CoDeXAccentTertiaryLight}{CoDeXTextOnTertiaryAccentLight}{\textnormal{\small\texttt{\textit{\#B5E7FF}}}}}}
+\end{cdxtextbox}
+\vspace{-4.5mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+    \subsubsection*{\texttt{CoDeXAccentTertiary}\hfill \textnormal{\small\highlighted{CoDeXAccentTertiary}{CoDeXTextOnTertiaryAccent}{\textnormal{\small\texttt{\textit{\#59ABFF}}}}}}
+\end{cdxtextbox}
+\vspace{-4.5mm}
+\begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiaryDark, bodytextcolor=CoDeXTextOnTertiaryAccentDark]
+    \subsubsection*{\texttt{CoDeXAccentTertiaryDark}\hfill \textnormal{\small\highlighted{CoDeXAccentTertiaryDark}{CoDeXTextOnTertiaryAccentDark}{\textnormal{\small\texttt{\textit{\#3577D7}}}}}}
+\end{cdxtextbox}
+
+\subsection*{Text colors:}
+
+These colors should only be used for text that is layered on top of the defined background or accent colors. If you redefine them, keep contrast in mind so that the text will still be legible. In order for the global redefinition of colors to work, you should alwys use the appropriate text color and not color values like white or black because they will not be updated dynamically.\\
+
+\noindent\textbf{\textit{Color value\hfill Example usage}}
+
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnDark, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \subsubsection*{\texttt{CoDeXTextOnDark}\hfill \textnormal{\small\highlighted{CoDeXTextOnDark}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{\#FFFFFF}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\adjustbox{clip,trim=0.0\width{} 0pt {.5\width} 0pt}{%
+    \begin{minipage}[t]{0.225\textwidth}
+        \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXExtraDark, bodytextcolor=CoDeXTextOnDark]
+            \vspace{0.5mm}
+            \textbf{XXXXXXXXXX}
+            \vspace{-3.7mm}
+        \end{cdxtextbox}
+    \end{minipage}%
+}%
+\adjustbox{clip,trim={.5\width} 0pt 0pt 0pt}{%
+    \begin{minipage}[t]{0.225\textwidth}
+        \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXDark, bodytextcolor=CoDeXTextOnDark]
+            \vspace{0.5mm}
+            \textbf{XXXXXXXXXX}
+            \vspace{-3.7mm}
+        \end{cdxtextbox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnLight, bodytextcolor=CoDeXTextOnDark]
+        \subsubsection*{\texttt{CoDeXTextOnLight}\hfill \textnormal{\small\highlighted{CoDeXTextOnLight}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{\#000000}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\adjustbox{clip,trim=0.0\width{} 0pt {.5\width} 0pt}{%
+    \begin{minipage}[t]{0.225\textwidth}
+        \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXLight, bodytextcolor=CoDeXTextOnLight]
+            \vspace{0.5mm}
+            \textbf{XXXXXXXXXX}
+            \vspace{-3.7mm}
+        \end{cdxtextbox}
+    \end{minipage}%
+}%
+\adjustbox{clip,trim={.5\width} 0pt 0pt 0pt}{%
+    \begin{minipage}[t]{0.225\textwidth}
+        \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXExtraLight, bodytextcolor=CoDeXTextOnLight]
+            \vspace{0.5mm}
+            \textbf{XXXXXXXXXX}
+            \vspace{-3.7mm}
+        \end{cdxtextbox}
+    \end{minipage}%
+}%
+\begin{center}
+\tikz{\draw[dotted, line width=2.2pt, CoDeXLight] (0,0) -- (15.5,0);}%
+\end{center}
+\vspace{-4mm}
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnPrimaryAccentLight, bodytextcolor=CoDeXTextOnDark]
+        \subsubsection*{\texttt{CoDeXTextOnPrimaryAccentLight}\hfill \textnormal{\small\highlighted{CoDeXTextOnPrimaryAccentLight}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{\#2A2734}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimaryLight, bodytextcolor=CoDeXTextOnPrimaryAccentLight]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+\vspace{2mm}\\
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnPrimaryAccent, bodytextcolor=CoDeXTextOnDark]
+        \subsubsection*{\texttt{CoDeXTextOnPrimaryAccent}\hfill \textnormal{\small\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{\#2A2734}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimary, bodytextcolor=CoDeXTextOnPrimaryAccent]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+\vspace{2mm}\\
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnPrimaryAccentDark, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \subsubsection*{\texttt{CoDeXTextOnPrimaryAccentDark}\hfill \textnormal{\small\highlighted{CoDeXTextOnPrimaryAccentDark}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{\#FFFFFF}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimaryDark, bodytextcolor=CoDeXTextOnPrimaryAccentDark]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+\begin{center}
+\tikz{\draw[dotted, line width=2.2pt, CoDeXLight] (0,0) -- (15.5,0);}%
+\end{center}
+\vspace{-4mm}
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnSecondaryAccentLight, bodytextcolor=CoDeXTextOnDark]
+        \subsubsection*{\texttt{CoDeXTextOnSecondaryAccentLight}\hfill \textnormal{\small\highlighted{CoDeXTextOnSecondaryAccentLight}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{\#2A2734}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondaryLight, bodytextcolor=CoDeXTextOnSecondaryAccentLight]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+\vspace{2mm}\\
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnSecondaryAccent, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \subsubsection*{\texttt{CoDeXTextOnSecondaryAccent}\hfill \textnormal{\small\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{\#FFFFFF}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondary, bodytextcolor=CoDeXTextOnSecondaryAccent]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+\vspace{2mm}\\
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnSecondaryAccentDark, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \subsubsection*{\texttt{CoDeXTextOnSecondaryAccentDark}\hfill \textnormal{\small\highlighted{CoDeXTextOnSecondaryAccentDark}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{\#FFFFFF}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondaryDark, bodytextcolor=CoDeXTextOnSecondaryAccentDark]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+\begin{center}
+\tikz{\draw[dotted, line width=2.2pt, CoDeXLight] (0,0) -- (15.5,0);}%
+\end{center}
+\vspace{-4mm}
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnTertiaryAccentLight, bodytextcolor=CoDeXTextOnDark]
+        \subsubsection*{\texttt{CoDeXTextOnTertiaryAccentLight}\hfill \textnormal{\small\highlighted{CoDeXTextOnTertiaryAccentLight}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{\#2A2734}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiaryLight, bodytextcolor=CoDeXTextOnTertiaryAccentLight]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+\vspace{2mm}\\
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnTertiaryAccent, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \subsubsection*{\texttt{CoDeXTextOnTertiaryAccent}\hfill \textnormal{\small\highlighted{CoDeXTextOnTertiaryAccent}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{\#FFFFFF}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+\vspace{2mm}\\
+\noindent
+\begin{minipage}[t]{0.76\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnTertiaryAccentDark, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \subsubsection*{\texttt{CoDeXTextOnTertiaryAccentDark}\hfill \textnormal{\small\highlighted{CoDeXTextOnTertiaryAccentDark}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{\#FFFFFF}}}}}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.225\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiaryDark, bodytextcolor=CoDeXTextOnTertiaryAccentDark]
+        \vspace{0.5mm}
+        \textbf{XXXXXXXXXX}
+        \vspace{-3.7mm}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\newpage
+
+\section*{Document settings}
+
+These settings will change certain aspects of the current document. They will need to be set when CoDeX is imported with the \texttt{\textbackslash usepackage\{CoDeX\}} command.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} These settings can currently not be changed dynamically within the document or on a page-to-page basis.}
+\end{tcolorbox}
+
+\subsection*{Default settings/package import:}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.49\textwidth}
+  \roundedpdfpage{1}{\linewidth}{images/CoDeX_PageSettingExample3}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+  \roundedpdfpage{2}{\linewidth}{images/CoDeX_PageSettingExample3}
+\end{minipage}
+\end{center}
+
+% ALTERNATIVE SMALL PREVIEW
+% -------------------------
+%\vspace{-8mm}
+%\noindent
+%\adjustbox{valign=c, width=0.49\textwidth}{%
+%    \begin{minipage}[t]{0.49\textwidth}
+%        \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+%\usepackage{CoDeX}
+%        \end{cdxcodebox}
+%    \end{minipage}%
+%}
+%\hfill
+%\adjustbox{valign=c, width=0.49\textwidth}{%
+%    \begin{minipage}[t]{0.6\textwidth}
+%        \begin{center}
+%        \begin{minipage}[t]{0.49\textwidth}
+%          \roundedpdfpage{1}{\linewidth}{images/CoDeX_PageSettingExample3}
+%        \end{minipage}
+%        \hfill
+%        \begin{minipage}[t]{0.49\textwidth}
+%          \roundedpdfpage{2}{\linewidth}{images/CoDeX_PageSettingExample3}
+%        \end{minipage}
+%        \end{center}
+%    \end{minipage}%
+%}%
+%\vspace{-6mm}
+
+\subsubsection*{Equivalent settings with explicitly set options:}
+
+\noindent
+\adjustbox{valign=c, width=1.0\textwidth}{%
+    \begin{minipage}[t]{1.2\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=none, title={Homework sheet 1}, nameheadersize=regular, group={Group 1}, 
+     date={\the\day.\,\the\month.\,\the\year}, students={Adrian Blake/553731, Charles Randall/740995, 
+     Zoe Rutherford/331445}, extradark=131313, dark=A2734, light=E6E6E6, extralight=F2F2F2, accentprimarylight=FFD7AF, 
+     accentprimary=FFC78F, accentprimarydark=A76625, accentsecondarylight=EEEBFF, accentsecondary=ADA5C8, 
+     accentsecondarydark=665B89, accenttertiarylight=B5E7FF, accenttertiary=59ABFF, accenttertiarydark=3577D7, 
+     textondark=FFFFFF, textonlight=000000, textonprimaryaccentlight=2A2734, textonprimaryaccent=2A2734, 
+     textonprimaryaccentdark=FFFFFF, textonsecondaryaccentlight=2A2734, textonsecondaryaccent=FFFFFF, 
+     textonsecondaryaccentdark=FFFFFF, textontertiaryaccentlight=2A2734, textontertiaryaccent=FFFFFF, 
+     textontertiaryaccentdark=FFFFFF]{CoDeX}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+
+\subsection*{Page customization:}
+
+The following settings change the appearance and text of the header and footer that are provided by the package. They will only be changed for the current document.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentTertiary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Roadmap:} We will expand the customization options in the future greatly. Because at the moment we need a specialised package for the headers in this documentation, which is not optimal.}
+\end{tcolorbox}
+
+\newpage
+
+\subsubsection*{\texttt{pagestyle}~-~%
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{none}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{fancydark}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{fancylight}}}
+    \hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{none}}}}}}
+
+This option changes the header and footer style with two presets. A dark version and a light version. And of course, the option to disable a header and footer style with \texttt{none}.
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=none]{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.49\textwidth}
+  \roundedpdfpage{1}{\linewidth}{images/CoDeX_PageSettingExample3}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+  \roundedpdfpage{2}{\linewidth}{images/CoDeX_PageSettingExample3}
+\end{minipage}
+\end{center}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancydark]{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.49\textwidth}
+  \roundedpdfpage{1}{\linewidth}{images/CoDeX_PageSettingExample1}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+  \roundedpdfpage{2}{\linewidth}{images/CoDeX_PageSettingExample1}
+\end{minipage}
+\end{center}
+
+\newpage
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancylight]{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.49\textwidth}
+  \roundedpdfpage{1}{\linewidth}{images/CoDeX_PageSettingExample2}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+  \roundedpdfpage{2}{\linewidth}{images/CoDeX_PageSettingExample2}
+\end{minipage}
+\end{center}
+
+\subsubsection*{\texttt{title}~-~%
+    \highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{text}}}
+    \hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{Homework sheet 1}}}}}}
+
+This option changes the title of the header.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The header title is only shown if the option \texttt{pagestyle} is either set to \texttt{fancydark} or \texttt{fancylight}. Keep in mind that you need to use these \texttt{\{\}} brackets around your text if it contains whitespace.}
+\end{tcolorbox}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancydark, title={Lorem ipsum}]{CoDeX}
+\end{cdxcodebox}
+
+%\begin{center}
+%\begin{minipage}[t]{0.49\textwidth}
+%  \roundedpdfhalfpage{1}{\linewidth}{images/CoDeX_PageSettingExample4}
+%\end{minipage}
+%\hfill
+%\begin{minipage}[t]{0.49\textwidth}
+%  \roundedpdfhalfpage{2}{\linewidth}{images/CoDeX_PageSettingExample4}
+%\end{minipage}
+%\end{center}
+
+\begin{center}
+\begin{minipage}[t]{0.7\textwidth}
+  \roundedpdfhalfpage{1}{\linewidth}{images/CoDeX_PageSettingExample4}
+\end{minipage}
+\end{center}
+
+\newpage
+
+\subsubsection*{\texttt{group}~-~%
+    \highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{text}}}
+    \hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{Group 1}}}}}}
+
+This option changes the group name field of the header.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The header group name field is only shown if the option \texttt{pagestyle} is either set to \texttt{fancydark} or \texttt{fancylight}. Keep in mind that you need to use these \texttt{\{\}} brackets around your text if it contains whitespace.}
+\end{tcolorbox}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancydark, group={Lorem ipsum}]{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.7\textwidth}
+  \roundedpdfhalfpage{1}{\linewidth}{images/CoDeX_PageSettingExample5}
+\end{minipage}
+\end{center}
+
+\subsubsection*{\texttt{date}~-~%
+    \highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{text}}}
+    \hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{today}}}}}}
+
+This option changes the date field of the header.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The header date field is only shown if the option \texttt{pagestyle} is either set to \texttt{fancydark} or \texttt{fancylight}. Keep in mind that you need to use these \texttt{\{\}} brackets around your text if it contains whitespace.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentPrimary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Note:} The default value is changing dynamically to represent the day you compiled your document. It is displayed in DD.MM.YYYY.}
+\end{tcolorbox}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancydark, date={Lorem ipsum}]{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.7\textwidth}
+  \roundedpdfhalfpage{1}{\linewidth}{images/CoDeX_PageSettingExample6}
+\end{minipage}
+\end{center}
+
+\newpage
+
+\subsubsection*{\texttt{students}~-~%
+    \highlighted{CoDeXTextOnPrimaryAccentDark}{CoDeXAccentPrimaryDark}{\textnormal{\small\texttt{list}}}
+    \hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccentDark}{CoDeXAccentPrimaryDark}{\textnormal{\scriptsize\texttt{\textit{\{Adrian Blake/553731, Charles Randall/740995, Zoe	Rutherford/331445\}}}}}}}
+
+This option changes the student list of all headers. As a seperation between name and student ID, \texttt{/} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The header student list is only shown if the option \texttt{pagestyle} is either set to \texttt{fancydark} or \texttt{fancylight}. Keep in mind that you need to use these \texttt{\{\}} brackets around your list. The used \char`\"Student ID\char`\"~will change to \char`\"Matrikel-Nr.\char`\"~if \texttt{babel} with \texttt{ngerman} or \texttt{polyglossia} with \texttt{german} is used within your document.}
+\end{tcolorbox}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancydark, students={Lorem ipsum/123456, Lorem ipsum/123456}]{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.7\textwidth}
+  \roundedpdfhalfpage{1}{\linewidth}{images/CoDeX_PageSettingExample7}
+\end{minipage}
+\end{center}
+
+\begin{center}
+\begin{minipage}[t]{0.7\textwidth}
+  \roundedpdfhalfpage{2}{\linewidth}{images/CoDeX_PageSettingExample7}
+\end{minipage}
+\end{center}
+
+\subsubsection*{\texttt{nameheadersize}~-~%
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{regular}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{wide}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{narrow}}}
+    \hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{regular}}}}}}
+
+This option changes the width class of the students list on all small headers (starting from the second page).
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The student list and so its width class is only shown if the option \texttt{pagestyle} is either set to \texttt{fancydark} or \texttt{fancylight}. The used \char`\"Student ID\char`\"~with the option \texttt{nameheadersize=wide} will change to \char`\"Matrikel-Nr.\char`\"~if \texttt{babel} with \texttt{ngerman} or \texttt{polyglossia} with \texttt{german} is used within your document.}
+\end{tcolorbox}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancydark, nameheadersize=regular]{CoDeX}
+\end{cdxcodebox}
+
+\newpage
+
+\begin{center}
+\begin{minipage}[t]{0.7\textwidth}
+  \roundedpdfhalfpage{2}{\linewidth}{images/CoDeX_PageSettingExample1}
+\end{minipage}
+\end{center}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancydark, nameheadersize=wide]{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.7\textwidth}
+  \roundedpdfhalfpage{2}{\linewidth}{images/CoDeX_PageSettingExample8}
+\end{minipage}
+\end{center}
+
+\begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[pagestyle=fancydark, nameheadersize=narrow]{CoDeX}
+\end{cdxcodebox}
+
+\begin{center}
+\begin{minipage}[t]{0.7\textwidth}
+  \roundedpdfhalfpage{2}{\linewidth}{images/CoDeX_PageSettingExample9}
+\end{minipage}
+\end{center}
+
+\newpage
+
+\subsection*{Color customization:}
+
+The following settings will redefine the color values for the color definitions provided by the package. They will only be changed for the current document. For a full color reference and usage examples, see specialised color section.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} You can not use the predefined color values provided by CoDeX. These settings are set before those are defined.}
+\end{tcolorbox}
+
+\subsubsection*{\texttt{extradark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXExtraDark}{\textnormal{\small\texttt{\textit{131313}}}}}}
+
+This setting redefines \texttt{CoDeXExtraDark}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[extradark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXExtraDark, bodytextcolor=CoDeXTextOnDark]
+        \small\textbf{\texttt{CoDeXExtraDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}%other alternative symbols are → with Large or $\rightarrow$ with large
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXExtraDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{dark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{2A2734}}}}}}
+
+This setting redefines \texttt{CoDeXDark}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[dark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXDark, bodytextcolor=CoDeXTextOnDark]
+        \small\textbf{\texttt{CoDeXDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{light}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXLight}{\textnormal{\small\texttt{\textit{E6E6E6}}}}}}
+
+This setting redefines \texttt{CoDeXLight}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[light=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXLight, bodytextcolor=CoDeXTextOnLight]
+        \small\textbf{\texttt{CoDeXLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{extralight}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXExtraLight}{\textnormal{\small\texttt{\textit{F2F2F2}}}}}}
+
+This setting redefines \texttt{CoDeXExtraLight}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[extralight=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXExtraLight, bodytextcolor=CoDeXTextOnLight]
+        \small\textbf{\texttt{CoDeXExtraLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXExtraLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{accentprimarylight}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccentLight}{CoDeXAccentPrimaryLight}{\textnormal{\small\texttt{\textit{FFD7AF}}}}}}
+
+This setting redefines \texttt{CoDeXAccentPrimaryLight}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accentprimarylight=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimaryLight, bodytextcolor=CoDeXTextOnPrimaryAccentLight]
+        \small\textbf{\texttt{CoDeXAccentPrimaryLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentPrimaryLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\newpage
+
+\subsubsection*{\texttt{accentprimary}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{FFC78F}}}}}}
+
+This setting redefines \texttt{CoDeXAccentPrimary}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accentprimary=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimary, bodytextcolor=CoDeXTextOnPrimaryAccent]
+        \small\textbf{\texttt{CoDeXAccentPrimary}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentPrimary}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{accentprimarydark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccentDark}{CoDeXAccentPrimaryDark}{\textnormal{\small\texttt{\textit{A76625}}}}}}
+
+This setting redefines \texttt{CoDeXAccentPrimaryDark}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accentprimarydark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentPrimaryDark, bodytextcolor=CoDeXTextOnPrimaryAccentDark]
+        \small\textbf{\texttt{CoDeXAccentPrimaryDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentPrimaryDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{accentsecondarylight}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccentLight}{CoDeXAccentSecondaryLight}{\textnormal{\small\texttt{\textit{EEEBFF}}}}}}
+
+This setting redefines \texttt{CoDeXAccentSecondaryLight}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accentsecondarylight=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondaryLight, bodytextcolor=CoDeXTextOnSecondaryAccentLight]
+        \small\textbf{\texttt{CoDeXAccentSecondaryLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentSecondaryLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{accentsecondary}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{ADA5C8}}}}}}
+
+This setting redefines \texttt{CoDeXAccentSecondary}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accentsecondary=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondary, bodytextcolor=CoDeXTextOnSecondaryAccent]
+        \small\textbf{\texttt{CoDeXAccentSecondary}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentSecondary}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{accentsecondarydark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccentDark}{CoDeXAccentSecondaryDark}{\textnormal{\small\texttt{\textit{665B89}}}}}}
+
+This setting redefines \texttt{CoDeXAccentSecondaryDark}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accentsecondarydark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentSecondaryDark, bodytextcolor=CoDeXTextOnSecondaryAccentDark]
+        \small\textbf{\texttt{CoDeXAccentSecondaryDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentSecondaryDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\newpage
+
+\subsubsection*{\texttt{accenttertiarylight}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnTertiaryAccentLight}{CoDeXAccentTertiaryLight}{\textnormal{\small\texttt{\textit{B5E7FF}}}}}}
+
+This setting redefines \texttt{CoDeXAccentTertiaryLight}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accenttertiarylight=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiaryLight, bodytextcolor=CoDeXTextOnTertiaryAccentLight]
+        \small\textbf{\texttt{CoDeXAccentTertiaryLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentTertiaryLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+
+\subsubsection*{\texttt{accenttertiary}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{\textit{59ABFF}}}}}}
+
+This setting redefines \texttt{CoDeXAccentTertiary}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accenttertiary=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentTertiary}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentTertiary}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{accenttertiarydark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnTertiaryAccentDark}{CoDeXAccentTertiaryDark}{\textnormal{\small\texttt{\textit{3577D7}}}}}}
+
+This setting redefines \texttt{CoDeXAccentTertiaryDark}.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[accenttertiarydark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiaryDark, bodytextcolor=CoDeXTextOnTertiaryAccentDark]
+        \small\textbf{\texttt{CoDeXAccentTertiaryDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXAccentTertiaryDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{textondark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{FFFFFF}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnDark}. It should be used on top of \texttt{CoDeXDark} and \linebreak\texttt{CoDeXExtraDark}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textondark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnDark, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \small\textbf{\texttt{CoDeXTextOnDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+
+\subsubsection*{\texttt{textonlight}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{000000}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnLight}. It should be used on top of \texttt{CoDeXLight} and \linebreak\texttt{CoDeXExtraLight}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textonlight=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnLight, bodytextcolor=CoDeXTextOnDark]
+        \small\textbf{\texttt{CoDeXTextOnLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\newpage
+
+\subsubsection*{\texttt{textonprimaryaccentlight}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXTextOnPrimaryAccentLight}{\textnormal{\small\texttt{\textit{2A2734}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnPrimaryAccentLight}. It should be used on top of \linebreak\texttt{CoDeXAccentPrimaryLight}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textonprimaryaccentlight=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnPrimaryAccentLight, bodytextcolor=CoDeXTextOnDark]
+        \small\textbf{\texttt{CoDeXTextOnPrimaryAccentLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnPrimaryAccentLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+
+\subsubsection*{\texttt{textonprimaryaccent}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXTextOnPrimaryAccent}{\textnormal{\small\texttt{\textit{2A2734}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnPrimaryAccent}. It should be used on top of \linebreak\texttt{CoDeXAccentPrimary}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textonprimaryaccent=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnPrimaryAccent, bodytextcolor=CoDeXTextOnDark]
+        \small\textbf{\texttt{CoDeXTextOnPrimaryAccent}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnPrimaryAccent}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{textonprimaryaccentdark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXTextOnPrimaryAccentDark}{\textnormal{\small\texttt{\textit{FFFFFF}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnPrimaryAccentDark}. It should be used on top of \linebreak\texttt{CoDeXAccentPrimaryDark}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textonprimaryaccentdark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnPrimaryAccentDark, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \small\textbf{\texttt{CoDeXTextOnPrimaryAccentDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnPrimaryAccentDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{textonsecondaryaccentlight}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXTextOnSecondaryAccentLight}{\textnormal{\small\texttt{\textit{2A2734}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnSecondaryAccentLight}. It should be used on top of \linebreak\texttt{CoDeXAccentSecondaryLight}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textonsecondaryaccentlight=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnSecondaryAccentLight, bodytextcolor=CoDeXTextOnDark]
+        \small\textbf{\texttt{CoDeXTextOnSecondaryAccentLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnSecondaryAccentLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{textonsecondaryaccent}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXTextOnSecondaryAccent}{\textnormal{\small\texttt{\textit{FFFFFF}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnSecondaryAccent}. It should be used on top of \linebreak\texttt{CoDeXAccentSecondary}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textonsecondaryaccent=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnSecondaryAccent, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \small\textbf{\texttt{CoDeXTextOnSecondaryAccent}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnSecondaryAccent}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\newpage
+
+\subsubsection*{\texttt{textonsecondaryaccentdark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXTextOnSecondaryAccentDark}{\textnormal{\small\texttt{\textit{FFFFFF}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnSecondaryAccentDark}. It should be used on top of \linebreak\texttt{CoDeXAccentSecondaryDark}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textonsecondaryaccentdark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnSecondaryAccentDark, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \small\textbf{\texttt{CoDeXTextOnSecondaryAccentDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnSecondaryAccentDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+
+\subsubsection*{\texttt{textontertiaryaccentlight}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXTextOnTertiaryAccentLight}{\textnormal{\small\texttt{\textit{2A2734}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnTertiaryAccentLight}. It should be used on top of \linebreak\texttt{CoDeXAccentTertiaryLight}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textontertiaryaccentlight=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnTertiaryAccentLight, bodytextcolor=CoDeXTextOnDark]
+        \small\textbf{\texttt{CoDeXTextOnTertiaryAccentLight}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnTertiaryAccentLight}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{textontertiaryaccent}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXTextOnTertiaryAccent}{\textnormal{\small\texttt{\textit{FFFFFF}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnTertiaryAccent}. It should be used on top of \linebreak\texttt{CoDeXAccentTertiary}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textontertiaryaccent=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnTertiaryAccent, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \small\textbf{\texttt{CoDeXTextOnTertiaryAccent}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnTertiaryAccent}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\subsubsection*{\texttt{textontertiaryaccentdark}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXTextOnTertiaryAccentDark}{\textnormal{\small\texttt{\textit{FFFFFF}}}}}}
+
+This setting redefines the text color \texttt{CoDeXTextOnTertiaryAccentDark}. It should be used on top of \linebreak\texttt{CoDeXAccentTertiaryDark}. See color section for an example.
+
+\noindent
+\begin{minipage}[t]{\textwidth}
+    \begin{cdxcodebox}[showfile=false, showlanguage=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\usepackage[textontertiaryaccentdark=59ABFF]{CoDeX}
+    \end{cdxcodebox}
+\end{minipage}%
+\vspace{-4.55mm}\\
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXTextOnTertiaryAccentDark, bodytextcolor=CoDeXTextOnLight, bodyborder=solid, bodybordercolor=CoDeXExtraLight]
+        \small\textbf{\texttt{CoDeXTextOnTertiaryAccentDark}}
+    \end{cdxtextbox}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.04\textwidth}
+    \centering
+    \vspace{10.0mm}
+    \large\texttt{$\rightarrow$}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \begin{cdxtextbox}[showtitle=false, bodybgcolor=CoDeXAccentTertiary, bodytextcolor=CoDeXTextOnTertiaryAccent]
+        \small\textbf{\texttt{CoDeXTextOnTertiaryAccentDark}}
+    \end{cdxtextbox}
+\end{minipage}%
+
+\newpage
+
+\section*{Codebox}
+
+\subsection*{Default style:}
+
+This is the default styling of a codebox if you set no additional options. You only need the filename and the language which is used for syntax highlighting in minted or listings. The filename is only for display. This means you could also type in anything else, e.g. maths with \texttt{\$\$} or italic styling with \texttt{\textbackslash textit\{\}}. Both arguments are required.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The intendation of the code is exactly copied! So the code should always be left-aligned in your editor no matter the intendation of the \texttt{\textbackslash begin\{codebox\}} command.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+
+\subsubsection*{Equivalent style with explicitly set options:}
+
+\noindent
+\adjustbox{valign=c, width=1.0\textwidth}{%
+    \begin{minipage}[t]{1.2\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[showfile=true, showlanguage=true, filebgcolor=CoDeXDark, filetextcolor=CoDeXTextOnDark, 
+     languagebgcolor=CoDeXExtraDark, languagetextcolor=CoDeXAccentSecondary, codebgcolor=CoDeXDark, 
+     codeboxgapcolor=CoDeXAccentPrimary, codeboxgapsize=0.15cm, codestyle=dark]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+
+\subsubsection*{Escaping out of a codebox:}
+
+Within a codebox, you can escape any \LaTeX-command that should be executed with a \texttt{\textsection} (section sign), \linebreak e.g. maths.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits: # §$ \forall f \in F $§
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits: # §\textsection§$ \forall f \in F $§\textsection§
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)§\tcbline§
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)§\textsection§\tcbline§\textsection§
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+
+\newpage
+
+\subsection*{Customization options:}
+
+\subsubsection*{\texttt{showfile}~-~%
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{true}}}
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{false}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{true}}}}}}
+
+This option changes the visibility of the filename. If the language is set to be shown, it will be either displayed in the box of the filename or in the box that contains the code if \texttt{showfile} is set to \texttt{false}.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=true]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[showfile=true]{Fruity.py}{
+     Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[showfile=false]{Fruity.py}{
+     Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\subsubsection*{\texttt{showlanguage}~-~%
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{true}}}
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{false}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{true}}}}}}
+
+This option changes the visibility of the language in the top right corner. If the filename is set to be shown, the langugae will be displayed in the box of the filename and otherwise in the box that contains the code.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showlanguage=true]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[showlanguage=true]{
+     Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showlanguage=false]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[showlanguage=false]{
+     Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\subsubsection*{\texttt{filebgcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{CoDeXDark}}}}}}
+
+This option changes the background color of the box that contains the filename. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[filebgcolor=CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[filebgcolor=
+     CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{filetextcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXTextOnDark}{\textnormal{\small\texttt{\textit{CoDeXTextOnDark}}}}}}
+
+This option changes the text color of the filename. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[filetextcolor=CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill%
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[filetextcolor=
+     CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\subsubsection*{\texttt{languagebgcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXExtraDark}{\textnormal{\small\texttt{\textit{CoDeXExtraDark}}}}}}
+
+This option changes the background color of the box that contains the used language. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[languagebgcolor=CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[languagebgcolor=
+     CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{languagetextcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{CoDeXAccentSecondary}}}}}}
+
+This option changes the text color of the displayed language. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[languagetextcolor=CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[languagetextcolor=
+     CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{codebgcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{CoDeXDark}}}}}}
+
+This option changes the text background color of the box that contains the code. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[codebgcolor=CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[codebgcolor=
+     CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{codeboxgapcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{CoDeXAccentPrimary}}}}}}
+
+This option changes the color of the colorful stripe between the filename-box and the code-box. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[codeboxgapcolor=CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[codeboxgapcolor=
+     CoDeXAccentTertiary]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{codeboxgapsize}~-~%
+    \highlighted{CoDeXTextOnLight}{CoDeXLight}{\textnormal{\small\texttt{measurement}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXLight}{\textnormal{\small\texttt{\textit{0.15cm}}}}}}
+
+This option changes the height of the colorful stripe between the filename-box and the code-box. The value could be in all available measurements, e.g. cm, mm, pt, ...\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[codeboxgapsize=0.45cm]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[codeboxgapsize=0.45cm]{
+     Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\subsubsection*{\texttt{codestyle}~-~%
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{dark}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{light}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{dark}}}}}}
+
+This option changes the colors of the syntax highlighted code to make it possible for it to be displayed on dark and light backgrounds. There are two possible styles.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentPrimary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Note:} To properly see the highlighted code with the option \texttt{light}, we also changed the \texttt{codebgcolor}. This is not needed.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[codestyle=dark]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[codestyle=dark]{Fruity.py}{
+     Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[codestyle=light, codebgcolor=CoDeXExtraLight]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+§\textbackslash§begin{cdxcodebox}[codestyle=light, codebgcolor=
+     CoDeXExtraLight]{Fruity.py}{Python}
+def sweet_fruits(fruits):
+    for fruit in fruits:
+        if fruit != "lemon": # No lemons allowed!
+            print(fruit)
+sweet_fruits("apple", "orange", "lemon")
+§\textbackslash§end{cdxcodebox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\section*{Textbox}
+
+\subsection*{Default style:}
+
+This is the default styling of a textbox if you set no additional options. There are no required options. The title is set by optional arguments. This is a big difference compared to the codebox.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam elit arcu, vestibulum in mollis non, ultrices non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+
+\subsubsection*{Equivalent style with explicitly set options:}
+
+\noindent
+\adjustbox{valign=c, width=1.0\textwidth}{%
+    \begin{minipage}[t]{1.2\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[title=Default Title, overlaytitle=Overlay Title, overlaypos=middle, showtitle=true, 
+     showoverlaytitle=false, titlebgcolor=CoDeXAccentPrimary, titletextcolor=CoDeXTextOnPrimaryAccent, 
+     overlaytitlebgcolor=CoDeXAccentPrimaryLight, overlaytitletextcolor=CoDeXTextOnPrimaryAccent, titleborder=none, 
+     titlebordercolor=CoDeXDark, titlebordergapcolor=transparent, showbody=true, bodybgcolor=CoDeXExtraLight, 
+     bodytextcolor=CoDeXTextOnLight, bodyborder=none, bodybordercolor=CoDeXDark, bodybordergapcolor=transparent, 
+     textboxgapcolor=white, textboxgapsize=0.15cm, showgrid=false, gridcolor=CoDeXLight, showleftline=false, 
+     leftlinecolor=CoDeXAccentPrimary]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+
+\subsection*{Customization options:}
+
+\subsubsection*{\texttt{title}~-~%
+    \highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{text}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{Default Title}}}}}}
+
+This option changes the title.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[title=Lorem ipsum]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[title=Lorem ipsum]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\subsubsection*{\texttt{overlaytitle}~-~%
+    \highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{text}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{Overlay Title}}}}}}
+
+This option changes the overlay title.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed overlay title is only shown, if the option  \texttt{showoverlaytitle} is set to \texttt{true}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[overlaytitle=Lorem ipsum, showoverlaytitle=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[overlaytitle=Lorem ipsum, showoverlaytitle=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{overlaypos}~-~%
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{middle}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{right}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{middle}}}}}}
+
+This option changes the position of the overlay title. There are two possible values.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed overlay position is only shown, if the option  \texttt{showoverlaytitle} is set to \texttt{true}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[overlaypos=middle, showoverlaytitle=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[overlaypos=middle, 
+     showoverlaytitle=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[overlaypos=right, showoverlaytitle=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[overlaypos=right, 
+     showoverlaytitle=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{showtitle}~-~%
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{true}}}
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{false}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{true}}}}}}
+
+This option changes the visibility of the box that contains the title and overlay title.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showtitle=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showtitle=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showtitle=false]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showtitle=false]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{showoverlaytitle}~-~%
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{true}}}
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{false}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{true}}}}}}
+
+This option changes the visibility of the overlay title.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showoverlaytitle=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showoverlaytitle=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showoverlaytitle=false]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showoverlaytitle=false]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{titlebgcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{CoDeXAccentPrimary}}}}}}
+
+This option changes the background color of the box that contains the title and overlay title. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[titlebgcolor=CoDeXAccentTertiary]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[titlebgcolor=
+     CoDeXAccentTertiary]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{titletextcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXTextOnPrimaryAccent}{\textnormal{\small\texttt{\textit{CoDeXTextOnPrimaryAccent}}}}}}
+
+This option changes the color of the title. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[titletextcolor=CoDeXAccentTertiary]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[titletextcolor=
+     CoDeXAccentTertiary]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{overlaytitlebgcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimaryLight}{\textnormal{\small\texttt{\textit{CoDeXAccentPrimaryLight}}}}}}
+
+This option changes the background color of the box that contains the overlay title. The package \texttt{xcolor} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed overlay title is only shown, if the option  \texttt{showoverlaytitle} is set to \texttt{true}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[overlaytitlebgcolor=CoDeXAccentTertiary, showoverlaytitle=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[overlaytitlebgcolor=
+     CoDeXAccentTertiary, showoverlaytitle=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{overlaytitletextcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXTextOnPrimaryAccent}{\textnormal{\small\texttt{\textit{CoDeXTextOnPrimaryAccent}}}}}}
+
+This option changes the color of the overlay title. The package \texttt{xcolor} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed overlay title is only shown, if the option  \texttt{showoverlaytitle} is set to \texttt{true}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[overlaytitletextcolor=CoDeXAccentTertiary, showoverlaytitle=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[overlaytitletextcolor=
+     CoDeXAccentTertiary, showoverlaytitle=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{titleborder}~-~%
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{none}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{dashed}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{solid}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{none}}}}}}
+
+This option enables or changes the border that is drawn around the box that contains the title and overlay title. There are three possible values.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[titleborder=none]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[titleborder=none]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[titleborder=dashed]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[titleborder=dashed]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[titleborder=solid]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[titleborder=solid]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{titlebordercolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{CoDeXDark}}}}}}
+
+This option changes the color of the border that is drawn around the box that contains the title and overlay title. The package \texttt{xcolor} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed border color is only visible, if the option \texttt{titleborder} is either set to \texttt{dashed} or \texttt{solid}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[titlebordercolor=CoDeXAccentTertiary, titleborder=dashed]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[titlebordercolor=
+     CoDeXAccentTertiary, titleborder=dashed]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[titlebordercolor=CoDeXAccentTertiary, titleborder=solid]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[titlebordercolor=
+     CoDeXAccentTertiary, titleborder=solid]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{titlebordergapcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{white}{\textnormal{\small\texttt{\textit{transparent}}}}}}
+
+This option changes the color between the border segments that are drawn around the box that contains the title and overlay title with the \texttt{dashed} mode. The package \texttt{xcolor} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed border gap color is only visible, if the option \texttt{titleborder} is set to \texttt{dashed}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[titlebordergapcolor=CoDeXAccentTertiary, titleborder=dashed]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[titlebordergapcolor=
+     CoDeXAccentTertiary, titleborder=dashed]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+
+
+\subsubsection*{\texttt{showbody}~-~%
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{true}}}
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{false}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{true}}}}}}
+
+This option changes the visibility of the box that contains the main text.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showbody=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showbody=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showbody=false]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showbody=false]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{bodybgcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXExtraLight}{\textnormal{\small\texttt{\textit{CoDeXExtraLight}}}}}}
+
+This option changes the background color of the box that contains the main text. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[bodybgcolor=CoDeXAccentTertiary]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[bodybgcolor=
+     CoDeXAccentTertiary]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{bodytextcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXTextOnLight}{\textnormal{\small\texttt{\textit{CoDeXTextOnLight}}}}}}
+
+This option changes the color of the main text. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[bodytextcolor=CoDeXAccentTertiary]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[bodytextcolor=
+     CoDeXAccentTertiary]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{bodyborder}~-~%
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{none}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{dashed}}}
+    \highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{solid}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{none}}}}}}
+
+This option enables or changes the border that is drawn around the box that contains the main text. There are three possible values.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[bodyborder=none]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[bodyborder=none]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[bodyborder=dashed]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[bodyborder=dashed]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[bodyborder=solid]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[bodyborder=solid]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{bodybordercolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnDark}{CoDeXDark}{\textnormal{\small\texttt{\textit{CoDeXDark}}}}}}
+
+This option changes the color of the border that is drawn around the box that contains the main text. The package \texttt{xcolor} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed border color is only visible, if the option \texttt{bodyborder} is either set to \texttt{dashed} or \texttt{solid}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[bodybordercolor=CoDeXAccentTertiary, bodyborder=dashed]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[bodybordercolor=
+     CoDeXAccentTertiary, bodyborder=dashed]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[bodybordercolor=CoDeXAccentTertiary, bodyborder=solid]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[bodybordercolor=
+     CoDeXAccentTertiary, bodyborder=solid]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{bodybordergapcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{white}{\textnormal{\small\texttt{\textit{transparent}}}}}}
+
+This option changes the color between the border segments that are drawn around the box that contains the main text with the \texttt{dashed} mode. The package \texttt{xcolor} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed border gap color is only visible, if the option \texttt{bodyborder} is set to \texttt{dashed}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[bodybordergapcolor=CoDeXAccentTertiary, bodyborder=dashed]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[bodybordergapcolor=
+     CoDeXAccentTertiary, bodyborder=dashed]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{textboxgapcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{white}{\textnormal{\small\texttt{\textit{white}}}}}}
+
+This option changes the color of the colorful stripe between the title-box and the text-box. The package \texttt{xcolor} is used.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[textboxgapcolor=CoDeXAccentTertiary]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[textboxgapcolor=
+     CoDeXAccentTertiary]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{textboxgapsize}~-~%
+    \highlighted{CoDeXTextOnLight}{CoDeXLight}{\textnormal{\small\texttt{measurement}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXLight}{\textnormal{\small\texttt{\textit{0.15cm}}}}}}
+
+This option changes the height of the colorful stripe between the title-box and the text-box. The value could be in all available measurements, e.g. cm, mm, pt, ...
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentPrimary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Note:} To make the increased gap size in the example more obvious, we also changed the \texttt{textboxgapcolor}. This is not needed.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[textboxgapsize=0.45cm, textboxgapcolor=CoDeXAccentTertiary]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[textboxgapsize=0.45cm, 
+     textboxgapcolor=CoDeXAccentTertiary]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{showgrid}~-~%
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{true}}}
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{false}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{false}}}}}}
+
+This option changes the visibility of a grid pattern that will be shown in the box that contains the main text.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showgrid=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showgrid=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showgrid=false]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showgrid=false]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\newpage
+
+\subsubsection*{\texttt{gridcolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnLight}{CoDeXLight}{\textnormal{\small\texttt{\textit{CoDeXLight}}}}}}
+
+This option changes the color of the optional grid pattern in the box that contains the main text. The package \texttt{xcolor} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed grid color is only visible, if the option \texttt{showgrid} is set to \texttt{true}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[gridcolor=CoDeXAccentTertiary, showgrid=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[gridcolor=CoDeXAccentTertiary, 
+     showgrid=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{showleftline}~-~%
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{true}}}
+    \highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{false}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnSecondaryAccent}{CoDeXAccentSecondary}{\textnormal{\small\texttt{\textit{false}}}}}}
+
+This option changes the visibility of a decorative line at the left side of the entire box. The rounded corners on the left side will be automatically removed.\\
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showleftline=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showleftline=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}%
+\vspace{2mm}\\
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[showleftline=false]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[showleftline=false]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+
+\subsubsection*{\texttt{leftlinecolor}~-~%
+    \highlighted{CoDeXTextOnTertiaryAccent}{CoDeXAccentTertiary}{\textnormal{\small\texttt{color}}}\hfill \textnormal{\small\textit{\texttt{Default = }}\highlighted{CoDeXTextOnPrimaryAccent}{CoDeXAccentPrimary}{\textnormal{\small\texttt{\textit{CoDeXAccentPrimary}}}}}}
+
+This option changes the color of the optional decorative left line. The package \texttt{xcolor} is used.
+
+\begin{tcolorbox}[arc=5.5pt, boxrule=0mm, colframe=CoDeXAccentSecondary, colback=CoDeXExtraLight, leftrule=1mm]
+\textit{\textbf{Important:} The changed color of the decorative left line is only visible, if the option \texttt{showleftline} is set to \texttt{true}.}
+\end{tcolorbox}
+
+\noindent
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxtextbox}[leftlinecolor=CoDeXAccentTertiary, showleftline=true]
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Nullam elit arcu, vestibulum in mollis non, ultrices
+        non velit.
+        \end{cdxtextbox}
+    \end{minipage}%
+}
+\hfill
+\adjustbox{valign=c, width=0.49\textwidth}{%
+    \begin{minipage}[t]{0.6\textwidth}
+        \begin{cdxcodebox}[showfile=false, codebgcolor=CoDeXExtraLight, languagebgcolor=CoDeXLight, languagetextcolor=CoDeXTextOnLight, codestyle=light, breakable=false]{ }{LaTeX}
+\begin{cdxtextbox}[leftlinecolor=
+     CoDeXAccentTertiary, showleftline=true]
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Nullam elit arcu, vestibulum in mollis non, ultrices
+non velit.
+\end{cdxtextbox}
+        \end{cdxcodebox}
+    \end{minipage}%
+}
+
+\vfill
+
+%$\nearrow$ or \raisebox{-0.25ex}{↗} or $\blacktriangleright$ are alternatives
+\centering{\texttt{\href{https://github.com/JNR306/CoDeX}{~\raisebox{-0.0ex}{$\blacktriangleright$}~https://github.com/JNR306/CoDeX~}}
+
+\centering{\texttt{\textit{\small\textcolor{magenta}{Version 1.0}}}
+
+\vspace{0.2cm}
+
+
+\end{document}

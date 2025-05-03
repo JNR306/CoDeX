@@ -1,0 +1,755 @@
+%% CoDeX-Docs.sty -- Version 1.0
+%% Copyright (c) 2025 JNR306
+%% Licensed under the MIT License
+%% https://github.com/JNR306/CoDeX
+%% This is a special modified version that is used by the documentation of CoDeX
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{CoDeX-Docs}[2025/04/30 v1.0 A package with beautiful styles for STEM homework.]
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\RequirePackage{cmbright}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{fancyhdr}
+\RequirePackage{environ}
+\RequirePackage{fancyvrb}
+\RequirePackage{ae}
+\RequirePackage{xkeyval}
+\RequirePackage{lmodern}
+\RequirePackage{atbegshi}
+\RequirePackage{eso-pic}
+\RequirePackage{graphicx}
+\RequirePackage{varwidth}
+\RequirePackage{needspace}
+\RequirePackage{xparse}
+\RequirePackage{kvoptions}
+\RequirePackage{ifthen}
+\RequirePackage[italic]{mathastext}
+\RequirePackage{listings}
+
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+
+\makeatletter
+
+\definecolor{CoDeXDark}{HTML}{2A2734}
+\definecolor{CoDeXExtraDark}{HTML}{131313}
+\definecolor{CoDeXLight}{HTML}{e6e6e6}
+\definecolor{CoDeXExtraLight}{HTML}{f2f2f2}
+
+\definecolor{CoDeXAccentPrimary}{HTML}{FFC78F}
+\definecolor{CoDeXAccentPrimaryLight}{HTML}{FFD7AF}
+\definecolor{CoDeXAccentPrimaryDark}{HTML}{a76625}
+\definecolor{CoDeXAccentSecondary}{HTML}{ada5c8}
+\definecolor{CoDeXAccentSecondaryLight}{HTML}{eeebff}
+\definecolor{CoDeXAccentSecondaryDark}{HTML}{665b89}
+\definecolor{CoDeXAccentTertiary}{HTML}{59ABFF}
+\definecolor{CoDeXAccentTertiaryLight}{HTML}{B5E7FF}
+\definecolor{CoDeXAccentTertiaryDark}{HTML}{3577D7}
+
+\definecolor{CoDeXTextOnLight}{HTML}{000000}
+\definecolor{CoDeXTextOnDark}{HTML}{ffffff}
+
+\definecolor{CoDeXTextOnPrimaryAccent}{HTML}{2A2734}
+\definecolor{CoDeXTextOnPrimaryAccentLight}{HTML}{2A2734}
+\definecolor{CoDeXTextOnPrimaryAccentDark}{HTML}{ffffff}
+
+\definecolor{CoDeXTextOnSecondaryAccent}{HTML}{ffffff}
+\definecolor{CoDeXTextOnSecondaryAccentLight}{HTML}{2A2734}
+\definecolor{CoDeXTextOnSecondaryAccentDark}{HTML}{ffffff}
+
+\definecolor{CoDeXTextOnTertiaryAccent}{HTML}{ffffff}
+\definecolor{CoDeXTextOnTertiaryAccentLight}{HTML}{2A2734}
+\definecolor{CoDeXTextOnTertiaryAccentDark}{HTML}{ffffff}
+
+\def\cdx@title{Homework sheet 1}
+\def\cdx@group{Group 1}
+\def\cdx@date{\the\day.\,\the\month.\,\the\year}
+\def\cdx@students{Adrian Blake/553731, Charles Randall/740995, Zoe Rutherford/331445}
+
+\DeclareOptionX{dark}[2A2734]{\definecolor{CoDeXDark}{HTML}{#1}}
+\DeclareOptionX{extradark}[131313]{\definecolor{CoDeXExtraDark}{HTML}{#1}}
+\DeclareOptionX{light}[e6e6e6]{\definecolor{CoDeXLight}{HTML}{#1}}
+\DeclareOptionX{extralight}[f2f2f2]{\definecolor{CoDeXExtraLight}{HTML}{#1}}
+
+\DeclareOptionX{accentprimary}[FFC78F]{\definecolor{CoDeXAccentPrimary}{HTML}{#1}}
+\DeclareOptionX{accentprimarylight}[FFD7AF]{\definecolor{CoDeXAccentPrimaryLight}{HTML}{#1}}
+\DeclareOptionX{accentprimarydark}[a76625]{\definecolor{CoDeXAccentPrimaryDark}{HTML}{#1}}
+\DeclareOptionX{accentsecondary}[ada5c8]{\definecolor{CoDeXAccentSecondary}{HTML}{#1}}
+\DeclareOptionX{accentsecondarylight}[eeebff]{\definecolor{CoDeXAccentSecondaryLight}{HTML}{#1}}
+\DeclareOptionX{accentsecondarydark}[665b89]{\definecolor{CoDeXAccentSecondaryDark}{HTML}{#1}}
+\DeclareOptionX{accenttertiary}[59ABFF]{\definecolor{CoDeXAccentTertiary}{HTML}{#1}}
+\DeclareOptionX{accenttertiarylight}[B5E7FF]{\definecolor{CoDeXAccentTertiaryLight}{HTML}{#1}}
+\DeclareOptionX{accenttertiarydark}[3577D7]{\definecolor{CoDeXAccentTertiaryDark}{HTML}{#1}}
+
+\DeclareOptionX{textonlight}[000000]{\definecolor{CoDeXTextOnLight}{HTML}{#1}}
+\DeclareOptionX{textondark}[ffffff]{\definecolor{CoDeXTextOnDark}{HTML}{#1}}
+
+\DeclareOptionX{textonprimaryaccent}[2A2734]{\definecolor{CoDeXTextOnPrimaryAccent}{HTML}{#1}}
+\DeclareOptionX{textonprimaryaccentlight}[2A2734]{\definecolor{CoDeXTextOnPrimaryAccentLight}{HTML}{#1}}
+\DeclareOptionX{textonprimaryaccentdark}[ffffff]{\definecolor{CoDeXTextOnPrimaryAccentDark}{HTML}{#1}}
+
+\DeclareOptionX{textonsecondaryaccent}[ffffff]{\definecolor{CoDeXTextOnSecondaryAccent}{HTML}{#1}}
+\DeclareOptionX{textonsecondaryaccentlight}[2A2734]{\definecolor{CoDeXTextOnSecondaryAccentLight}{HTML}{#1}}
+\DeclareOptionX{textonsecondaryaccentdark}[ffffff]{\definecolor{CoDeXTextOnSecondaryAccentDark}{HTML}{#1}}
+
+\DeclareOptionX{textontertiaryaccent}[ffffff]{\definecolor{CoDeXTextOnTertiaryAccent}{HTML}{#1}}
+\DeclareOptionX{textontertiaryaccentlight}[2A2734]{\definecolor{CoDeXTextOnTertiaryAccentLight}{HTML}{#1}}
+\DeclareOptionX{textontertiaryaccentdark}[ffffff]{\definecolor{CoDeXTextOnTertiaryAccentDark}{HTML}{#1}}
+
+\DeclareOptionX{pagestyle}[none]{\def\cdx@pagestyle{#1}}
+
+\DeclareOptionX{title}[\empty]{\def\cdx@title{#1}}
+\DeclareOptionX{group}[\empty]{\def\cdx@group{#1}}
+\DeclareOptionX{date}[\empty]{\def\cdx@date{#1}}
+\DeclareOptionX{students}[\empty]{\def\cdx@students{#1}}
+
+\DeclareOptionX{nameheadersize}[regular]{\def\cdx@nameheadersize{#1}}
+
+\ProcessOptionsX
+
+\def\cdx@none{none}
+\def\cdx@fancylight{fancylight}
+\def\cdx@fancydark{fancydark}
+
+\def\cdx@regular{regular}
+\def\cdx@increased{increased}
+\def\cdx@wide{wide}
+\def\cdx@narrow{narrow}
+
+\ifx\cdx@pagestyle\undefined
+    \def\cdx@pagestyle{none}
+\fi
+
+\ifx\cdx@nameheadersize\undefined
+    \def\cdx@nameheadersize{regular}
+\fi
+
+\newcommand{\cdx@studentID}{%
+  \ifcsdef{mainlanguage}{%
+    \ifdefstring{\mainlanguage}{german}{Matrikel-Nr.}{Student ID}%
+  }{%
+    \ifcsdef{languagename}{%
+      \ifdefstring{\languagename}{ngerman}{Matrikel-Nr.}{%
+        \ifdefstring{\languagename}{german}{Matrikel-Nr.}{Student ID}%
+      }%
+    }{%
+      Student ID%
+    }%
+  }%
+}
+
+\lstdefinelanguage{LaTeX}{
+  morekeywords={
+    documentclass,usepackage,begin,end,title,author,
+    maketitle,section,subsection,emph,textbf,textit
+  },
+  sensitive=true,
+  morecomment=[l]{\%},
+  morestring=[b]"
+}
+
+\lstdefinestyle{cdx@codestyledark}{
+    basicstyle=\footnotesize\ttfamily\color{CoDeXAccentSecondary}\linespread{1.15}\selectfont,
+    keywordstyle=\color{CoDeXAccentPrimary},
+    commentstyle=\color{CoDeXAccentSecondary}\itshape,
+    identifierstyle=\color{CoDeXTextOnDark},
+    stringstyle=\color{CoDeXTextOnDark},
+    showstringspaces=false,
+    breaklines=true,
+    tabsize=2,
+    aboveskip=0pt,
+    belowskip=0pt,
+    columns=flexible,
+    literate=
+    {0}{{{\color{CoDeXTextOnDark}0}}}1
+    {1}{{{\color{CoDeXTextOnDark}1}}}1
+    {2}{{{\color{CoDeXTextOnDark}2}}}1
+    {3}{{{\color{CoDeXTextOnDark}3}}}1
+    {4}{{{\color{CoDeXTextOnDark}4}}}1
+    {5}{{{\color{CoDeXTextOnDark}5}}}1
+    {6}{{{\color{CoDeXTextOnDark}6}}}1
+    {7}{{{\color{CoDeXTextOnDark}7}}}1
+    {8}{{{\color{CoDeXTextOnDark}8}}}1
+    {9}{{{\color{CoDeXTextOnDark}9}}}1
+}
+
+\lstdefinestyle{cdx@codestylelight}{
+    basicstyle=\footnotesize\ttfamily\color{CoDeXAccentSecondaryDark}\linespread{1.15}\selectfont,
+    keywordstyle=\color{CoDeXAccentPrimaryDark},
+    commentstyle=\color{CoDeXAccentSecondaryDark}\itshape,
+    identifierstyle=\color{CoDeXTextOnLight},
+    stringstyle=\color{CoDeXTextOnLight},
+    showstringspaces=false,
+    breaklines=true,
+    tabsize=2,
+    aboveskip=0pt,
+    belowskip=0pt,
+    columns=flexible,
+    literate=
+    {0}{{{\color{CoDeXTextOnLight}0}}}1
+    {1}{{{\color{CoDeXTextOnLight}1}}}1
+    {2}{{{\color{CoDeXTextOnLight}2}}}1
+    {3}{{{\color{CoDeXTextOnLight}3}}}1
+    {4}{{{\color{CoDeXTextOnLight}4}}}1
+    {5}{{{\color{CoDeXTextOnLight}5}}}1
+    {6}{{{\color{CoDeXTextOnLight}6}}}1
+    {7}{{{\color{CoDeXTextOnLight}7}}}1
+    {8}{{{\color{CoDeXTextOnLight}8}}}1
+    {9}{{{\color{CoDeXTextOnLight}9}}}1
+}
+
+\lstset{style=cdx@codestylelight}
+
+\newcommand{\cdx@studentcontent}[2]{%
+    \begin{tabular}{c}%
+        \ifx\cdx@pagestyle\cdx@fancydark%
+        \color{CoDeXTextOnDark}%
+        \else%
+        \color{CoDeXTextOnLight}%
+        \fi%
+        \textbf{\normalsize #1}\\
+        \vspace{0.5ex}%
+        \ifx\cdx@pagestyle\cdx@fancydark%
+        \color{CoDeXTextOnDark}%
+        \else%
+        \color{CoDeXTextOnLight}%
+        \fi%
+        \small \cdx@studentID: #2%
+    \end{tabular}%
+}%
+
+\setlength{\headheight}{188.27408pt}
+\addtolength{\headsep}{-176.27408pt}
+
+\ifx\cdx@pagestyle\cdx@none
+%nothing
+\else
+
+    \ifx\cdx@pagestyle\cdx@fancydark
+    \addtolength{\headsep}{11mm}
+    \addtolength{\textheight}{-11mm}
+    \else
+    \addtolength{\headsep}{4mm}
+    \addtolength{\textheight}{-4mm}
+    \fi
+
+    \pagestyle{fancy}
+    \fancyhf{}
+    
+    \fancyfoot[C]{
+        \begin{tikzpicture}[baseline=(X.base)]
+            \ifx\cdx@pagestyle\cdx@fancydark
+            \node[fill=CoDeXDark, rounded corners=5.5pt, minimum size=0.7cm, inner sep=0pt, text=CoDeXTextOnDark] (X) {\thepage};
+            \else
+            \node[fill=white, rounded corners=5.5pt, minimum size=0.7cm, inner sep=0pt, text=CoDeXTextOnLight] (X) {\thepage};
+            \fi
+        \end{tikzpicture}
+    }
+    
+    \fancypagestyle{cdx@firstpage}{
+        \fancyhead[C]{
+            \begin{tcolorbox}[colback=green, opacityfill=0.0, width=\textwidth, 
+                              enlarge top by= 0in, enlarge left by= 0in, 
+                              enlarge right by= 0in, boxrule=0pt, sharp corners]
+            \ifx\cdx@pagestyle\cdx@fancydark
+            \color{CoDeXTextOnDark}
+            \else
+            \color{CoDeXTextOnLight}
+            \fi
+            \begin{center}
+                \textit{\Large Documentation}\\
+                \includegraphics[width=0.8\textwidth]{images/CoDeX_White_On_Dark.png}\\
+                \vspace{2mm}
+                \centerline{
+                    \hbox{
+                        \ifx\cdx@pagestyle\cdx@fancydark
+                        \tcbox[colback=CoDeXExtraDark, height=0.65cm, boxrule=0pt, arc=5.5pt, sharp corners=east, left=2mm, right=2mm, top=1mm, bottom=1mm, halign=center]{%
+                            \ifx\cdx@pagestyle\cdx@fancydark%
+                            \color{CoDeXTextOnDark}%
+                            \else%
+                            \color{CoDeXTextOnLight}%
+                            \fi%
+                            \textbf{\textit{\small JNR306}}%
+                        }%
+                        \else
+                        \tcbox[colback=CoDeXLight, height=0.65cm, boxrule=0pt, arc=5.5pt, sharp corners=east, left=2mm, right=2mm, top=1mm, bottom=1mm, halign=center]{%
+                            \ifx\cdx@pagestyle\cdx@fancydark%
+                            \color{CoDeXTextOnDark}%
+                            \else%
+                            \color{CoDeXTextOnLight}%
+                            \fi%
+                            \textbf{\textit{\small JNR306}}%
+                        }%
+                        \fi
+                        \hspace{-0.03cm}
+                        \ifx\cdx@pagestyle\cdx@fancydark
+                        \tcbox[colback=CoDeXExtraDark, height=0.65cm, boxrule=0pt, arc=5.5pt, sharp corners=west, left=2mm, right=2mm, top=1mm, bottom=1mm, halign=center]{%
+                            \ifx\cdx@pagestyle\cdx@fancydark%
+                            \color{CoDeXTextOnDark}%
+                            \else%
+                            \color{CoDeXTextOnLight}%
+                            \fi%
+                            \textit{\small\cdx@date}%
+                        }%
+                        \else
+                        \tcbox[colback=CoDeXLight, height=0.65cm, boxrule=0pt, arc=5.5pt, sharp corners=west, left=2mm, right=2mm, top=1mm, bottom=1mm, halign=center]{%
+                            \ifx\cdx@pagestyle\cdx@fancydark%
+                            \color{CoDeXTextOnDark}%
+                            \else%
+                            \color{CoDeXTextOnLight}%
+                            \fi%
+                            \textit{\small\cdx@date}%
+                        }%
+                        \fi
+                    }
+                }
+            \end{center}
+            \end{tcolorbox}
+        }
+    }
+
+    \fancypagestyle{cdx@otherpage}{
+        \fancyhead[C]{
+            \vspace{4mm}
+            \ifx\cdx@pagestyle\cdx@fancydark
+            \color{CoDeXTextOnDark}
+            \else
+            \color{CoDeXTextOnLight}
+            \fi
+            \makebox[\textwidth]{%
+                \textbf{\large CoDeX}\small\hspace{1.5mm}\textit{Documentation}
+                \hspace{2mm plus 1fill}%
+                \textit{\small JNR306}
+            }%
+            
+            \vspace{148.14296pt}
+        }
+    }
+
+    \pagestyle{cdx@otherpage}
+
+    \renewcommand{\headrulewidth}{0pt}
+
+    \ifx\cdx@pagestyle\cdx@fancydark
+
+    \newcounter{cdx@pagecounter}
+    \setcounter{cdx@pagecounter}{0}
+
+    \newlength{\cdx@actualtopmargin}
+    \setlength{\cdx@actualtopmargin}{\dimexpr 1in + \voffset + \topmargin\relax}
+
+    \AtBeginShipout{
+        \stepcounter{cdx@pagecounter}
+
+        \ifnum\value{cdx@pagecounter}=1
+            \AddToShipoutPicture*{
+                \AtPageUpperLeft{
+                    \put(0mm,-\dimexpr\cdx@actualtopmargin+65mm\relax){%
+                        \color{CoDeXDark}\rule{\paperwidth}{\dimexpr\cdx@actualtopmargin+65mm\relax}%
+                    }%
+                }
+            }
+        \fi
+        \ifnum\value{cdx@pagecounter}>1
+            \AddToShipoutPicture*{
+                \AtPageUpperLeft{
+                    \put(0mm,-\dimexpr\cdx@actualtopmargin+14mm\relax){%
+                        \color{CoDeXDark}\rule{\paperwidth}{\dimexpr\cdx@actualtopmargin+14mm\relax}%
+                    }%
+                }
+            }
+        \fi
+    }
+
+    \fi
+
+    \AddToHook{begindocument}{
+        \vspace*{4,3cm}
+        \thispagestyle{cdx@firstpage}
+    }
+\fi
+
+\define@key{cdx@codebox}{showfile}{\def\opt@cdx@showfile{#1}}
+\define@key{cdx@codebox}{showlanguage}{\def\opt@cdx@showlanguage{#1}}
+\define@key{cdx@codebox}{filebgcolor}{\def\opt@cdx@filebgcolor{#1}}
+\define@key{cdx@codebox}{filetextcolor}{\def\opt@cdx@filetextcolor{#1}}
+\define@key{cdx@codebox}{languagebgcolor}{\def\opt@cdx@languagebgcolor{#1}}
+\define@key{cdx@codebox}{languagetextcolor}{\def\opt@cdx@languagetextcolor{#1}}
+\define@key{cdx@codebox}{codebgcolor}{\def\opt@cdx@codebgcolor{#1}}
+\define@key{cdx@codebox}{codeboxgapcolor}{\def\opt@cdx@codeboxgapcolor{#1}}
+\define@key{cdx@codebox}{codeboxgapsize}{\def\opt@cdx@codeboxgapsize{#1}}
+\define@key{cdx@codebox}{codestyle}{\def\opt@cdx@codestyle{#1}}
+\define@key{cdx@codebox}{breakable}{\def\opt@cdx@breakable{#1}}
+
+\def\opt@cdx@showfile{true}%
+\def\opt@cdx@showlanguage{true}%
+\def\opt@cdx@filebgcolor{CoDeXDark}%
+\def\opt@cdx@filetextcolor{CoDeXTextOnDark}%
+\def\opt@cdx@languagebgcolor{CoDeXExtraDark}%
+\def\opt@cdx@languagetextcolor{CoDeXAccentSecondary}%
+\def\opt@cdx@codebgcolor{CoDeXDark}%
+\def\opt@cdx@codeboxgapcolor{CoDeXAccentPrimary}%
+\def\opt@cdx@codeboxgapsize{0.15cm}%
+\def\opt@cdx@codestyle{dark}%
+\def\opt@cdx@breakable{true}%
+
+\newenvironment{cdxcodebox}[3][]{%
+  \setkeys{cdx@codebox}{#1}%
+
+  \VerbatimEnvironment
+  \def\cdx@codeboxfilename{\jobname.cdxcodeboxtmp}%
+  \def\cdx@codeboxtitle{#2}%
+  \def\cdx@codeboxlanguage{#3}%
+
+  \begingroup
+  \edef\x{\endgroup
+    \lowercase{\def\noexpand\cdx@codeboxlanguagelowercase{\cdx@codeboxlanguage}}%
+  }%
+  \x
+  
+  \ifthenelse{\equal{\opt@cdx@codestyle}{dark}}{%
+    \def\cdx@codeboxtextcolor{CoDeXTextOnDark}%
+  }{%
+    \def\cdx@codeboxtextcolor{CoDeXTextOnLight}%
+  }%
+  
+  \ifthenelse{\equal{\opt@cdx@showfile}{true}}{%
+    \needspace{2.4cm}%
+  }{%
+      \nointerlineskip
+  }%
+
+  \begin{center}%
+
+    \ifthenelse{\equal{\opt@cdx@showfile}{true}}{%
+        \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@filebgcolor, coltext=\opt@cdx@filetextcolor, arc=5.5pt, 
+                          fontupper=\ttfamily, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                          overlay={%
+            \ifthenelse{\equal{\opt@cdx@showlanguage}{true}}{%
+                \node (overlaytext) [anchor=east, \opt@cdx@languagetextcolor, fill opacity=0.0, font=\ttfamily\footnotesize] at
+                    ($(frame.east)+(-0.4cm,-0.0cm)$) {\cdx@codeboxlanguage};
+        
+                \fill[rounded corners=3.5pt, \opt@cdx@languagebgcolor, fill opacity=1] 
+                    ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                    rectangle
+                    ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+        
+                \node[anchor=east, \opt@cdx@languagetextcolor, font=\ttfamily\footnotesize] at 
+                    ($(frame.east)+(-0.4cm,-0.0cm)$) {\cdx@codeboxlanguage};
+            }{}%
+          }]%
+          \cdx@codeboxtitle%
+        \end{tcolorbox}%
+    
+        \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@codeboxgapcolor, arc=0pt, height=\opt@cdx@codeboxgapsize, 
+                          width=\textwidth-3mm, before skip=0mm, after skip=0mm]%
+        \end{tcolorbox}%
+    }{}%
+
+    \begin{VerbatimOut}{\cdx@codeboxfilename}%
+}{%
+    \end{VerbatimOut}%
+    
+    \begin{tcolorbox}[breakable=\opt@cdx@breakable, boxrule=0pt, colback=\opt@cdx@codebgcolor, coltext=\cdx@codeboxtextcolor, colframe=\cdx@codeboxtextcolor, arc=5.5pt, before skip=0mm, enhanced, 
+                          overlay={%
+            \ifthenelse{\equal{\opt@cdx@showfile}{false}}{%
+                \ifthenelse{\equal{\opt@cdx@showlanguage}{true}}{%
+                    \node (overlaytext) [anchor=north east, \opt@cdx@languagetextcolor, fill opacity=0.0, font=\ttfamily\footnotesize] at
+                        ($(frame.north east)+(-0.4cm,-0.1cm)$) {\cdx@codeboxlanguage};
+            
+                    \fill[rounded corners=3.5pt, \opt@cdx@languagebgcolor, fill opacity=1] 
+                        ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+            
+                    \node[anchor=north east, \opt@cdx@languagetextcolor, font=\ttfamily\footnotesize] at 
+                        ($(frame.north east)+(-0.4cm,-0.1cm)$) {\cdx@codeboxlanguage};
+                }{}%
+            }{}%
+          }]%
+          \ifthenelse{\equal{\opt@cdx@codestyle}{dark}}{
+              \lstinputlisting[style=cdx@codestyledark, language=\cdx@codeboxlanguagelowercase, escapechar=§]{\cdx@codeboxfilename}
+          }{
+              \lstinputlisting[style=cdx@codestylelight, language=\cdx@codeboxlanguagelowercase, escapechar=§]{\cdx@codeboxfilename}
+          }
+          
+    \end{tcolorbox}%
+
+  \end{center}%
+}
+
+
+\define@key{cdx@designbox}{title}{\def\opt@cdx@title{#1}}
+\define@key{cdx@designbox}{overlaytitle}{\def\opt@cdx@overlaytitle{#1}}
+\define@key{cdx@designbox}{overlaypos}{\def\opt@cdx@overlaypos{#1}}
+\define@key{cdx@designbox}{showtitle}{\def\opt@cdx@showtitle{#1}}
+\define@key{cdx@designbox}{showoverlaytitle}{\def\opt@cdx@showoverlaytitle{#1}}
+\define@key{cdx@designbox}{titlebgcolor}{\def\opt@cdx@titlebgcolor{#1}}
+\define@key{cdx@designbox}{titletextcolor}{\def\opt@cdx@titletextcolor{#1}}
+\define@key{cdx@designbox}{overlaytitlebgcolor}{\def\opt@cdx@overlaytitlebgcolor{#1}}
+\define@key{cdx@designbox}{overlaytitletextcolor}{\def\opt@cdx@overlaytitletextcolor{#1}}
+\define@key{cdx@designbox}{titleborder}{\def\opt@cdx@titleborder{#1}}
+\define@key{cdx@designbox}{titlebordercolor}{\def\opt@cdx@titlebordercolor{#1}}
+\define@key{cdx@designbox}{titlebordergapcolor}{\def\opt@cdx@titlebordergapcolor{#1}}
+\define@key{cdx@designbox}{showbody}{\def\opt@cdx@showbody{#1}}
+\define@key{cdx@designbox}{bodybgcolor}{\def\opt@cdx@bodybgcolor{#1}}
+\define@key{cdx@designbox}{bodytextcolor}{\def\opt@cdx@bodytextcolor{#1}}
+\define@key{cdx@designbox}{bodyborder}{\def\opt@cdx@bodyborder{#1}}
+\define@key{cdx@designbox}{bodybordercolor}{\def\opt@cdx@bodybordercolor{#1}}
+\define@key{cdx@designbox}{bodybordergapcolor}{\def\opt@cdx@bodybordergapcolor{#1}}
+\define@key{cdx@designbox}{textboxgapcolor}{\def\opt@cdx@designboxgapcolor{#1}}
+\define@key{cdx@designbox}{textboxgapsize}{\def\opt@cdx@designboxgapsize{#1}}
+\define@key{cdx@designbox}{showgrid}{\def\opt@cdx@showgrid{#1}}
+\define@key{cdx@designbox}{gridcolor}{\def\opt@cdx@gridcolor{#1}}
+\define@key{cdx@designbox}{showleftline}{\def\opt@cdx@showleftline{#1}}
+\define@key{cdx@designbox}{leftlinecolor}{\def\opt@cdx@leftlinecolor{#1}}
+
+\def\opt@cdx@title{Default Title}%
+\def\opt@cdx@overlaytitle{Overlay Title}%
+\def\opt@cdx@overlaypos{middle}%
+\def\opt@cdx@showtitle{true}%
+\def\opt@cdx@showoverlaytitle{false}%
+\def\opt@cdx@titlebgcolor{CoDeXAccentPrimary}%
+\def\opt@cdx@titletextcolor{CoDeXTextOnPrimaryAccent}%
+\def\opt@cdx@overlaytitlebgcolor{CoDeXAccentPrimaryLight}%
+\def\opt@cdx@overlaytitletextcolor{CoDeXTextOnPrimaryAccent}%
+\def\opt@cdx@titleborder{none}%
+\def\opt@cdx@titlebordercolor{CoDeXDark}%
+\def\opt@cdx@titlebordergapcolor{transparent}%
+\def\opt@cdx@showbody{true}%
+\def\opt@cdx@bodybgcolor{CoDeXExtraLight}%
+\def\opt@cdx@bodytextcolor{CoDeXTextOnLight}%
+\def\opt@cdx@bodyborder{none}%
+\def\opt@cdx@bodybordercolor{CoDeXDark}%
+\def\opt@cdx@bodybordergapcolor{transparent}%
+\def\opt@cdx@designboxgapcolor{white}%
+\def\opt@cdx@designboxgapsize{0.15cm}%
+\def\opt@cdx@showgrid{false}%
+\def\opt@cdx@gridcolor{CoDeXLight}%
+\def\opt@cdx@showleftline{false}%
+\def\opt@cdx@leftlinecolor{CoDeXAccentPrimary}%
+
+
+\pgfdeclarepatternformonly{cdx@biggrid}
+  {\pgfqpoint{0pt}{0pt}}
+  {\pgfqpoint{10pt}{10pt}}
+  {\pgfqpoint{10pt}{10pt}}
+  {%
+    \pgfsetlinewidth{2pt}
+    \pgfpathmoveto{\pgfqpoint{-2pt}{0pt}}
+    \pgfpathlineto{\pgfqpoint{12pt}{0pt}}
+    \pgfpathmoveto{\pgfqpoint{0pt}{-2pt}}
+    \pgfpathlineto{\pgfqpoint{0pt}{12pt}}
+    \pgfusepath{stroke}
+  }
+
+\NewEnviron{cdxtextbox}[1][]{%
+    \setkeys{cdx@designbox}{#1}
+
+    \def\cdx@overlaytitlecontent{
+        \ifthenelse{\equal{\opt@cdx@showoverlaytitle}{true}}{%
+            \ifthenelse{\equal{\opt@cdx@overlaypos}{middle}}{%
+                {%
+                    \node (overlaytext) [\opt@cdx@overlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                    ($(frame.north east)!.5!(frame.north west)+(0cm,-0.35cm)$) {\opt@cdx@overlaytitle};
+
+                    \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+                        \fill[rounded corners=3.5pt, \opt@cdx@overlaytitlebgcolor, fill opacity=1]
+                        ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+                    }{
+                        \fill[rounded corners=3.5pt, \opt@cdx@overlaytitlebgcolor, fill opacity=1]
+                        ($(overlaytext.east) + (0.3cm, -0.22cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.22cm)$);
+                    }
+
+                    \node[\opt@cdx@overlaytitletextcolor, font=\bfseries\footnotesize] at
+                    ($(frame.north east)!.5!(frame.north west)+(0cm,-0.37 cm)$) {\opt@cdx@overlaytitle};
+                }
+            }{
+                {%
+                    \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+                        \node (overlaytext) [anchor=east, \opt@cdx@overlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                        ($(frame.east)+(-0.40cm,-0.0cm)$) {\opt@cdx@overlaytitle};
+                    }{
+                        \node (overlaytext) [anchor=east, \opt@cdx@overlaytitletextcolor, fill opacity=0.0, font=\bfseries\footnotesize] at
+                        ($(frame.east)+(-0.43cm,-0.0cm)$) {\opt@cdx@overlaytitle};
+                    }
+
+                    \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+                        \fill[rounded corners=3.5pt, \opt@cdx@overlaytitlebgcolor, fill opacity=1] 
+                        ($(overlaytext.east) + (0.3cm, -0.25cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.25cm)$);
+                    }{
+                        \fill[rounded corners=3.5pt, \opt@cdx@overlaytitlebgcolor, fill opacity=1] 
+                        ($(overlaytext.east) + (0.3cm, -0.22cm)$)
+                        rectangle
+                        ($(overlaytext.west) + (-0.3cm, 0.22cm)$);
+                    }
+
+                    \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+                        \node[anchor=east, \opt@cdx@overlaytitletextcolor, font=\bfseries\footnotesize] at 
+                        ($(frame.east)+(-0.40cm,-0.0cm)$) {\opt@cdx@overlaytitle};
+                    }{
+                        \node[anchor=east, \opt@cdx@overlaytitletextcolor, font=\bfseries\footnotesize] at 
+                        ($(frame.east)+(-0.43cm,-0.0cm)$) {\opt@cdx@overlaytitle};
+                    }
+                }
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\cdx@overlaygridcontent{
+        \ifthenelse{\equal{\opt@cdx@showgrid}{true}}{%
+            {%
+            \begin{scope}
+                \clip [rounded corners=5.5pt] (interior.south west) rectangle (interior.north east);
+                \fill[pattern=cdx@biggrid, pattern color=\opt@cdx@gridcolor] 
+                (interior.south west) rectangle (interior.north east);
+            \end{scope}
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\cdx@overlayleftline{
+        \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+            {%
+                \fill[\opt@cdx@leftlinecolor]
+                ($(frame.south west) + (0.0cm,0.0cm)$)
+                rectangle
+                ($(frame.north west) + (0.12cm,0.7cm) + (0.0cm,\opt@cdx@designboxgapsize)$);
+            }
+        }{
+            {}
+        }
+    }
+
+    \def\cdx@overlaybodycontent{
+        \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+            \cdx@overlayleftline
+        }{
+            \ifthenelse{\equal{\opt@cdx@showgrid}{true}}{%
+                \cdx@overlaygridcontent
+            }{}
+        }
+    }
+    
+    \ifthenelse{\equal{\opt@cdx@showtitle}{true}}{%
+        \ifthenelse{\equal{\opt@cdx@showbody}{true}}{%
+            \needspace{2.4cm}%
+        }{}
+    }{}
+
+    \begin{center}%
+
+    \ifthenelse{\equal{\opt@cdx@showtitle}{true}}{%
+        \ifthenelse{\equal{\opt@cdx@titleborder}{none}}{%
+            \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                    fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                    overlay=\cdx@overlaytitlecontent, sharp corners=west]%
+            }{
+                \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                    fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced, 
+                    overlay=\cdx@overlaytitlecontent]%
+            }
+        }{%
+            \ifthenelse{\equal{\opt@cdx@titleborder}{dashed}}{%
+                \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@titlebordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opt@cdx@titlebordercolor},
+                        overlay=\cdx@overlaytitlecontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@titlebordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opt@cdx@titlebordercolor},
+                        overlay=\cdx@overlaytitlecontent]%
+                }
+            }{%
+                \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@titlebordercolor},
+                        overlay=\cdx@overlaytitlecontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@titlebgcolor, coltext=\opt@cdx@titletextcolor, arc=5.5pt, 
+                        fontupper=\bfseries, valign=center, height=0.7cm, after skip=0mm, enhanced,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@titlebordercolor},
+                        overlay=\cdx@overlaytitlecontent]%
+                }
+            }
+        }
+            \opt@cdx@title%
+        \end{tcolorbox}%
+
+        \ifthenelse{\equal{\opt@cdx@showbody}{true}}{%
+            \begin{tcolorbox}[boxrule=0pt, colback=\opt@cdx@designboxgapcolor, arc=0pt, height=\opt@cdx@designboxgapsize,
+                              width=\textwidth-3mm, before skip=0mm, after skip=0mm]%
+            \end{tcolorbox}%
+        }{}
+    }{}
+
+    \ifthenelse{\equal{\opt@cdx@showbody}{true}}{%
+
+        \ifthenelse{\equal{\opt@cdx@bodyborder}{none}}{%
+            \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt,
+                    before skip=0mm, enhanced, boxrule=0pt,
+                    overlay=\cdx@overlaybodycontent, sharp corners=west]%
+            }{
+                \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt,
+                    before skip=0mm, enhanced, boxrule=0pt,
+                    overlay=\cdx@overlaybodycontent]%
+            }
+        }{%
+            \ifthenelse{\equal{\opt@cdx@bodyborder}{dashed}}{%
+                \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                    \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt, 
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@bodybordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opt@cdx@bodybordercolor},
+                        overlay=\cdx@overlaybodycontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt, 
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@bodybordergapcolor},
+                        borderline={2pt}{0mm}{dashed, dash pattern=on 6pt off 7pt, line cap=round, \opt@cdx@bodybordercolor},
+                        overlay=\cdx@overlaybodycontent]%
+                }
+            }{%
+                \ifthenelse{\equal{\opt@cdx@showleftline}{true}}{%
+                    \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt,
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@bodybordercolor},
+                        overlay=\cdx@overlaybodycontent, sharp corners=west]%
+                }{
+                    \begin{tcolorbox}[breakable, colback=\opt@cdx@bodybgcolor, coltext=\opt@cdx@bodytextcolor, arc=5.5pt,
+                        before skip=0mm, enhanced, boxrule=0pt,
+                        borderline={2pt}{0mm}{solid, \opt@cdx@bodybordercolor},
+                        overlay=\cdx@overlaybodycontent]%
+                }
+            }
+        }
+            \BODY
+        \end{tcolorbox}
+    }{}
+
+    \end{center}
+}
+
+\makeatother
+
+\endinput
